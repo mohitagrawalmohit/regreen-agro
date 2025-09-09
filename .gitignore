@@ -40,3 +40,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/hero-video.mp4
+# node
+node_modules/
+npm-debug.log
+
+# local envs
+.env
+.env.local
+.env.*.local
+
+# uploads & build
+backend/uploads/
+frontend/.next/
+dist/
+.DS_Store
+*.log
+public/*.mp4
