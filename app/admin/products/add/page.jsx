@@ -70,7 +70,7 @@ export default function AddProductPage() {
     formData.append('media5', files[4] || '');
 
     try {
-      const res = await fetch('http://localhost:5000/api/products', {
+      const res = await fetch('https://regreen-agro.onrender.com/api/products', {
         method: 'POST',
         body: formData,
       });

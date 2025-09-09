@@ -9,7 +9,7 @@ import RelatedProducts from '@/components/RelatedProducts';
 import { CheckIcon } from "@heroicons/react/24/solid";
 import CategorySearchBar from '@/components/CategorySearchBar';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function ProductPage() {
   const { id } = useParams();

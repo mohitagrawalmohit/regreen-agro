@@ -1,11 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';  
 import {
   Table,
   TableHeader,
@@ -17,10 +16,10 @@ import {
 import { Pencil, Trash2, Save, X } from 'lucide-react';
 import { Toaster, toast } from 'sonner';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 export default function SpecificationsPage() {
-  const router = useRouter(); // ✅ define router inside component
+  const router = useRouter();
   const { id: productId } = useParams();
   const [specs, setSpecs] = useState([]);
   const [newSpec, setNewSpec] = useState({ specName: '', description: '' });
@@ -30,7 +29,7 @@ export default function SpecificationsPage() {
   // Fetch all specs
   const fetchSpecs = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/specifications/${productId}`);
+      const res = await axios.get(`${BASE_URL}/specifications/${productId}`);
       setSpecs(res.data);
     } catch (err) {
       console.error('Failed to fetch specs:', err);
@@ -46,7 +45,7 @@ export default function SpecificationsPage() {
   const handleAdd = async () => {
     if (!newSpec.specName.trim()) return;
     try {
-      await axios.post(`${BASE_URL}/api/specifications/${productId}`, {
+      await axios.post(`${BASE_URL}/specifications/${productId}`, {
         specName: newSpec.specName.trim(),
         description: newSpec.description?.trim() || null,
       });
@@ -62,7 +61,7 @@ export default function SpecificationsPage() {
   // Update
   const handleSave = async (specId) => {
     try {
-      await axios.put(`${BASE_URL}/api/specifications/${productId}/${specId}`, {
+      await axios.put(`${BASE_URL}/specifications/${productId}/${specId}`, {
         specName: editingValues.specName.trim(),
         description: editingValues.description?.trim() || null,
       });
@@ -80,7 +79,7 @@ export default function SpecificationsPage() {
     const confirm = window.confirm('Are you sure you want to delete this specification?');
     if (!confirm) return;
     try {
-      await axios.delete(`${BASE_URL}/api/specifications/${productId}/${specId}`);
+      await axios.delete(`${BASE_URL}/specifications/${productId}/${specId}`);
       await fetchSpecs();
       toast.success('Specification deleted successfully!');
     } catch (err) {
@@ -91,15 +90,15 @@ export default function SpecificationsPage() {
 
   return (
     <div className="p-4">
-       
-     {/* Back button */}
+      {/* Back button */}
       <Button
         variant="outline"
         className="mb-6"
-        onClick={() => router.push('/admin/dashboard')}
+        onClick={() => router.push('/admin/products')}
       >
-        ← Back to Dashboard
+        ← Back to Products
       </Button>
+
       {/* Sonner toaster */}
       <Toaster richColors position="top-right" />
 

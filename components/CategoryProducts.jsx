@@ -12,7 +12,7 @@ import CategorySearchBar from '@/components/CategorySearchBar';
 const categories = ["Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools", "Power & Engines"];
 
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 
 
@@ -33,7 +33,7 @@ export default function CategoryProducts() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch("http://localhost:5000/api/products"); // change to your API route
+        const res = await fetch("https://regreen-agro.onrender.com/api/products"); // change to your API route
         
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
@@ -45,7 +45,7 @@ export default function CategoryProducts() {
     fetchProducts();
   }, []);
   
-  console.log("http://localhost:5000/${product.images}");
+  console.log("https://regreen-agro.onrender.com/${product.images}");
 
 
 

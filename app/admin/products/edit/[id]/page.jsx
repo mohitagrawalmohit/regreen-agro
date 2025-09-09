@@ -16,7 +16,7 @@ export default function EditProductPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/${id}`);
+        const res = await fetch(`https://regreen-agro.onrender.com/api/products/${id}`);
         if (!res.ok) throw new Error('Failed to fetch product');
         const data = await res.json();
 
@@ -80,7 +80,7 @@ export default function EditProductPage() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const res = await fetch(`https://regreen-agro.onrender.com/api/products/${id}`, {
         method: 'PUT',
         body: formData,
       });
@@ -135,7 +135,7 @@ export default function EditProductPage() {
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex items-center gap-2">
               {product[`media${i + 1}`] && !removeFlags[i] && !files[i] && (
-                <img src={`http://localhost:5000/${product[`media${i + 1}`]}`} alt={`media-${i}`} className="h-20 w-20 object-cover rounded" />
+                <img src={`https://regreen-agro.onrender.com/${product[`media${i + 1}`]}`} alt={`media-${i}`} className="h-20 w-20 object-cover rounded" />
               )}
               {files[i] && (
                 files[i].type.startsWith('image/') ? (

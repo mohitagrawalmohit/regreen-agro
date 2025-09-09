@@ -15,7 +15,7 @@ import { Pencil, Trash2, Plus } from 'lucide-react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
