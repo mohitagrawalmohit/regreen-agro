@@ -1,6 +1,6 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const pool = require('../db');
+import pool from "../db.js";
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -179,4 +179,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
