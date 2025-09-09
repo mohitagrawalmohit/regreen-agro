@@ -1,0 +1,154 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from "next/image";
+
+type RelatedProduct = {
+  id: number | string;
+  cc: string;
+  title: string;
+  rating: number | string;
+  discountpercent: number;
+  amountsaved: number;
+  price: number;
+  mrp: number;
+  images: string;
+  name: string;
+};
+
+export default function RelatedProducts({
+  relatedProducts = [],
+  mobileCols = 2,
+}: {
+  relatedProducts: RelatedProduct[];
+  mobileCols?: number;
+}) {
+  const router = useRouter();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.offsetWidth * 0.8; // 80% of visible width
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  return (
+    <div className="relative w-full px-4 md:px-4 py-8">
+      <h2 className="text-2xl text-white/100 font-bold mb-4">Explore More Related Products</h2>
+
+      {/* Left Button */}
+      <button
+        onClick={() => scroll('left')}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:shadow-lg"
+      >
+        <ChevronLeft className="w-4 h-4 md:w-6 md:h-6" />
+      </button>
+
+      {/* Products Row */}
+      <div
+        ref={scrollRef}
+        className="flex space-x-4 px-6 md:px-8 overflow-x-hidden scroll-smooth"
+      >
+        {relatedProducts.map((product) => (
+          <div
+            key={product.id}
+            onClick={() => router.push(`/product/${product.id}`)}
+            className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[30%] lg:w-[25%] bg-white rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
+          >
+            {/* Product Info */}
+            <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start">
+              <h3
+                className={`font-semibold mb-1 ${
+                  mobileCols === 1
+                    ? 'text-xl md:text-2xl'
+                    : 'text-lg md:text-xl'
+                }`}
+              >
+                {product.cc} | {product.title}
+              </h3>
+
+              <div
+                className={`flex items-center mb-1 ${
+                  mobileCols === 1
+                    ? 'text-sm md:text-base'
+                    : 'text-xs md:text-sm'
+                }`}
+              >
+                <Image
+  src="/staricon.png"
+  alt="star"
+  width={16}
+  height={16}
+  className="w-4 h-4 mr-1"
+/>
+                <span>Rated {product.rating}</span>
+              </div>
+
+              <h3
+                className={`mb-1 text-[#30BB7E] ${
+                  mobileCols === 1
+                    ? 'text-sm md:text-base'
+                    : 'text-xs md:text-sm'
+                }`}
+              >
+                {product.discountpercent}% OFF - You Save Rs.{product.amountsaved}
+              </h3>
+
+              <div className="text-left mb-1">
+                <span
+                  className={`${
+                    mobileCols === 1
+                      ? 'text-lg md:text-xl'
+                      : 'text-base md:text-lg'
+                  } font-bold text-black`}
+                >
+                  Rs.{product.price}
+                </span>{' '}
+                <span
+                  className={`${
+                    mobileCols === 1
+                      ? 'text-sm md:text-base'
+                      : 'text-xs md:text-sm'
+                  } line-through text-gray-500`}
+                >
+                  Rs.{product.mrp}
+                </span>
+              </div>
+            </div>
+
+            {/* Product Image */}
+            <div className="bg-gray-100 flex justify-center items-center p-2 md:p-4">
+              <Image
+  src={`http://localhost:5000/${product.images}`}
+  alt={product.name || "Product image"} // ✅ always provide alt
+  width={300}
+  height={300}
+  className={`${
+    mobileCols === 1
+      ? 'h-60 md:h-64 w-30 md:w-35'
+      : 'h-40 md:h-48'
+  } w-full object-contain`}
+/>
+
+
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Right Button */}
+      <button
+        onClick={() => scroll('right')}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:shadow-lg"
+      >
+        <ChevronRight className="w-4 h-4 md:w-6 md:h-6"  />
+      </button>
+    </div>
+  );
+}
