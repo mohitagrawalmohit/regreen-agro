@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function ProductImageGallery({ product = {} }) {
   const [images, setImages] = useState([]);
