@@ -46,7 +46,7 @@ export default function SpecificationsPage() {
   const handleAdd = async () => {
     if (!newSpec.specName.trim()) return;
     try {
-      await axios.post(`${BASE_URL}specifications/${productId}`, {
+      await axios.post(`${BASE_URL}api/specifications/${productId}`, {
         specName: newSpec.specName.trim(),
         description: newSpec.description?.trim() || null,
       });
@@ -62,7 +62,7 @@ export default function SpecificationsPage() {
   // Update
   const handleSave = async (specId) => {
     try {
-      await axios.put(`${BASE_URL}specifications/${productId}/${specId}`, {
+      await axios.put(`${BASE_URL}api/specifications/${productId}/${specId}`, {
         specName: editingValues.specName.trim(),
         description: editingValues.description?.trim() || null,
       });
@@ -80,7 +80,7 @@ export default function SpecificationsPage() {
     const confirm = window.confirm('Are you sure you want to delete this specification?');
     if (!confirm) return;
     try {
-      await axios.delete(`${BASE_URL}specifications/${productId}/${specId}`);
+      await axios.delete(`${BASE_URL}api/specifications/${productId}/${specId}`);
       await fetchSpecs();
       toast.success('Specification deleted successfully!');
     } catch (err) {
