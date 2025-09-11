@@ -242,7 +242,7 @@ useEffect(() => {
 
                 {/* ✅ Updated Product Image */}
            {/* ✅ Fixed Product Image Area */}
-<div className="bg-gray-100 flex justify-center items-center p-2 md:p-0 h-48 md:h-60">
+<div className="bg-white border-t-4 border-gray-200 flex justify-center items-center p-2 md:p-0 h-40 md:h-58">
   {productImage ? (
     <img
       src={`${BASE_URL}${productImage}`}
