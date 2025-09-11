@@ -133,17 +133,19 @@ export default function RelatedProducts({
               </div>
 
               {/* ✅ Fixed Product Image */}
-              <div className="bg-gray-100 flex justify-center items-center p-2 md:p-4 h-48 md:h-60">
-                {productImage ? (
-                  <img
-                    src={`${BASE_URL}${productImage}`}
-                    alt={product.title}
-                    className="w-full h-full object-contain"
-                  />
-                ) : (
-                  <div className="text-gray-400 text-sm">No Image</div>
-                )}
-              </div>
+           <div className="bg-gray-100 flex justify-center items-center p-2 md:p-4 h-48 md:h-60">
+  {productImage ? (
+    <Image
+      src={`${BASE_URL}${productImage}`}
+      alt={product.title || "Product image"}
+      width={300}
+      height={300}
+      className="w-full h-full object-contain"
+    />
+  ) : (
+    <div className="text-gray-400 text-sm">No Image</div>
+  )}
+</div>
             </div>
           );
         })}

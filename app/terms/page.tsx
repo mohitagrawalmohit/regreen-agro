@@ -8,7 +8,7 @@ export default function TermsPage() {
       {/* Page Header */}
       <section className="bg-[#2cd882] text-white py-12">
         <div className="max-w-5xl mx-auto px-6">
-          <h1 className="text-3xl md:text-5xl font-bold">Terms & Conditions</h1>
+          <h1 className="text-3xl md:text-5xl font-bold">Terms &amp; Conditions</h1>
           <p className="mt-2 text-lg opacity-90">
             Please read these Terms of Service carefully before using our platform.
           </p>
@@ -37,18 +37,16 @@ export default function TermsPage() {
         </p>
 
         <p>
-          These Terms of Service (the “Terms”) constitute a legally binding agreement between
-          Regreen Agro (“Company” or "us" or "we" or "our"), and you (“user” or “you” or
-          “your”).
+          These Terms of Service (the &quot;Terms&quot;) constitute a legally binding agreement
+          between Regreen Agro (&quot;Company&quot; or &quot;us&quot; or &quot;we&quot; or
+          &quot;our&quot;), and you (&quot;user&quot; or &quot;you&quot; or &quot;your&quot;).
         </p>
 
         {/* ============================= */}
         {/* Sections Start */}
         {/* ============================= */}
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
-          USER ELIGIBILITY
-        </h2>
+        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">USER ELIGIBILITY</h2>
         <p>
           Our Services are directed to be used by adults who are eighteen (18) years of age and
           above, and who can form legal contracts under applicable laws. If you are a minor,
@@ -61,7 +59,8 @@ export default function TermsPage() {
         <h3 className="text-xl font-semibold mt-4">Account Registration</h3>
         <p>
           To utilize the Service, you must register with us by setting up a user account (the
-          “Account”). You must furnish accurate and complete details at the time of sign-up.
+          &quot;Account&quot;). You must furnish accurate and complete details at the time of
+          sign-up.
         </p>
 
         <h3 className="text-xl font-semibold mt-4">Account Security</h3>
@@ -74,9 +73,7 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
-          CONTENT GUIDELINES
-        </h2>
+        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">CONTENT GUIDELINES</h2>
         <p>
           By uploading or posting content on our platform, you grant us a worldwide,
           royalty-free license to use such content in connection with our Services.
@@ -86,8 +83,7 @@ export default function TermsPage() {
             Content must not contain defamatory, obscene, hateful, or unlawful material.
           </li>
           <li>
-            Content must not promote illegal activity or infringe intellectual property
-            rights.
+            Content must not promote illegal activity or infringe intellectual property rights.
           </li>
           <li>
             Content must not impersonate others or misrepresent your identity.
@@ -102,13 +98,11 @@ export default function TermsPage() {
           are solely responsible for fulfillment of orders.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
-          PAYMENT TERMS
-        </h2>
+        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">PAYMENT TERMS</h2>
         <p>
           Users are authorized to use valid credit/debit cards, or other accepted payment
-          methods for transactions. Payments are processed securely via Razorpay, Easebuzz,
-          and other providers.
+          methods for transactions. Payments are processed securely via Razorpay, Easebuzz, and
+          other providers.
         </p>
 
         <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
@@ -116,7 +110,7 @@ export default function TermsPage() {
         </h2>
         <p>
           All returns, refunds, and cancellations are governed by our Return and Cancellation
-          Policy. For help, email{" "}
+          Policy. For help, email{' '}
           <a href="mailto:support@regreenagro.in" className="text-[#2cd882] underline">
             support@regreenagro.in
           </a>
@@ -145,8 +139,8 @@ export default function TermsPage() {
 
         <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">WARRANTIES</h2>
         <p>
-          The Platform and Services are provided on an "as-is" basis without warranties of any
-          kind. We disclaim all liability arising from use of the Services.
+          The Platform and Services are provided on an &quot;as-is&quot; basis without
+          warranties of any kind. We disclaim all liability arising from use of the Services.
         </p>
 
         <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
@@ -159,11 +153,9 @@ export default function TermsPage() {
         </p>
 
         <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">CONTACT US</h2>
+        <p>If you have any inquiries regarding these Terms of Service, please contact us at:</p>
         <p>
-          If you have any inquiries regarding these Terms of Service, please contact us at:
-        </p>
-        <p>
-          📧 Email:{" "}
+          📧 Email:{' '}
           <a href="mailto:support@regreenagro.in" className="text-[#2cd882] underline">
             support@regreenagro.in
           </a>
