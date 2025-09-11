@@ -18,7 +18,7 @@ export default function Footer() {
     <footer className="bg-gradient-to-br from-green-900 to-gray-900 text-white pt-10 pb-6">
       <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* About / Branding */}
-        <div>
+        <div className = "bg-white border border-gray-200 rounded-lg shadow-sm p-4">
           <Link href="/" className="flex items-center space-x-2">
             <Image
               src="/logo.png"
@@ -28,13 +28,13 @@ export default function Footer() {
               priority
             />
           </Link>
-          <p className="mt-4 text-sm">
+          <p className="mt-4 text-sm text-green-900">
             High quality agricultural machinery, tools & support you can trust.
           </p>
           <div className="flex space-x-4 mt-4">
             <Link href="https://www.facebook.com/profile.php?id=61579974620907"><Image src="/Facebook.png" alt="Facebook" width={24} height={24} /></Link>
             <Link href="https://www.instagram.com/aivaitaly/"><Image src="/Instagram.png" alt="Instagram" width={24} height={24} /></Link>
-            <Link href="#"><Image src="/Youtube.png" alt="YouTube" width={24} height={24} /></Link>
+            <Link href="https://wa.me/917830060444?text=Hello,%20I%20want%20to%20inquire%20related%20to%20regreen%20agro%20products"><Image src="/Whatsapp.png" alt="Whatsapp" width={24} height={24} /></Link>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ export default function Footer() {
           >
             <Link href="/aboutus" className="block hover:underline">About Us</Link>
            
-            <Link href="/contact" className="block hover:underline">Contact</Link>
+            <Link href="#contact" className="block hover:underline">Contact Us</Link>
             <Link href="/category/Power%20Weeder%20&%20Tiller" className="block hover:underline">Categories</Link>
             <Link href="/privacy" className="block hover:underline">Privacy Policy</Link>
           </div>
@@ -84,7 +84,7 @@ export default function Footer() {
           >
             <p>📞 +91-9027799171</p>
             <p>✉️ regreenagro.marketing@gmail.com</p>
-            <p>🏠 1234 Agro Street, Your City, State</p>
+            <p>🏠 Railway Rd, Shakar Nagar, Bijopuri, Saharanpur, Uttar Pradesh 247001</p>
           </div>
         </div>
 

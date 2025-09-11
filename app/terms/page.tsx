@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
+import ContactForm from "@/components/contactusForm";
 
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-white text-gray-800">
       {/* Page Header */}
-      <section className="bg-[#2cd882] text-white py-12">
+      <section className="bg-green-900 text-white py-12">
         <div className="max-w-5xl mx-auto px-6">
           <h1 className="text-3xl md:text-5xl font-bold">Terms &amp; Conditions</h1>
           <p className="mt-2 text-lg opacity-90">
@@ -30,7 +31,7 @@ export default function TermsPage() {
           Information Technology (Intermediaries guidelines) Rules, 2011 that require publishing
           the rules and regulations, Privacy Policy, and Terms of Service for access or usage of
           domain name (
-          <a href="https://www.regreenagro.in" className="text-[#2cd882] underline">
+          <a href="https://www.regreenagro.in" className="text-green-900 underline">
             https://www.regreenagro.in
           </a>
           ).
@@ -46,14 +47,14 @@ export default function TermsPage() {
         {/* Sections Start */}
         {/* ============================= */}
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">USER ELIGIBILITY</h2>
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">USER ELIGIBILITY</h2>
         <p>
           Our Services are directed to be used by adults who are eighteen (18) years of age and
           above, and who can form legal contracts under applicable laws. If you are a minor,
           you may use the Platform only with the consent of a parent or legal guardian.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">
           ACCESS TO OUR PLATFORM AND SERVICES
         </h2>
         <h3 className="text-xl font-semibold mt-4">Account Registration</h3>
@@ -73,7 +74,7 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">CONTENT GUIDELINES</h2>
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">CONTENT GUIDELINES</h2>
         <p>
           By uploading or posting content on our platform, you grant us a worldwide,
           royalty-free license to use such content in connection with our Services.
@@ -90,7 +91,7 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">
           ORDER, SALE, AND FULFILLMENT
         </h2>
         <p>
@@ -98,26 +99,26 @@ export default function TermsPage() {
           are solely responsible for fulfillment of orders.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">PAYMENT TERMS</h2>
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">PAYMENT TERMS</h2>
         <p>
           Users are authorized to use valid credit/debit cards, or other accepted payment
           methods for transactions. Payments are processed securely via Razorpay, Easebuzz, and
           other providers.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">
           RETURNS, REFUNDS, AND CANCELLATION
         </h2>
         <p>
           All returns, refunds, and cancellations are governed by our Return and Cancellation
           Policy. For help, email{' '}
-          <a href="mailto:support@regreenagro.in" className="text-[#2cd882] underline">
-            support@regreenagro.in
+          <a href="mailto:regreenagro.marketing@gmail.com" className="text-green-900 underline">
+            regreenagro.marketing@gmail.com
           </a>
           .
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">
           INTELLECTUAL PROPERTY RIGHTS
         </h2>
         <p>
@@ -126,7 +127,7 @@ export default function TermsPage() {
           Platform.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">
           ACCEPTABLE USE POLICY
         </h2>
         <ul className="list-disc ml-6 space-y-2">
@@ -137,13 +138,13 @@ export default function TermsPage() {
           <li>You must not use the Platform for spam, harassment, or abusive behavior.</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">WARRANTIES</h2>
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">WARRANTIES</h2>
         <p>
           The Platform and Services are provided on an &quot;as-is&quot; basis without
           warranties of any kind. We disclaim all liability arising from use of the Services.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">
           LIMITATION OF LIABILITY
         </h2>
         <p>
@@ -152,15 +153,18 @@ export default function TermsPage() {
           the Platform.
         </p>
 
-        <h2 className="text-2xl font-semibold text-[#2cd882] mt-10">CONTACT US</h2>
+        <h2 className="text-2xl font-semibold text-green-900 mt-10">CONTACT US</h2>
         <p>If you have any inquiries regarding these Terms of Service, please contact us at:</p>
         <p>
           📧 Email:{' '}
-          <a href="mailto:support@regreenagro.in" className="text-[#2cd882] underline">
-            support@regreenagro.in
+          <a href="mailto:regreenagro.marketing@gmail.com" className="text-green-900 underline">
+            regreenagro.marketing@gmail.com
           </a>
         </p>
       </section>
+      <section id="contact">
+        <ContactForm />
+        </section>
     </main>
   );
 }

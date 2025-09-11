@@ -8,6 +8,7 @@ import ProductTabs from '@/components/ProductTabs';
 import RelatedProducts from '@/components/RelatedProducts';
 import { CheckIcon } from "@heroicons/react/24/solid";
 import CategorySearchBar from '@/components/CategorySearchBar';
+import ContactForm from "@/components/contactusForm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -60,7 +61,7 @@ export default function ProductPage() {
       <div className="max-w-[1400px] mx-auto">
         {/* ---------------- Mobile View ---------------- */}
         <div className="flex flex-col gap-2 md:hidden text-center">
-          <div className="text-[28px] sm:text-[32px] font-bold font-[sans-serif]">
+          <div className="text-[22px] sm:text-[32px] font-bold font-[sans-serif]">
             <span className="text-white">{product.cc}</span>
             <span className="text-[#30BB7E]"> India's Most Trusted</span>
           </div>
@@ -277,6 +278,9 @@ export default function ProductPage() {
       {relatedProducts.length > 0 && (
         <RelatedProducts relatedProducts={relatedProducts} />
       )}
+      <section id="contact">
+        <ContactForm />
+        </section>
     </section>
   );
 }

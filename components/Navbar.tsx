@@ -17,7 +17,7 @@ export default function Navbar() {
     { href: '/', label: 'Home', dash: '0 2 8 73.3 8 10.7' },
     { href: '/category/All', label: 'Categories', dash: '0 12.6 9.5 49.3 9.5 31.6' },
     { href: '/aboutus', label: 'About Us', dash: '0 24.5 8.5 27.5 8.5 55.5' },
-    { href: '/faq', label: 'FAQ', dash: '0 34.7 6.9 10.2 6.9 76' },
+    { href: '/terms', label: 'T&C', dash: '0 34.7 6.9 10.2 6.9 76' },
   ];
 
   const [dashArray, setDashArray] = useState('0 0 10 40 10 40');

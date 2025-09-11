@@ -62,6 +62,7 @@ export default function ContactForm() {
   };
 
   return (
+    <main className="min-h-screen ">
     <section className="relative w-full min-h-screen flex items-center justify-center bg-[url('/Contactform-bg.png')] from-emerald-900 via-emerald-800 to-emerald-900">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-6 md:px-12">
         
@@ -163,5 +164,6 @@ export default function ContactForm() {
         </div>
       </div>
     </section>
+    </main>
   );
 }

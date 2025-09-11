@@ -11,6 +11,19 @@ import { CheckIcon } from "@heroicons/react/24/solid";
 export default function HomePage() {
   const [showVideo, setShowVideo] = useState(false);
 
+  const productIcons = {
+    "Quality Tillers": "/heroicons/tiller.png",
+    "Seeders": "/heroicons/seeder.png",
+    "Sprayers": "/heroicons/sprayer.png",
+    "Garden Tools": "/heroicons/lawn mower.png",
+  };
+  const productIcons2 = {
+    "Harvesting Machines": "/heroicons/rice mill.png",
+                  "Pumps": "/heroicons/water pump.png",
+                  "Storage Solutions": "/heroicons/storage.png",
+                  "Power Units": "/heroicons/power engine.png",
+  };
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -39,23 +52,27 @@ export default function HomePage() {
   return (
     <main className="min-h-screen ">
       {/* hero1 */}
-      <section className="relative h-auto md:h-[80vh] w-full max-w-[1600px] text-white mx-auto overflow-hidden">
+      <section className="relative h-auto md:h-[75vh] w-full max-w-[1600px] text-white mx-auto overflow-hidden">
         {/* Background Layer */}
         <div className="absolute inset-0 z-0">
-          {!showVideo ? (
-            <div className="h-full w-full bg-cover bg-center bg-no-repeat bg-[url('/hero-bg-mobile.png')] md:bg-[url('/hero-bg.png')]" />
-          ) : (
-            <video
-              className="h-full w-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-            >
-              <source src="/hero-video.mp4" type="video/mp4" />
-            </video>
-          )}
-        </div>
+  {!showVideo ? (
+    <div className="h-full w-full bg-cover bg-center bg-no-repeat bg-[url('/hero-bg-mobile.png')] md:bg-[url('/hero-bg.png')]" />
+  ) : (
+    <div className="relative h-full w-full">
+      <video
+        className="h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/hero-video.mp4" type="video/mp4" />
+      </video>
+      {/* Overlay only for video */}
+      <div className="absolute inset-0 bg-black/40"></div>
+    </div>
+  )}
+</div>
 
         {/* Overlay */}
         <div className="absolute inset-0 bg-none z-5"></div>
@@ -74,28 +91,34 @@ export default function HomePage() {
 
             <div className="mt-3 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-0 md:gap-y-3 text-sm md:text-lg md:font-medium font-small">
               <ul className="space-y-0 md:space-y-2">
-                {["Quality Tillers", "Seeders", "Sprayers", "Garden Tools"].map(
-                  (item) => (
-                    <li key={item} className="flex items-center gap-2">
-                      <CheckIcon className="h-5 w-5 text-[#2cd882]" />
-                      {item}
-                    </li>
-                  )
-                )}
-              </ul>
+      {Object.entries(productIcons).map(([item, icon]) => (
+        <li key={item} className="flex items-center gap-2">
+          <Image
+            src={icon}
+            alt={item}
+            width={30}
+            height={30}
+            className="object-contain grayscale brightness-300"
+          />
+          {item}
+        </li>
+      ))}
+    </ul>
+             
               <ul className="space-y-0 md:space-y-2">
-                {[
-                  "Harvesting Machines",
-                  "Pumps",
-                  "Storage Solutions",
-                  "Power Units",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <CheckIcon className="h-5 w-5 text-[#2cd882]" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+      {Object.entries(productIcons2).map(([item, icon]) => (
+        <li key={item} className="flex items-center gap-2">
+          <Image
+            src={icon}
+            alt={item}
+            width={30}
+            height={30}
+            className="object-contain grayscale brightness-300"
+          />
+          {item}
+        </li>
+      ))}
+    </ul>
             </div>
 
             <a href="#contact" className="mt-6">
@@ -209,8 +232,8 @@ export default function HomePage() {
                   <Image
                     src="/icons/technical support.png"
                     alt="Technical Support"
-                    width={60}
-                    height={60}
+                    width={90}
+                    height={90}
                   />
                 </div>
               </div>
@@ -230,8 +253,8 @@ export default function HomePage() {
                   <Image
                     src="/icons/panindia delivery.png"
                     alt="Pan India Delivery"
-                    width={60}
-                    height={60}
+                   width={90}
+                    height={90}
                   />
                 </div>
               </div>
@@ -251,8 +274,8 @@ export default function HomePage() {
                   <Image
                     src="/icons/onlineguide.png"
                     alt="Online Guide"
-                    width={60}
-                    height={60}
+                   width={90}
+                    height={90}
                   />
                 </div>
               </div>
@@ -272,8 +295,8 @@ export default function HomePage() {
                   <Image
                     src="/icons/farmer trust.png"
                     alt="Farmer Trust"
-                    width={60}
-                    height={60}
+                   width={90}
+                    height={90}
                   />
                 </div>
               </div>

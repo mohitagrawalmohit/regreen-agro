@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect,useRef } from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import ContactForm from "@/components/contactusForm";
 import { Grid, List } from 'lucide-react';
 import CategorySearchBar from '@/components/CategorySearchBar';
 
@@ -182,10 +183,11 @@ useEffect(() => {
       <h1 className="text-sm md:text-[30px] font-bold leading-tight text-center md:text-left text-white">
         <span className="text-[#2cd882]">भारत का सर्वश्रेष्ठ 3 इन 1 वीडर</span>
       </h1>
-
-      <button className="w-full max-w-[200px] md:max-w-[280px] md:h-[40px] h-[30px] text-[12px] md:text-[18px] font-semibold bg-[#F29728] hover:bg-[#30BB7E] text-white rounded-[7px] shadow transition">
+<a href="#contact" className=" md:px-15 px-15 md:py-2 py-2 w-full max-w-[200px] md:max-w-[280px] md:h-[40px] h-[30px] text-[12px] md:text-[18px] font-semibold bg-[#F29728] hover:bg-[#30BB7E] text-white rounded-[7px] shadow transition">
+      
         Send Us A Query
-      </button>
+      
+      </a>
     </div>
   </div>
 </section>
@@ -260,6 +262,9 @@ useEffect(() => {
       rel="noopener noreferrer"
       className="w-full s sm:w-1/2 h-[25px] sm:h-[40px] px-4 sm:py-1 py-1 bg-[#1DA946] text-[10px] sm:text-[12px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946] flex items-center justify-center"
     >
+      <img src="/whatsapp icon.png"
+        alt="whatsapp icon"
+        className="w-6 h-6 md:w-8 md:h-8 object-contain" />
       WhatsApp
     </a>
 
@@ -380,7 +385,9 @@ useEffect(() => {
     </div>
       </section>
        
-
+<section id="contact">
+        <ContactForm />
+        </section>
     </main>
   );
 }
