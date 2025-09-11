@@ -63,7 +63,7 @@ export default function CategorySection() {
               className="
                 min-w-[220px] h-[260px]               /* mobile size */
                 md:min-w-[400px] md:h-[320px]        /* desktop unchanged */
-                bg-white/10 rounded-xl 
+                bg-white/100 rounded-xl 
                 p-4 md:p-6 flex-shrink-0 
                 backdrop-blur-md text-white 
                 transition-transform hover:scale-120 hover:shadow-2xl hover:z-50 active:scale-100
