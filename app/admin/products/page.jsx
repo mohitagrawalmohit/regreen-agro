@@ -56,7 +56,7 @@ export default function AdminProducts() {
       return (
         <video
           key={index}
-          src={`${BASE_URL}/${mediaUrl}`}
+          src={`${BASE_URL}${mediaUrl}`}
           controls
           className="w-20 h-20 rounded object-cover"
         />
@@ -65,7 +65,7 @@ export default function AdminProducts() {
     return (
       <img
         key={index}
-        src={`${BASE_URL}/${mediaUrl}`}
+        src={`${BASE_URL}${mediaUrl}`}
         alt={`Media ${index + 1}`}
         className="w-20 h-20 rounded object-cover"
       />
