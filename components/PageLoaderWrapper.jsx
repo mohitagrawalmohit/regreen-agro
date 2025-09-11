@@ -7,10 +7,16 @@ export default function PageLoaderWrapper({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const handleLoad = () => setLoading(false);
+
+    // If page already loaded (e.g., cached reload)
+    if (document.readyState === "complete") {
       setLoading(false);
-    }, 500); // Loader shows for 2.5s, adjust as needed
-    return () => clearTimeout(timer);
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => window.removeEventListener("load", handleLoad);
   }, []);
 
   if (loading) {
