@@ -9,7 +9,7 @@ import CategorySearchBar from '@/components/CategorySearchBar';
 
 
 
-const categories = ["Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools", "Power & Engines"];
+const categories = ["Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Miscellaneous", "Power & Engines"];
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';

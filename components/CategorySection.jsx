@@ -11,6 +11,7 @@ const categories = [
     { name: 'Harvesting Machinery', image: '/CategoryCardsImage/harvesting machinary cat.png', slug: 'Harvesting Machinery' },
      { name: 'Post Harvesting', image: '/CategoryCardsImage/post harvesting cat.png', slug: 'Post Harvesting' }, 
       { name: 'Lawn Mower & Gardening Tools', image: '/CategoryCardsImage/lawn mower cat.png', slug: 'Lawn Mower & Gardening Tools' },
+       { name: 'Miscellaneous', image: '/CategoryCardsImage/Miscellaneous.png', slug: 'Miscellaneous' },
      { name: 'Power & Engines', image: '/CategoryCardsImage/power engines cat.png', slug: 'Power & Engines' },
   
   // Add more if needed

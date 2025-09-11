@@ -11,6 +11,7 @@ const categories = [
     { name: 'Harvesting Machinery', image: '/Category 2d Images/crop reaper 2d image.png', slug: 'Harvesting Machinery' },
      { name: 'Post Harvesting', image: '/Category 2d Images/Post harvesting 2d.png', slug: 'Post Harvesting' }, 
       { name: 'Lawn Mower & Gardening Tools', image: '/Category 2d Images/lawn mower 2d image.png', slug: 'Lawn Mower & Gardening Tools' },
+       { name: 'Miscellaneous', image: '/Category 2d Images/wood chipper 2d image.png', slug: 'Miscellaneous' },
      { name: 'Power & Engines', image: '/Category 2d Images/power weeder engine 2d image.png', slug: 'Power & Engines' },
   
   

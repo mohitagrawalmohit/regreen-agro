@@ -14,9 +14,15 @@ type RelatedProduct = {
   amountsaved: number;
   price: number;
   mrp: number;
-  images: string;
-  name: string;
+  media1?: string;
+  media2?: string;
+  media3?: string;
+  media4?: string;
+  media5?: string;
+  name?: string;
 };
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function RelatedProducts({
   relatedProducts = [],
@@ -55,91 +61,92 @@ export default function RelatedProducts({
         ref={scrollRef}
         className="flex space-x-4 px-6 md:px-8 overflow-x-hidden scroll-smooth"
       >
-        {relatedProducts.map((product) => (
-          <div
-            key={product.id}
-            onClick={() => router.push(`/product/${product.id}`)}
-            className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[30%] lg:w-[25%] bg-white rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
-          >
-            {/* Product Info */}
-            <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start">
-              <h3
-                className={`font-semibold mb-1 ${
-                  mobileCols === 1
-                    ? 'text-xl md:text-2xl'
-                    : 'text-lg md:text-xl'
-                }`}
-              >
-                {product.cc} | {product.title}
-              </h3>
+        {relatedProducts.map((product) => {
+          const productImage =
+            product.media1 || product.media2 || product.media3 || product.media4 || product.media5;
 
-              <div
-                className={`flex items-center mb-1 ${
-                  mobileCols === 1
-                    ? 'text-sm md:text-base'
-                    : 'text-xs md:text-sm'
-                }`}
-              >
-                <Image
-  src="/staricon.png"
-  alt="star"
-  width={16}
-  height={16}
-  className="w-4 h-4 mr-1"
-/>
-                <span>Rated {product.rating}</span>
-              </div>
-
-              <h3
-                className={`mb-1 text-[#30BB7E] ${
-                  mobileCols === 1
-                    ? 'text-sm md:text-base'
-                    : 'text-xs md:text-sm'
-                }`}
-              >
-                {product.discountpercent}% OFF - You Save Rs.{product.amountsaved}
-              </h3>
-
-              <div className="text-left mb-1">
-                <span
-                  className={`${
+          return (
+            <div
+              key={product.id}
+              onClick={() => router.push(`/product/${product.id}`)}
+              className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[30%] lg:w-[25%] bg-white rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
+            >
+              {/* Product Info */}
+              <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start">
+                <h3
+                  className={`font-semibold mb-1 ${
                     mobileCols === 1
-                      ? 'text-lg md:text-xl'
-                      : 'text-base md:text-lg'
-                  } font-bold text-black`}
+                      ? 'text-xl md:text-2xl'
+                      : 'text-lg md:text-xl'
+                  }`}
                 >
-                  Rs.{product.price}
-                </span>{' '}
-                <span
-                  className={`${
+                  {product.cc} | {product.title}
+                </h3>
+
+                <div
+                  className={`flex items-center mb-1 ${
                     mobileCols === 1
                       ? 'text-sm md:text-base'
                       : 'text-xs md:text-sm'
-                  } line-through text-gray-500`}
+                  }`}
                 >
-                  Rs.{product.mrp}
-                </span>
+                  <Image
+                    src="/staricon.png"
+                    alt="star"
+                    width={16}
+                    height={16}
+                    className="w-4 h-4 mr-1"
+                  />
+                  <span>Rated {product.rating}</span>
+                </div>
+
+                <h3
+                  className={`mb-1 text-[#30BB7E] ${
+                    mobileCols === 1
+                      ? 'text-sm md:text-base'
+                      : 'text-xs md:text-sm'
+                  }`}
+                >
+                  {product.discountpercent}% OFF - You Save Rs.{product.amountsaved}
+                </h3>
+
+                <div className="text-left mb-1">
+                  <span
+                    className={`${
+                      mobileCols === 1
+                        ? 'text-lg md:text-xl'
+                        : 'text-base md:text-lg'
+                    } font-bold text-black`}
+                  >
+                    Rs.{product.price}
+                  </span>{' '}
+                  <span
+                    className={`${
+                      mobileCols === 1
+                        ? 'text-sm md:text-base'
+                        : 'text-xs md:text-sm'
+                    } line-through text-gray-500`}
+                  >
+                    Rs.{product.mrp}
+                  </span>
+                </div>
+              </div>
+
+              {/* ✅ Fixed Product Image */}
+              <div className="bg-gray-100 flex justify-center items-center p-2 md:p-4 h-48 md:h-60">
+                {productImage ? (
+                  <img
+                    src={`${BASE_URL}${productImage}`}
+                    alt={product.title}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-sm">No Image</div>
+                )}
               </div>
             </div>
-
-            {/* Product Image */}
-            <div className="bg-gray-100 flex justify-center items-center p-2 md:p-4">
-              <Image
-  src={`https://regreen-agro.onrender.com/${product.images}`}
-  alt={product.name || "Product image"} // ✅ always provide alt
-  width={300}
-  height={300}
-  className={`${
-    mobileCols === 1
-      ? 'h-60 md:h-64 w-30 md:w-35'
-      : 'h-40 md:h-48'
-  } w-full object-contain`}
-/>
-
-
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Right Button */}
@@ -147,7 +154,7 @@ export default function RelatedProducts({
         onClick={() => scroll('right')}
         className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md hover:shadow-lg"
       >
-        <ChevronRight className="w-4 h-4 md:w-6 md:h-6"  />
+        <ChevronRight className="w-4 h-4 md:w-6 md:h-6" />
       </button>
     </div>
   );

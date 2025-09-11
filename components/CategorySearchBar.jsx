@@ -12,6 +12,7 @@ const categories = [
   "Harvesting Machinery",
   "Post Harvesting",
   "Lawn Mower & Gardening Tools",
+  "Miscellaneous",
   "Power & Engines"
 ];
 
