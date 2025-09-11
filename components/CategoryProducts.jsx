@@ -247,6 +247,26 @@ useEffect(() => {
     <div className="text-gray-400 text-sm">No Image</div>
   )}
 </div>
+{/* ✅ Action Buttons */}
+  <div className="flex flex-col sm:flex-row gap-2 p-3">
+    {/* WhatsApp Button */}
+    <a
+      href={`https://wa.me/917830060444?text=Hello,%20I%20want%20to%20order%20${encodeURIComponent(product.title)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full s sm:w-1/2 h-[25px] sm:h-[40px] px-4 sm:py-1 py-1 bg-[#1DA946] text-[10px] sm:text-[12px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946] flex items-center justify-center"
+    >
+      WhatsApp
+    </a>
+
+    {/* Call Button */}
+    <a
+      href="tel:+919027799171"
+      className="w-full sm:w-1/2 h-[25px] sm:h-[40px] px-4  sm:py-1 py-1 bg-transparent border border-[#F29728] text-[10px] sm:text-[12px] font-[sans-serif] text-[#F29728] font-bold rounded-md hover:bg-[#F29728] hover:text-white flex items-center justify-center"
+    >
+      Call Us
+    </a>
+  </div>
               </div>
             );
           })}

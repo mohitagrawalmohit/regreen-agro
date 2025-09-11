@@ -164,7 +164,7 @@ export default function ProductPage() {
   Order On Whatsapp
 </a>
                 <a
-  href="tel:+919876543210"
+  href="tel:+919027799171"
   className="w-full sm:w-[280px] h-[40px] mt-2 px-4 py-1 bg-transparent border border-[#F29728] text-[16px] sm:text-[18px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946] flex items-center justify-center"
 >
   Call Us To Order
