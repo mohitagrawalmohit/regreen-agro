@@ -30,7 +30,7 @@ export default function SpecificationsPage() {
   // Fetch all specs
   const fetchSpecs = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}specifications/${productId}`);
+      const res = await axios.get(`${BASE_URL}api/specifications/${productId}`);
       setSpecs(res.data);
     } catch (err) {
       console.error('Failed to fetch specs:', err);
