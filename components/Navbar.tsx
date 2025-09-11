@@ -115,7 +115,7 @@ export default function Navbar() {
       </div>
 
       {/* Desktop Category Dropdown */}
-      {showCategories && !pathname.startsWith('/category/') && (
+      {showCategories  && (
         <div
           className="absolute left-0 w-[1500px] z-40 md:-mt-6 md:pl-40 md:pr-14 shadow-md"
           onMouseEnter={() => setShowCategories(true)}
@@ -168,7 +168,7 @@ export default function Navbar() {
               )}
 
               {/* Category dropdown inside drawer */}
-              {showMobileCategories && !pathname.startsWith('/category/') && (
+              {showMobileCategories  && (
                 <div className="ml-4 mt-2">
                   <CategorySection mobile />
                 </div>

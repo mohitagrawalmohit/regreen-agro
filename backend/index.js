@@ -65,6 +65,17 @@ app.get('/__routes', (req, res) => {
   res.json({ routes });
 });
 
+
+// ✅ Add this test route here
+app.get("/api/testdb", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json(result.rows);
+  } catch (err) {
+    console.error("DB error:", err);
+    res.status(500).json({ error: "DB connection failed" });
+  }
+});
 // Start
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
