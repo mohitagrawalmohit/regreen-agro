@@ -15,7 +15,7 @@ export default function SpecificationsOverview() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/products/`);
+      const res = await axios.get(`${BASE_URL}api/products/`);
       setProducts(res.data);
     } catch (err) {
       console.error('Failed to fetch products:', err);

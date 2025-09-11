@@ -24,7 +24,7 @@ export default function AdminProducts() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/products/`);
+      const res = await axios.get(`${BASE_URL}api/products/`);
       setProducts(res.data);
     } catch (err) {
       console.error('Failed to fetch products:', err);
@@ -37,7 +37,7 @@ export default function AdminProducts() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/api/products/${id}`);
+      await axios.delete(`${BASE_URL}api/products/${id}`);
       setProducts(products.filter((p) => p.id !== id));
     } catch (err) {
       console.error('Failed to delete product:', err);
