@@ -9,7 +9,7 @@ export default function PageLoaderWrapper({ children }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2500); // Loader shows for 2.5s, adjust as needed
+    }, 500); // Loader shows for 2.5s, adjust as needed
     return () => clearTimeout(timer);
   }, []);
 
