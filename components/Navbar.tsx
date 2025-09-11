@@ -115,7 +115,7 @@ export default function Navbar() {
       </div>
 
       {/* Desktop Category Dropdown */}
-      {showCategories  && (
+      {showCategories && (
         <div
           className="absolute left-0 w-[1500px] z-40 md:-mt-6 md:pl-40 md:pr-14 shadow-md"
           onMouseEnter={() => setShowCategories(true)}
@@ -142,15 +142,24 @@ export default function Navbar() {
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) =>
                 link.label === 'Categories' ? (
-                  <button
-                    key={link.href}
-                    onClick={() =>
-                      setShowMobileCategories(!showMobileCategories)
-                    }
-                    className="text-gray-700 text-left font-medium"
-                  >
-                    Categories
-                  </button>
+                  <div key={link.href} className="flex flex-col">
+                    {/* Categories button */}
+                    <button
+                      onClick={() =>
+                        setShowMobileCategories(!showMobileCategories)
+                      }
+                      className="text-gray-700 text-left font-medium"
+                    >
+                      Categories
+                    </button>
+
+                    {/* ✅ Dropdown comes right after Categories */}
+                    {showMobileCategories && (
+                      <div className="ml-4 mt-2">
+                        <CategorySection mobile />
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <Link
                     key={link.href}
@@ -165,13 +174,6 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 )
-              )}
-
-              {/* Category dropdown inside drawer */}
-              {showMobileCategories  && (
-                <div className="ml-4 mt-2">
-                  <CategorySection mobile />
-                </div>
               )}
             </nav>
           </div>

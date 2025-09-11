@@ -20,6 +20,23 @@ const categories = [
  // Add more if needed
 ];
 
+const mbcategories = [
+  { name: 'All Categories', image: '/aiva2.png', slug: 'All' },
+  { name: 'Power Weeder & Tiller', image: '/Category 2d Images/PoweWeeder Animated image.png', slug: 'Power Weeder & Tiller' },
+   { name: 'Earth Auger', image: '/Category 2d Images/earth auger 2d image.png', slug: 'Earth Auger' },
+  { name: 'Pumps & Irrigation', image: '/Category 2d Images/waterpump.png', slug: 'Pumps & Irrigation' },
+  { name: 'Sprayers & Crop Protection', image: '/Category 2d Images/sprayers 2d image.png', slug: 'Sprayers & Crop Protection' },
+    { name: 'Harvesting Machinery', image: '/Category 2d Images/crop reaper 2d image.png', slug: 'Harvesting Machinery' },
+     { name: 'Post Harvesting', image: '/Category 2d Images/Post harvesting 2d.png', slug: 'Post Harvesting' }, 
+      { name: 'Lawn Mower & Gardening Tools', image: '/Category 2d Images/lawn mower 2d image.png', slug: 'Lawn Mower & Gardening Tools' },
+       { name: 'Miscellaneous', image: '/Category 2d Images/wood chipper 2d image.png', slug: 'Miscellaneous' },
+     { name: 'Power & Engines', image: '/Category 2d Images/power weeder engine 2d image.png', slug: 'Power & Engines' },
+  
+  
+  
+ 
+ // Add more if needed
+];
 export default function CategorySection({ mobile = false }) {
   const scrollRef = useRef(null);
 
@@ -36,18 +53,18 @@ export default function CategorySection({ mobile = false }) {
   if (mobile) {
     return (
       <div className="flex flex-col gap-1">
-        {categories.map((category) => (
+        {mbcategories.map((mbcategories) => (
           <Link
-            key={category.slug}
-            href={`/category/${category.slug}`}
+            key={mbcategories.slug}
+            href={`/category/${mbcategories.slug}`}
             className="flex items-center gap-1 bg-gray-50 border rounded-lg p-1 hover:bg-gray-100 transition"
           >
             <img
-              src={category.image}
-              alt={category.name}
-              className="w-10 h-10 object-contain"
+              src={mbcategories.image}
+              alt={mbcategories.name}
+              className="w-8 h-8 object-contain"
             />
-            <span className="text-gray-800 text-[10px]">{category.name}</span>
+            <span className="text-gray-800 text-[10px]">{mbcategories.name}</span>
           </Link>
         ))}
       </div>
