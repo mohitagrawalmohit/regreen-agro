@@ -32,9 +32,9 @@ export default function Footer() {
             High quality agricultural machinery, tools & support you can trust.
           </p>
           <div className="flex space-x-4 mt-4">
-            <Link href="#"><Image src="/icons/facebook.svg" alt="Facebook" width={24} height={24} /></Link>
-            <Link href="#"><Image src="/icons/instagram.svg" alt="Instagram" width={24} height={24} /></Link>
-            <Link href="#"><Image src="/icons/youtube.svg" alt="YouTube" width={24} height={24} /></Link>
+            <Link href="https://www.facebook.com/profile.php?id=61579974620907"><Image src="/Facebook.png" alt="Facebook" width={24} height={24} /></Link>
+            <Link href="https://www.instagram.com/aivaitaly/"><Image src="/Instagram.png" alt="Instagram" width={24} height={24} /></Link>
+            <Link href="#"><Image src="/Youtube.png" alt="YouTube" width={24} height={24} /></Link>
           </div>
         </div>
 
