@@ -24,7 +24,7 @@ export default function ProductPage() {
         const data = await res.json();
 
         // fetch specifications
-        const specsRes = await fetch(`${BASE_URL}/api/specifications/${id}`);
+        const specsRes = await fetch(`${BASE_URL}api/specifications/${id}`);
         const specs = await specsRes.json();
 
         const productWithSpecs = { ...data, specifications: specs };
@@ -33,7 +33,7 @@ export default function ProductPage() {
         // fetch related products by category (using cc or category)
         const category = data?.category || data?.cc;
         if (category) {
-          const relatedRes = await fetch(`${BASE_URL}/api/products?category=${category}`);
+          const relatedRes = await fetch(`${BASE_URL}api/products?category=${category}`);
           const related = await relatedRes.json();
 
           // exclude current product
