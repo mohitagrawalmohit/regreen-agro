@@ -214,21 +214,21 @@ useEffect(() => {
                 className="bg-white w-full h-auto max-w-[250px] md:max-w-[280px] mx-auto md:mx-20 rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
               >
                 <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start">
-                  <h3 className={`font-semibold mb-1 ${mobileCols === 1 ? "text-xl md:text-2xl" : "text-lg md:text-xl"}`}>
+                  <h3 className={`font-semibold mb-1 ${mobileCols === 1 ? "text-medium md:text-2xl" : "text-[10px] md:text-xl"}`}>
                     {product.cc}{" | "}{product.title}
                   </h3>
-                  <div className={`flex items-center mb-1 ${mobileCols === 1 ? "text-sm md:text-base" : "text-xs md:text-sm"}`}>
+                  <div className={`flex items-center mb-1 ${mobileCols === 1 ? "text-medium md:text-base" : "text-[10px] md:text-sm"}`}>
                     <img src="/staricon.png" alt="star" className="w-4 h-4 mr-1" />
                     <span>Rated 4.9</span>
                   </div>
-                  <h3 className={`mb-1 text-[#30BB7E] ${mobileCols === 1 ? "text-sm md:text-base" : "text-xs md:text-sm"}`}>
+                  <h3 className={`mb-1 text-[#30BB7E] ${mobileCols === 1 ? "text-sm md:text-base" : "text-[10px] md:text-sm"}`}>
                     {product.discountpercent}% OFF - You Save Rs.{product.amountsaved}
                   </h3>
                   <div className="text-left mb-1">
-                    <span className={`${mobileCols === 1 ? "text-lg md:text-xl" : "text-base md:text-lg"} font-bold text-black`}>
+                    <span className={`${mobileCols === 1 ? "text-lg md:text-xl" : "text-[11px] md:text-lg"} font-bold text-black`}>
                       Rs.{product.price}
                     </span>{" "}
-                    <span className={`${mobileCols === 1 ? "text-sm md:text-base" : "text-xs md:text-sm"} line-through text-gray-500`}>
+                    <span className={`${mobileCols === 1 ? "text-sm md:text-base" : "text-[10px] md:text-sm"} line-through text-gray-500`}>
                       Rs.{product.mrp}
                     </span>
                   </div>
