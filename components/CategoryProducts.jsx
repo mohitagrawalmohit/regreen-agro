@@ -9,7 +9,7 @@ import CategorySearchBar from '@/components/CategorySearchBar';
 
 
 
-const categories = ["Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Miscellaneous", "Power & Engines"];
+const categories = ["All","Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Miscellaneous", "Power & Engines"];
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
@@ -58,9 +58,13 @@ export default function CategoryProducts() {
 
   
 
-  const filteredProducts = products.filter(
-    (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
-  );
+  const filteredProducts =
+  selectedCategory === "All"
+    ? products
+    : products.filter(
+        (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+
 
   const filteredCategories = categories.filter((cat) =>
     cat.toLowerCase().includes(searchTerm.toLowerCase())
