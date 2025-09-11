@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://regreen-agro.onrender.com/$1" },
+    { "source": "/api/(.*)", "destination": "https://regreen-agro.onrender.com/api/$1" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
