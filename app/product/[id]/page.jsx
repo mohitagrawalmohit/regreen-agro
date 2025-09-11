@@ -20,7 +20,7 @@ export default function ProductPage() {
     async function fetchProduct() {
       try {
         // fetch main product
-        const res = await fetch(`${BASE_URL}/api/products/${id}`);
+        const res = await fetch(`${BASE_URL}api/products/${id}`);
         const data = await res.json();
 
         // fetch specifications
