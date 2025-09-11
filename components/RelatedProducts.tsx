@@ -125,7 +125,7 @@ export default function RelatedProducts({
             {/* Product Image */}
             <div className="bg-gray-100 flex justify-center items-center p-2 md:p-4">
               <Image
-  src={`http://localhost:5000/${product.images}`}
+  src={`https://regreen-agro.onrender.com/${product.images}`}
   alt={product.name || "Product image"} // ✅ always provide alt
   width={300}
   height={300}

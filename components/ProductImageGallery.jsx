@@ -26,7 +26,7 @@ export default function ProductImageGallery({ product = {} }) {
       return prevStr === newStr ? prev : imgs;
     });
 
-    console.log('ProductImageGallery media URLs:', imgs.map(img => `${BASE_URL}/${img}`));
+    console.log('ProductImageGallery media URLs:', imgs.map(img => `${BASE_URL}${img}`));
   }, [product]);
 
   // Auto-slide every 3s
@@ -48,7 +48,7 @@ export default function ProductImageGallery({ product = {} }) {
       {/* Big Image */}
       <div className="w-full h-full flex justify-center items-center p-2 sm:p-4">
         <img
-          src={`${BASE_URL}/${images[currentIndex]}`}
+          src={`${BASE_URL}${images[currentIndex]}`}
           alt={`Product Image ${currentIndex + 1}`}
           className="object-contain rounded-lg w-full h-full"
         />
