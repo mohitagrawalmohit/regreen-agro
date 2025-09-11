@@ -214,7 +214,7 @@ useEffect(() => {
                 className="bg-white w-full h-auto max-w-[250px] md:max-w-[280px] mx-auto md:mx-20 rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
               >
                 <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start">
-                  <h3 className={`font-semibold mb-1 ${mobileCols === 1 ? "text-medium md:text-2xl" : "text-[10px] md:text-xl"}`}>
+                  <h3 className={`font-semibold mb-1 ${mobileCols === 1 ? "text-medium md:text-xl" : "text-[10px] md:text-lg"}`}>
                     {product.cc}{" | "}{product.title}
                   </h3>
                   <div className={`flex items-center mb-1 ${mobileCols === 1 ? "text-medium md:text-base" : "text-[10px] md:text-sm"}`}>
