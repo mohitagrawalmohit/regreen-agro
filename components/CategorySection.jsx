@@ -54,7 +54,7 @@ export default function CategorySection() {
         {/* Scrollable Cards */}
         <div
           ref={scrollRef}
-          className="flex gap-4 md:gap-8 overflow-x-auto scroll-smooth hide-scrollbar w-full min-h-[280px] md:min-h-[400px] md:pt-8 pt-3"
+          className="flex gap-4 md:gap-8 overflow-x-auto scroll-smooth hide-scrollbar w-full min-h-[280px] md:min-h-[400px] md:pt-8 pt-1"
         >
           {categories.map((category) => (
             <Link
@@ -65,7 +65,7 @@ export default function CategorySection() {
                 md:min-w-[400px] md:h-[320px]        /* desktop unchanged */
                 bg-white/100 rounded-xl 
                 p-4 md:p-6 flex-shrink-0 
-                backdrop-blur-md text-white 
+                backdrop-blur-md text-black 
                 transition-transform hover:scale-120 hover:shadow-2xl hover:z-50 active:scale-100
               "
             >

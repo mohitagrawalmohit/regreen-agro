@@ -34,19 +34,19 @@ export default function CategorySection({ mobile = false }) {
   // ✅ Mobile view → vertical list
   if (mobile) {
     return (
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
         {categories.map((category) => (
           <Link
             key={category.slug}
             href={`/category/${category.slug}`}
-            className="flex items-center gap-3 bg-gray-50 border rounded-lg p-3 hover:bg-gray-100 transition"
+            className="flex items-center gap-1 bg-gray-50 border rounded-lg p-1 hover:bg-gray-100 transition"
           >
             <img
               src={category.image}
               alt={category.name}
-              className="w-12 h-12 object-contain"
+              className="w-10 h-10 object-contain"
             />
-            <span className="text-gray-800 font-medium">{category.name}</span>
+            <span className="text-gray-800 text-[10px]">{category.name}</span>
           </Link>
         ))}
       </div>
