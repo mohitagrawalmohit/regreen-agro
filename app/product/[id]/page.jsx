@@ -155,12 +155,21 @@ export default function ProductPage() {
                 <p className="text-[#30BB7E] text-lg sm:text-xl md:text-xl">
                   {product.discountpercent}% OFF - You Save ₹{product.amountsaved}
                 </p>
-                <button className="w-full sm:w-[280px] h-[40px] mt-2 px-4 py-1 bg-[#F29728] text-[16px] sm:text-[18px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946]">
-                  Order On Whatsapp
-                </button>
-                <button className="w-full sm:w-[280px] h-[40px] mt-2 px-4 py-1 bg-transparent border border-[#F29728] text-[16px] sm:text-[18px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946]">
-                  Call Us To Order
-                </button>
+                <a
+  href="https://wa.me/917830060444?text=Hello%20I%20am%20interested%20in%20your%20products" 
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-full sm:w-[280px] h-[40px] mt-2 px-4 py-1 bg-[#F29728] text-[16px] sm:text-[18px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946] flex items-center justify-center"
+>
+  Order On Whatsapp
+</a>
+                <a
+  href="tel:+919876543210"
+  className="w-full sm:w-[280px] h-[40px] mt-2 px-4 py-1 bg-transparent border border-[#F29728] text-[16px] sm:text-[18px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946] flex items-center justify-center"
+>
+  Call Us To Order
+</a>
+
               </div>
 
               <div className="flex flex-col gap-3">
@@ -256,7 +265,7 @@ export default function ProductPage() {
 
     {/* Right Side - Call Button */}
     <a
-      href="tel:+911234567890"
+      href="tel:+919027799171"
       className="mt-4 md:mt-0 bg-[#F29728] hover:bg-[#30BB7E] text-white font-semibold py-2 px-6 rounded-lg shadow"
     >
       📞 Call Us Now

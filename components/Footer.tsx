@@ -83,7 +83,7 @@ export default function Footer() {
             }`}
           >
             <p>📞 +91-9027799171</p>
-            <p>✉️ support@regreenagro.in</p>
+            <p>✉️ regreenagro.marketing@gmail.com</p>
             <p>🏠 1234 Agro Street, Your City, State</p>
           </div>
         </div>
