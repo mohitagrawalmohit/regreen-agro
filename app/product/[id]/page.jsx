@@ -114,12 +114,16 @@ export default function ProductPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
-            <button className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946]">
+            <a
+  href="https://wa.me/917830060444?text=Hello%20I%20am%20interested%20in%20your%20products" 
+  target="_blank"
+  rel="noopener noreferrer" className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946]">
               Order On Whatsapp
-            </button>
-            <button className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-transparent border border-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946]">
+            </a>
+            <a
+  href="tel:+919027799171" className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-transparent border border-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946]">
               Call Us To Order
-            </button>
+            </a>
           </div>
 
           <div className="flex flex-col gap-3 bg-white rounded-2xl p-4 sm:p-8 shadow-md w-full h-auto max-h-[300px] overflow-y-auto mt-4">
