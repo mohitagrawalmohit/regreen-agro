@@ -97,8 +97,8 @@ export default function EditProductPage() {
 
   return (
     <div className="min-h-screen bg-white p-8">
-      <Button variant="outline" className="mb-6" onClick={() => router.push('/admin/products')}>
-        ← Back to Products
+      <Button variant="outline" className="mb-6" onClick={() => router.push('/admin/dashboard')}>
+        ← Back to Dashboard
       </Button>
 
       <h2 className="text-2xl font-bold mb-6 text-green-700">✏️ Edit Product</h2>
