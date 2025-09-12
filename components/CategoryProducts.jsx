@@ -227,7 +227,7 @@ useEffect(() => {
                     <img src="/staricon.png" alt="star" className="w-4 h-4 mr-1" />
                     <span>Rated 4.9</span>
                   </div>
-                  <h3 className={`mb-1 text-[#30BB7E] ${mobileCols === 1 ? "text-sm md:text-base" : "text-[10px] md:text-sm"}`}>
+                  <h3 className={`mb-1 text-[#30BB7E] ${mobileCols === 1 ? "text-sm md:text-base" : "text-[8px] md:text-sm"}`}>
                     {product.discountpercent}% OFF - You Save Rs.{product.amountsaved}
                   </h3>
                   <div className="text-left mb-1">
