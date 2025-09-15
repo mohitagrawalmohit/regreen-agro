@@ -1,42 +1,23 @@
+// routes/products.js (updated)
 import express from "express";
 import pool from "../db.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { fileURLToPath } from "url";
-
-// ✅ Fix __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-/* ---------- Multer storage ---------- */
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, "../uploads");
-
-    // Ensure uploads folder exists
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
+// multer memory storage (we upload to S3 from server memory)
+const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/") || file.mimetype.startsWith("video/")) {
     return cb(null, true);
   }
   cb(new multer.MulterError("LIMIT_UNEXPECTED_FILE", "Only images or videos are allowed"));
 };
-
 const upload = multer({ storage, fileFilter });
-
 const uploadFiveMedia = upload.fields([
   { name: "media1", maxCount: 1 },
   { name: "media2", maxCount: 1 },
@@ -45,60 +26,71 @@ const uploadFiveMedia = upload.fields([
   { name: "media5", maxCount: 1 },
 ]);
 
-// Helper to get uploaded file path
-const getMediaPath = (files, key) =>
-  files && files[key] && files[key][0]
-    ? `uploads/${files[key][0].filename}`
-    : null;
+// S3 client
+const s3 = new S3Client({ region: process.env.AWS_REGION });
 
-/* ------------------ CREATE PRODUCT ------------------ */
+// Helper: upload buffer to S3 -> returns object key and public URL
+async function uploadBufferToS3(file, folder = "products") {
+  if (!file) return null;
+  const safeName = file.originalname.replace(/\s+/g, "-");
+  const key = `${folder}/${Date.now()}-${safeName}`;
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: key,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+    ACL: "public-read", // only if you want objects to be public (dev). Consider removing and using presigned URL / CloudFront in prod.
+  };
+  await s3.send(new PutObjectCommand(params));
+
+  // region-aware public URL:
+  const region = process.env.AWS_REGION;
+  const bucket = process.env.S3_BUCKET_NAME;
+  // For most regions use this:
+  const url = `https://${bucket}.s3.${region}.amazonaws.com/${encodeURIComponent(key)}`;
+  return { key, url };
+}
+
+// Helper to get key from an S3 URL (so you can delete)
+function keyFromUrl(url) {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    return decodeURIComponent(u.pathname.replace(/^\//, "")); // remove leading slash
+  } catch {
+    // maybe stored as raw key
+    return url.replace(/^\/+/, "");
+  }
+}
+
+/* -------------- CREATE PRODUCT --------------- */
 router.post("/", uploadFiveMedia, async (req, res) => {
   try {
     const {
-      title,
-      description,
-      category,
-      price,
-      mrp,
-      features,
-      cc,
-      rating,
-      specifications,
-      idealFor,
-      discountPercent,
-      amountSaved,
+      title, description, category, price, mrp, features, cc, rating,
+      specifications, idealFor, discountPercent, amountSaved
     } = req.body;
 
-    const featureArray = features ? features.split(",").map((f) => f.trim()) : [];
+    const featureArray = features ? features.split(",").map(f => f.trim()) : [];
 
-    const media1 = getMediaPath(req.files, "media1");
-    const media2 = getMediaPath(req.files, "media2");
-    const media3 = getMediaPath(req.files, "media3");
-    const media4 = getMediaPath(req.files, "media4");
-    const media5 = getMediaPath(req.files, "media5");
+    // upload each file to S3 if provided
+    const m1 = req.files?.media1?.[0] ? await uploadBufferToS3(req.files.media1[0]) : null;
+    const m2 = req.files?.media2?.[0] ? await uploadBufferToS3(req.files.media2[0]) : null;
+    const m3 = req.files?.media3?.[0] ? await uploadBufferToS3(req.files.media3[0]) : null;
+    const m4 = req.files?.media4?.[0] ? await uploadBufferToS3(req.files.media4[0]) : null;
+    const m5 = req.files?.media5?.[0] ? await uploadBufferToS3(req.files.media5[0]) : null;
 
     const result = await pool.query(
-      `INSERT INTO products 
-        (title, description, category, price, mrp, features, cc, media1, media2, media3, media4, media5, rating, specifications, idealFor, discountPercent, amountSaved)
+      `INSERT INTO products (title, description, category, price, mrp, features, cc, media1, media2, media3, media4, media5, rating, specifications, idealFor, discountPercent, amountSaved)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING *`,
       [
-        title,
-        description,
-        category,
-        price,
-        mrp,
-        featureArray,
-        cc,
-        media1,
-        media2,
-        media3,
-        media4,
-        media5,
-        rating,
-        specifications,
-        idealFor,
-        discountPercent,
-        amountSaved,
+        title, description, category, price, mrp, featureArray, cc,
+        m1?.url || null,
+        m2?.url || null,
+        m3?.url || null,
+        m4?.url || null,
+        m5?.url || null,
+        rating, specifications, idealFor, discountPercent, amountSaved
       ]
     );
 
@@ -109,85 +101,53 @@ router.post("/", uploadFiveMedia, async (req, res) => {
   }
 });
 
-/* ------------------ GET ALL PRODUCTS ------------------ */
-router.get("/", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM products ORDER BY created_at DESC");
-    res.json(result.rows);
-  } catch (err) {
-    console.error("Error fetching products:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-/* ------------------ GET PRODUCT BY ID ------------------ */
-router.get("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
-    if (!result.rows.length) return res.status(404).json({ error: "Product not found" });
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error("Error fetching product by id:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-/* ------------------ UPDATE PRODUCT ------------------ */
+/* -------------- UPDATE PRODUCT --------------- */
 router.put("/:id", uploadFiveMedia, async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      title,
-      description,
-      category,
-      price,
-      mrp,
-      features,
-      cc,
-      rating,
-      discountPercent,
-      amountSaved,
-      specifications,
-      idealFor,
+      title, description, category, price, mrp, features, cc, rating,
+      discountPercent, amountSaved, specifications, idealFor
     } = req.body;
 
-    const featureArray = features ? features.split(",").map((f) => f.trim()) : [];
+    const featureArray = features ? features.split(",").map(f => f.trim()) : [];
 
     // Get existing product
     const old = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
     if (!old.rows.length) return res.status(404).json({ error: "Product not found" });
     const product = old.rows[0];
 
-    // Prepare media updates
-    const mediaUpdates = [];
+    // For each media slot: process remove flag, new upload, or keep old
+    const newUrls = [];
     for (let i = 1; i <= 5; i++) {
       const removeFlag = req.body[`removeMedia${i}`] === "true";
-      const newFile = req.files[`media${i}`] ? req.files[`media${i}`][0].filename : null;
-      let finalMedia = product[`media${i}`]; // default: keep existing
+      const newFile = req.files?.[`media${i}`]?.[0] ?? null;
+      const oldUrl = product[`media${i}`];
 
       if (removeFlag) {
-        if (
-          product[`media${i}`] &&
-          fs.existsSync(path.join(__dirname, "..", product[`media${i}`]))
-        ) {
-          fs.unlinkSync(path.join(__dirname, "..", product[`media${i}`]));
+        // delete from S3 if it exists as S3 url
+        if (oldUrl && oldUrl.includes(process.env.S3_BUCKET_NAME)) {
+          const key = keyFromUrl(oldUrl);
+          if (key) {
+            await s3.send(new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET_NAME, Key: key }));
+          }
         }
-        finalMedia = null;
+        newUrls.push(null);
       } else if (newFile) {
-        if (
-          product[`media${i}`] &&
-          fs.existsSync(path.join(__dirname, "..", product[`media${i}`]))
-        ) {
-          fs.unlinkSync(path.join(__dirname, "..", product[`media${i}`]));
+        // upload new one and delete old if any
+        const uploaded = await uploadBufferToS3(newFile);
+        if (oldUrl && oldUrl.includes(process.env.S3_BUCKET_NAME)) {
+          const oldKey = keyFromUrl(oldUrl);
+          if (oldKey) await s3.send(new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET_NAME, Key: oldKey }));
         }
-        finalMedia = `uploads/${newFile}`;
+        newUrls.push(uploaded.url);
+      } else {
+        // keep existing url OR null
+        newUrls.push(oldUrl || null);
       }
-
-      mediaUpdates.push(finalMedia);
     }
 
-    // Update product in DB
+    // Update DB (same structure as earlier)
     const result = await pool.query(
       `UPDATE products
        SET title=$1, description=$2, category=$3, price=$4, mrp=$5, features=$6, cc=$7,
@@ -196,24 +156,9 @@ router.put("/:id", uploadFiveMedia, async (req, res) => {
            specifications=$16, idealFor=$17
        WHERE id=$18 RETURNING *`,
       [
-        title,
-        description,
-        category,
-        price,
-        mrp,
-        featureArray,
-        cc,
-        mediaUpdates[0],
-        mediaUpdates[1],
-        mediaUpdates[2],
-        mediaUpdates[3],
-        mediaUpdates[4],
-        rating,
-        discountPercent,
-        amountSaved,
-        specifications,
-        idealFor,
-        id,
+        title, description, category, price, mrp, featureArray, cc,
+        newUrls[0], newUrls[1], newUrls[2], newUrls[3], newUrls[4],
+        rating, discountPercent, amountSaved, specifications, idealFor, id
       ]
     );
 
@@ -224,19 +169,23 @@ router.put("/:id", uploadFiveMedia, async (req, res) => {
   }
 });
 
-/* ------------------ DELETE PRODUCT ------------------ */
+/* -------------- DELETE PRODUCT --------------- */
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const old = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
     if (!old.rows.length) return res.status(404).json({ error: "Product not found" });
 
-    // Delete media files
-    ["media1", "media2", "media3", "media4", "media5"].forEach((key) => {
-      if (old.rows[0][key] && fs.existsSync(path.join(__dirname, "..", old.rows[0][key]))) {
-        fs.unlinkSync(path.join(__dirname, "..", old.rows[0][key]));
+    // Delete S3 files if they are S3 URLs
+    for (const key of ["media1","media2","media3","media4","media5"]) {
+      const url = old.rows[0][key];
+      if (url && url.includes(process.env.S3_BUCKET_NAME)) {
+        const s3Key = keyFromUrl(url);
+        if (s3Key) {
+          await s3.send(new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET_NAME, Key: s3Key }));
+        }
       }
-    });
+    }
 
     await pool.query("DELETE FROM products WHERE id=$1", [id]);
     res.json({ message: "Product deleted successfully" });
