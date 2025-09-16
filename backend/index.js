@@ -4,7 +4,6 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
-import pool from './db.js';   // ✅ FIX: import pool
 
 import productRoutes from './routes/products.js';
 import categoryRoutes from './routes/categories.js';
@@ -19,13 +18,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
-// ---------------- CORS ----------------
+// CORS: allow origins from env (comma separated) or allow all for quick testing
+// Example env: ALLOWED_ORIGINS="https://my-vercel-app.vercel.app,http://localhost:3000"
 const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || '';
 const allowedOrigins = allowedOriginsEnv.split(',').map(s => s.trim()).filter(Boolean);
 
+// Temporary development fallback: if no origins provided, allow all (you can tighten later)
 const corsOptions = allowedOrigins.length
   ? {
       origin: function (origin, callback) {
+        // allow non-browser clients (curl, Postman) where origin is undefined
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
         return callback(new Error('Not allowed by CORS'));
@@ -36,22 +38,18 @@ const corsOptions = allowedOrigins.length
 
 app.use(cors(corsOptions));
 
-// ---------------- Static uploads ----------------
+// Serve static files (image uploads) — note: on Render this is ephemeral; use cloud storage for production
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ---------------- Routes ----------------
+// Routes
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/specifications', specificationsRoute);
 
-// ---------------- Health checks ----------------
+// Health and debug endpoints
 app.get('/api/health', (req, res) => {
-  res.json({
-    ok: true,
-    db: !!process.env.DATABASE_URL,
-    env: process.env.NODE_ENV || 'development'
-  });
+  res.json({ ok: true, db: !!process.env.DATABASE_URL, env: process.env.NODE_ENV || 'development' });
 });
 
 app.get('/__routes', (req, res) => {
@@ -67,7 +65,8 @@ app.get('/__routes', (req, res) => {
   res.json({ routes });
 });
 
-// ---------------- Test DB ----------------
+
+// ✅ Add this test route here
 app.get("/api/testdb", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
@@ -77,8 +76,7 @@ app.get("/api/testdb", async (req, res) => {
     res.status(500).json({ error: "DB connection failed" });
   }
 });
-
-// ---------------- Start server ----------------
+// Start
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Backend started. PORT=${PORT} NODE_ENV=${process.env.NODE_ENV || 'development'}`);
