@@ -19,6 +19,8 @@ const s3 = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
+console.log("🚀 AWS Region:", process.env.AWS_REGION);
+
 
 /* ---------- Multer memory storage ---------- */
 const upload = multer({ storage: multer.memoryStorage() });
