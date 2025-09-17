@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 export default function ProductImageGallery({ product = {} }) {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,7 +24,7 @@ export default function ProductImageGallery({ product = {} }) {
       return prevStr === newStr ? prev : imgs;
     });
 
-    console.log('ProductImageGallery media URLs:', imgs.map(img => `${BASE_URL}${img}`));
+    console.log('ProductImageGallery media URLs:', imgs);
   }, [product]);
 
   // Auto-slide every 3s
@@ -48,7 +46,7 @@ export default function ProductImageGallery({ product = {} }) {
       {/* Big Image */}
       <div className="w-full h-full flex justify-center items-center p-2 sm:p-4">
         <img
-          src={`${BASE_URL}${images[currentIndex]}`}
+          src={images[currentIndex]} // ✅ Use direct S3 URL
           alt={`Product Image ${currentIndex + 1}`}
           className="object-contain rounded-lg w-full h-full"
         />

@@ -245,7 +245,7 @@ useEffect(() => {
 <div className="bg-white border-t-4 border-gray-200 flex justify-center items-center p-2 md:p-0 h-40 md:h-58">
   {productImage ? (
     <img
-      src={`${BASE_URL}${productImage}`}
+      src={`${productImage}`}
       alt={product.title}
       className="w-full h-full object-contain"
     />
