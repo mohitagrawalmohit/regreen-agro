@@ -51,12 +51,12 @@ export default function AdminProducts() {
   // Utility to render media (image or video)
   const renderMedia = (mediaUrl, index) => {
     if (!mediaUrl) return null;
-    const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.mov') || mediaUrl.endsWith('.webm');
+    const isVideo = mediaUrl.match(/\.(mp4|mov|webm)(\?.*)?$/i);
     if (isVideo) {
       return (
         <video
           key={index}
-          src={`${BASE_URL}${mediaUrl}`}
+          src={mediaUrl}
           controls
           className="w-20 h-20 rounded object-cover"
         />
@@ -65,7 +65,7 @@ export default function AdminProducts() {
     return (
       <img
         key={index}
-        src={`${BASE_URL}${mediaUrl}`}
+        src={mediaUrl}
         alt={`Media ${index + 1}`}
         className="w-20 h-20 rounded object-cover"
       />
@@ -86,7 +86,7 @@ export default function AdminProducts() {
           />
           <Button
             variant="green"
-            onClick={() => router.push('/admin/products/add')} // Redirect to your existing AddProductPage
+            onClick={() => router.push('/admin/products/add')}
             className="flex items-center gap-2"
           >
             <Plus size={16} /> New Product
@@ -143,7 +143,9 @@ export default function AdminProducts() {
                 {/* Add Specification button */}
                 <Button
                   variant="secondary"
-                  onClick={() => router.push(`/admin/products/${product.id}/specifications`)}
+                  onClick={() =>
+                    router.push(`/admin/products/${product.id}/specifications`)
+                  }
                 >
                   + Specs
                 </Button>
@@ -155,5 +157,3 @@ export default function AdminProducts() {
     </div>
   );
 }
-
-
