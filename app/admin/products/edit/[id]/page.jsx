@@ -20,7 +20,7 @@ export default function EditProductPage() {
         if (!res.ok) throw new Error('Failed to fetch product');
         const data = await res.json();
 
-        // Normalize idealfor → idealFor
+        // Normalize naming
         data.idealFor = data.idealfor || '';
         delete data.idealfor;
 
@@ -34,11 +34,24 @@ export default function EditProductPage() {
     fetchProduct();
   }, [id]);
 
+  // 🟢 Auto-calc price & amountSaved when mrp/discountPercent changes
+  useEffect(() => {
+    if (product?.mrp && product?.discountPercent) {
+      const price = (product.mrp - (product.mrp * product.discountPercent) / 100).toFixed(2);
+      const amountSaved = (product.mrp - price).toFixed(2);
+      setProduct((prev) => ({
+        ...prev,
+        price,
+        amountSaved,
+      }));
+    }
+  }, [product?.mrp, product?.discountPercent]);
+
   if (loading || !product) return <div>Loading...</div>;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct(prev => ({ ...prev, [name]: value }));
+    setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (index, e) => {
@@ -66,10 +79,10 @@ export default function EditProductPage() {
 
     const formData = new FormData();
 
-    // Keep features value but don’t show in form
+    // Keep features in DB but don’t show in form
     formData.append('features', product.features);
 
-    Object.keys(product).forEach(key => {
+    Object.keys(product).forEach((key) => {
       if (key !== 'features') {
         formData.append(key, product[key]);
       }
@@ -98,18 +111,51 @@ export default function EditProductPage() {
 
   return (
     <div className="min-h-screen bg-white p-8">
-      <Button variant="outline" className="mb-6" onClick={() => router.push('/admin/dashboard')}>
+      <Button
+        variant="outline"
+        className="mb-6"
+        onClick={() => router.push('/admin/dashboard')}
+      >
         ← Back to Dashboard
       </Button>
 
       <h2 className="text-2xl font-bold mb-6 text-green-700">✏️ Edit Product</h2>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 max-w-2xl">
-        <input type="text" name="title" value={product.title} onChange={handleChange} placeholder="Product Title" required className="border p-3 rounded" />
-        <input type="text" name="cc" value={product.cc} onChange={handleChange} placeholder="CC" required className="border p-3 rounded" />
-        <textarea name="description" value={product.description} onChange={handleChange} placeholder="Product Description" rows={4} className="border p-3 rounded" />
+        <input
+          type="text"
+          name="title"
+          value={product.title}
+          onChange={handleChange}
+          placeholder="Product Title"
+          required
+          className="border p-3 rounded"
+        />
+        <input
+          type="text"
+          name="cc"
+          value={product.cc}
+          onChange={handleChange}
+          placeholder="CC"
+          required
+          className="border p-3 rounded"
+        />
+        <textarea
+          name="description"
+          value={product.description}
+          onChange={handleChange}
+          placeholder="Product Description"
+          rows={4}
+          className="border p-3 rounded"
+        />
 
-        <select name="category" value={product.category} onChange={handleChange} className="border p-3 rounded" required>
+        <select
+          name="category"
+          value={product.category}
+          onChange={handleChange}
+          className="border p-3 rounded"
+          required
+        >
           <option value="">-- Select Category --</option>
           <option value="Power & Engines">Power & Engines</option>
           <option value="Lawn Mower & Gardening Tools">Lawn Mower & Gardening Tools</option>
@@ -130,16 +176,42 @@ export default function EditProductPage() {
           className="border p-3 rounded"
         />
 
-        {/* 🟢 Removed "features" input */}
-
         {/* Pricing */}
         <div className="grid grid-cols-2 gap-4">
-          <input type="number" name="mrp" value={product.mrp} onChange={handleChange} placeholder="MRP" className="border p-3 rounded" />
-          <input type="number" name="discountPercent" value={product.discountPercent} onChange={handleChange} placeholder="Discount %" className="border p-3 rounded" />
+          <input
+            type="number"
+            name="mrp"
+            value={product.mrp}
+            onChange={handleChange}
+            placeholder="MRP"
+            className="border p-3 rounded"
+          />
+          <input
+            type="number"
+            name="discountPercent"
+            value={product.discountPercent}
+            onChange={handleChange}
+            placeholder="Discount %"
+            className="border p-3 rounded"
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <input type="number" name="price" value={product.price} readOnly placeholder="Final Price (auto)" className="border p-3 rounded bg-gray-100" />
-          <input type="number" name="amountSaved" value={product.amountSaved} readOnly placeholder="Amount Saved (auto)" className="border p-3 rounded bg-gray-100" />
+          <input
+            type="number"
+            name="price"
+            value={product.price || ''}
+            readOnly
+            placeholder="Final Price (auto)"
+            className="border p-3 rounded bg-gray-100"
+          />
+          <input
+            type="number"
+            name="amountSaved"
+            value={product.amountSaved || ''}
+            readOnly
+            placeholder="Amount Saved (auto)"
+            className="border p-3 rounded bg-gray-100"
+          />
         </div>
 
         {/* Media Section */}
@@ -147,33 +219,63 @@ export default function EditProductPage() {
         <div className="grid grid-cols-1 gap-2">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex items-center gap-2">
+              {/* Existing media preview */}
               {product[`media${i + 1}`] && !removeFlags[i] && !files[i] && (
-                product[`media${i + 1}`].endsWith('.mp4') ||
-                product[`media${i + 1}`].endsWith('.mov') ||
-                product[`media${i + 1}`].endsWith('.webm') ? (
-                  <video src={product[`media${i + 1}`]} className="h-20 w-20 object-cover rounded" controls />
+                product[`media${i + 1}`].match(/\.(mp4|mov|webm)(\?.*)?$/i) ? (
+                  <video
+                    src={product[`media${i + 1}`]}
+                    className="h-20 w-20 object-cover rounded"
+                    controls
+                  />
                 ) : (
-                  <img src={product[`media${i + 1}`]} alt={`media-${i}`} className="h-20 w-20 object-cover rounded" />
+                  <img
+                    src={product[`media${i + 1}`]}
+                    alt={`media-${i}`}
+                    className="h-20 w-20 object-cover rounded"
+                  />
                 )
               )}
 
+              {/* New file preview */}
               {files[i] && (
                 files[i].type.startsWith('image/') ? (
-                  <img src={URL.createObjectURL(files[i])} className="h-20 w-20 object-cover rounded" alt="new media" />
+                  <img
+                    src={URL.createObjectURL(files[i])}
+                    className="h-20 w-20 object-cover rounded"
+                    alt="new media"
+                  />
                 ) : (
-                  <video src={URL.createObjectURL(files[i])} className="h-20 w-20 object-cover rounded" controls />
+                  <video
+                    src={URL.createObjectURL(files[i])}
+                    className="h-20 w-20 object-cover rounded"
+                    controls
+                  />
                 )
               )}
 
-              <input type="file" accept="image/*,video/*" onChange={(e) => handleFileChange(i, e)} />
+              <input
+                type="file"
+                accept="image/*,video/*"
+                onChange={(e) => handleFileChange(i, e)}
+              />
               {(product[`media${i + 1}`] || files[i]) && (
-                <Button type="button" variant="destructive" size="sm" onClick={() => handleRemoveMedia(i)}>Remove</Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => handleRemoveMedia(i)}
+                >
+                  Remove
+                </Button>
               )}
             </div>
           ))}
         </div>
 
-        <button type="submit" className="bg-green-600 hover:bg-green-700 text-white py-3 rounded mt-4">
+        <button
+          type="submit"
+          className="bg-green-600 hover:bg-green-700 text-white py-3 rounded mt-4"
+        >
           Save Changes
         </button>
       </form>
