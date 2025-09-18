@@ -6,6 +6,8 @@ import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';  
+
+import ProtectedRoute from "@/components/ProtectedRoute";
 import {
   Table,
   TableHeader,
@@ -90,6 +92,7 @@ export default function SpecificationsPage() {
   };
 
   return (
+    <ProtectedRoute>
     <div className="p-4">
        
      {/* Back button */}
@@ -198,5 +201,6 @@ export default function SpecificationsPage() {
         </TableBody>
       </Table>
     </div>
+    </ProtectedRoute>
   );
 }

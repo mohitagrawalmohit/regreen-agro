@@ -5,6 +5,8 @@ import { X, Menu, Box, Mail, FileText } from 'lucide-react';
 import ProductsPage from '../products/page'; // Import your existing Products page
 import SpecificationsPage from '../specifications/page'; // ✅ relative import
 
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentModule, setCurrentModule] = useState('products'); // default module
@@ -17,6 +19,7 @@ export default function AdminDashboard() {
   ];
 
   return (
+    <ProtectedRoute>
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <div
@@ -57,5 +60,6 @@ export default function AdminDashboard() {
         {currentModule === 'specifications' && <SpecificationsPage/>}
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

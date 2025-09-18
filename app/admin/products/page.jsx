@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+
+import ProtectedRoute from "@/components/ProtectedRoute";
 import {
   Table,
   TableHeader,
@@ -73,6 +75,7 @@ export default function AdminProducts() {
   };
 
   return (
+    <ProtectedRoute>
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">All Products</h1>
@@ -155,5 +158,6 @@ export default function AdminProducts() {
         </TableBody>
       </Table>
     </div>
+    </ProtectedRoute>
   );
 }

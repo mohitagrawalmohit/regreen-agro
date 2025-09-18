@@ -13,8 +13,11 @@ export default function AdminLoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dummy redirect — you’ll add backend logic later
+
+    // ✅ simple check (replace with backend validation later)
     if (form.username === 'admin' && form.password === 'admin') {
+      // save login flag in localStorage
+      localStorage.setItem("isAdminLoggedIn", "true");
       router.push('/admin/dashboard');
     } else {
       alert('Invalid credentials');

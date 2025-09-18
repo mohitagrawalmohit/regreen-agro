@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 export default function EditProductPage() {
   const router = useRouter();
   const { id } = useParams();
@@ -110,6 +112,7 @@ export default function EditProductPage() {
   };
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-white p-8">
       <Button
         variant="outline"
@@ -280,5 +283,6 @@ export default function EditProductPage() {
         </button>
       </form>
     </div>
+    </ProtectedRoute>
   );
 }

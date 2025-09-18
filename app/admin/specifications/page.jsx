@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Eye } from 'lucide-react';
 
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function SpecificationsOverview() {
@@ -27,6 +29,7 @@ export default function SpecificationsOverview() {
   }, []);
 
   return (
+    <ProtectedRoute>
     <div className="p-4">
         
       <h1 className="text-2xl font-semibold mb-4">Specifications Overview</h1>
@@ -58,5 +61,6 @@ export default function SpecificationsOverview() {
         </TableBody>
       </Table>
     </div>
+    </ProtectedRoute>
   );
 }
