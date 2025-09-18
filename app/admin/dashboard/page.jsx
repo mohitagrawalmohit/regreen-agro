@@ -21,7 +21,7 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div
         className={`${
-          sidebarOpen ? 'w-64' : 'w-16'
+          sidebarOpen ? 'w-44' : 'w-16'
         } bg-white shadow-md transition-all duration-300 flex flex-col`}
       >
         <div className="flex items-center justify-between p-4 border-b">
