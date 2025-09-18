@@ -94,7 +94,7 @@ export default function AdminProducts() {
         </div>
       </div>
 
-      <Table  className="min-w-[800px]">
+      <Table  className="max-w-[1000px]">
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>
