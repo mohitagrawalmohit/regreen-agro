@@ -109,7 +109,7 @@ export default function AdminProducts() {
         <TableBody>
           {filteredProducts.map((product) => (
             <TableRow key={product.id}>
-              <TableCell className="max-w-[200px] truncate">{product.title}</TableCell>
+              <TableCell className="max-w-[400px] truncate">{product.title}</TableCell>
               <TableCell>{product.category}</TableCell>
               <TableCell>₹{product.price}</TableCell>
               <TableCell>₹{product.mrp}</TableCell>
