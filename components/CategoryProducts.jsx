@@ -323,9 +323,9 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
               <img
                 src="/whatsapp icon.png"
                 alt="WhatsApp"
-                className="w-6 h-6 mr-1"
+                className="w-8 h-8 mr-1"
               />
-              Connect on WhatsApp
+              WhatsApp
             </a>
             </div>
 
