@@ -133,7 +133,7 @@ export default function RelatedProducts({
               </div>
 
               {/* ✅ Fixed Product Image */}
-           <div className="bg-gray-100 flex justify-center items-center p-1 md:p-2 h-48 md:h-60">
+           <div className="bg-white border-t-4 border-gray-200 flex justify-center items-center p-2 md:p-0 h-40 md:h-58">
   {productImage ? (
     <Image
       src={`${productImage}`}
