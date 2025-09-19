@@ -6,6 +6,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import ContactForm from "@/components/contactusForm";
 import { Grid, List } from 'lucide-react';
 import CategorySearchBar from '@/components/CategorySearchBar';
+import categoryContent from '@/components/categorySeoContent';
 
 
 
@@ -76,6 +77,8 @@ useEffect(() => {
       setShowDropdown(false);
     }
   };
+console.log("Selected Category:", selectedCategory);
+console.log("CategoryContent Keys:", Object.keys(categoryContent));
 
   document.addEventListener('mousedown', handleClickOutside);
   return () => {
@@ -85,7 +88,7 @@ useEffect(() => {
 
   return (
     <main className="min-h-screen">
-      <section className="relative w-full h-full bg-[url('/categoryprod-bg.png')] bg-cover bg-center bg-no-repeat py-4 md:py-12 px-0">
+      <section className="relative w-full h-full bg-[radial-gradient(circle,#0f5f3a_0%,#002114_100%)] bg-cover bg-center bg-no-repeat py-4 md:py-12 px-0">
         
 <div className="relative mb-4 md:mb-6 w-full px-4 md:px-30">
   <CategorySearchBar />
@@ -297,42 +300,35 @@ useEffect(() => {
     this technology gap with world-class equipment designed specifically
     for Indian farming conditions.
   </h3>
+ 
+       
 </section>
+{selectedCategory && categoryContent[selectedCategory]}
+<div className="flex flex-col sm:flex-row gap-3 px-20 pt-2">
+            {/* Send Us a Query → contact form */}
+            <a
+              href="#contact"
+              className="w-full sm:w-1/4 h-[40px] px-4 bg-[#F29728] text-white font-semibold rounded-md hover:bg-[#d9821f] flex items-center justify-center"
+            >
+              Send Us a Query
+            </a>
 
-       {/* Category Description */}
-<h2 className="text-2xl md:text-[35px] font-bold mb-1 text-white capitalize px-4 md:px-30 pt-6 text-center md:text-left">
-  Advanced Power Tillers & Rotavators
-</h2>
+            {/* Connect on WhatsApp */}
+            <a
+              href="https://wa.me/917830060444?text=Hello,%20I%20want%20to%20know%20more%20about%20your%20products"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-1/4 h-[40px] px-4 bg-[#1DA946] text-white font-semibold rounded-md hover:bg-[#148a36] flex items-center justify-center"
+            >
+              <img
+                src="/whatsapp icon.png"
+                alt="WhatsApp"
+                className="w-6 h-6 mr-2"
+              />
+              Connect on WhatsApp
+            </a>
+            </div>
 
-<h2 className="text-lg md:text-[25px] mb-5 text-white capitalize px-4 md:px-30 text-center md:text-left">
-  Improve Productivity & Reduce Farming Costs
-</h2>
-
-<h2 className="text-lg md:text-[25px] font-semibold mb-3 text-white capitalize px-4 md:px-30 text-center md:text-left">
-  Mini Tiller / Rotary Weeder
-</h2>
-
-{/* Bullet Points */}
-<div className="flex items-start gap-2 text-base md:text-[20px] mb-2 text-white capitalize px-4 md:px-30">
-  <img src="/tickIcon.png" alt="tick" className="w-5 h-5 md:w-6 md:h-6 mt-1" />
-  <span>
-    Functionality: Breaks soil crust, removes weeds between crop rows, and improves
-  </span>
-</div>
-
-<div className="flex items-start gap-2 text-base md:text-[20px] mb-2 text-white capitalize px-4 md:px-30">
-  <img src="/tickIcon.png" alt="tick" className="w-5 h-5 md:w-6 md:h-6 mt-1" />
-  <span>
-    Design: Compact, lightweight, and Petrol (around 7 HP, 208 cc) or Diesel (around 7.5 HP).
-  </span>
-</div>
-
-<div className="flex items-start gap-2 text-base md:text-[20px] mb-2 text-white capitalize px-4 md:px-30">
-  <img src="/tickIcon.png" alt="tick" className="w-5 h-5 md:w-6 md:h-6 mt-1" />
-  <span>
-    Best for: Small to medium Indian farms requiring precision weeding and soil management.
-  </span>
-</div>
 
        
       
