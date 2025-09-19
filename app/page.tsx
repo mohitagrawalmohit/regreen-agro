@@ -56,7 +56,7 @@ export default function HomePage() {
         {/* Background Layer */}
         <div className="absolute inset-0 z-0">
   {!showVideo ? (
-    <div className="h-full w-full bg-cover bg-center bg-no-repeat bg-[url('/hero-bg-mobile.png')] md:bg-[url('/hero-bg.png')]" />
+    <div className="h-full w-full bg-cover bg-center bg-no-repeat bg-[url('/hero-bg-mobile-min.png')] md:bg-[url('/hero-bg-min.png')]" />
   ) : (
     <div className="relative h-full w-full">
       <video
