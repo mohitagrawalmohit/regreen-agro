@@ -273,10 +273,10 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
 
     {/* Call Button */}
     <a
-      href="tel:+919027799171"
+      href="#contact"
       className="w-full sm:w-1/2 h-[25px] sm:h-[40px] px-4  sm:py-1 py-1 bg-transparent border border-[#F29728] text-[10px] sm:text-[12px] font-[sans-serif] text-[#F29728] font-bold rounded-md hover:bg-[#F29728] hover:text-white flex items-center justify-center"
     >
-      Call Us
+      Enquire Us
     </a>
   </div>
               </div>
