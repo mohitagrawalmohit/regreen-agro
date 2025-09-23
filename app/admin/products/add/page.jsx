@@ -152,6 +152,8 @@ export default function AddProductPage() {
           </option>
           <option value="Pumps & Irrigation">Pumps & Irrigation</option>
           <option value="Earth Auger">Earth Auger</option>
+          <option value="Miscellaneous">Miscellaneous</option>
+          <option value="Power Reeper">Miscellaneous</option>
           <option value="Power Weeder & Tiller">
             Power Weeder & Tiller
           </option>
