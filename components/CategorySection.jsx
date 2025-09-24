@@ -15,7 +15,7 @@ const categories = [
        { name: 'Power Reaper', image: '/CategoryCardsImage/reaper.png', slug: 'Power Reaper' },
       
      { name: 'Power & Engines', image: '/CategoryCardsImage/power engines cat.png', slug: 'Power & Engines' },
-      { name: 'Accessories/Attachment', image: '/CategoryCardsImage/Hal.png', slug: 'Accessories/Attachment' },
+      { name: 'Accessories/Attachment', image: '/CategoryCardsImage/Hal.png', slug: 'Accessories & Attachment' },
   
   // Add more if needed
 ];

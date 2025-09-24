@@ -36,7 +36,7 @@ const mbcategories = [
        { name: 'Power Reaper', image: '/Category 2d Images/power reeper.png', slug: 'Power Reaper' },
      
      { name: 'Power & Engines', image: '/Category 2d Images/power weeder engine 2d image.png', slug: 'Power & Engines' },
-       { name: 'Accessories/Attachment', image: '/Category 2d Images/attachments.png', slug: 'Accessories/Attachment' },
+       { name: 'Accessories/Attachment', image: '/Category 2d Images/attachments.png', slug: 'Accessories & Attachment' },
   
   
   

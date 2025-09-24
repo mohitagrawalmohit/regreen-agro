@@ -11,7 +11,7 @@ import categoryContent from '@/components/categorySeoContent';
 
 
 
-const categories = ["All","Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Power Reaper","Miscellaneous", "Power & Engines","Accessories/Attachment"];
+const categories = ["All","Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Power Reaper","Miscellaneous", "Power & Engines","Accessories & Attachment"];
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
