@@ -232,10 +232,14 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
 
             return (
               <div
-                key={product.id}
-                onClick={() => router.push(`/product/${product.id}`)}
+              
+                
                 className="bg-white w-full h-auto max-w-[250px] md:max-w-[280px] mx-auto md:mx-20 rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
               >
+                <div
+                key={product.id}
+                onClick={() => router.push(`/product/${product.id}`)}>
+                  
                 <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start h-40 md:h-52">
                   <h3 className={`font-semibold mb-1 ${mobileCols === 1 ? "text-medium md:text-xl" : "text-[10px] md:text-lg"}`}>
                     {product.cc}{" | "}{product.title}
@@ -270,6 +274,7 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
     <div className="text-gray-400 text-sm">No Image</div>
   )}
 </div>
+</div>
 {/* ✅ Action Buttons */}
   <div className="flex flex-col sm:flex-row gap-2 p-3">
     {/* WhatsApp Button */}
@@ -293,9 +298,11 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
       Enquire Us
     </a>
   </div>
+  
               </div>
             );
           })}
+          
         </div>
         {/*future of farming */}
         <section className="relative w-full h-auto md:h-[200px] bg-[url('/futureofFarming-bg.png')] bg-cover bg-center bg-no-repeat overflow-hidden mb-10">
