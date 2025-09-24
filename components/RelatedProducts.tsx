@@ -59,7 +59,7 @@ export default function RelatedProducts({
       {/* Products Row */}
       <div
         ref={scrollRef}
-        className="flex space-x-4 px-6 md:px-8 overflow-x-hidden scroll-smooth"
+        className="flex space-x-4 px-6 md:px-8 overflow-x-auto md:overflow-x-hidden scroll-smooth scrollbar-hide touch-pan-x"
       >
         {relatedProducts.map((product) => {
           const productImage =
