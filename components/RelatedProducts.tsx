@@ -146,6 +146,29 @@ export default function RelatedProducts({
     <div className="text-gray-400 text-sm">No Image</div>
   )}
 </div>
+{/* ✅ Action Buttons */}
+  <div className="flex flex-col sm:flex-row gap-2 p-3">
+    {/* WhatsApp Button */}
+    <a
+      href={`https://wa.me/917830060444?text=Hello,%20I%20want%20to%20order%20${encodeURIComponent(product.title)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full s sm:w-1/2 h-[20px] sm:h-[30px] px-4 sm:py-1 py-1 bg-[#1DA946] text-[8px] sm:text-[10px] font-[sans-serif] text-white font-bold rounded-md hover:bg-[#1DA946] flex items-center justify-center"
+    >
+      <img src="/whatsapp icon.png"
+        alt="whatsapp icon"
+        className="w-6 h-6 md:w-8 md:h-8 object-contain" />
+      WhatsApp
+    </a>
+
+    {/* Call Button */}
+    <a
+      href="#contact"
+      className="w-full sm:w-1/2 h-[20px] sm:h-[30px] px-4  sm:py-1 py-1 bg-transparent border border-[#F29728] text-[8px] sm:text-[10px] font-[sans-serif] text-[#F29728] font-bold rounded-md hover:bg-[#F29728] hover:text-white flex items-center justify-center"
+    >
+      Enquire Us
+    </a>
+  </div>
             </div>
           );
         })}
