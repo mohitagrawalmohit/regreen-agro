@@ -67,7 +67,7 @@ export default function RelatedProducts({
 
           return (
             <div
-              
+
               className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[30%] lg:w-[25%] bg-white rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
             >
               <div
