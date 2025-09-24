@@ -126,15 +126,16 @@ export default function ProductPage() {
             </a>
           </div>
 
-         <div key={index} className="flex items-start gap-2">
-  <div className="w-5 h-5 flex items-center justify-center rounded-full bg-[#30BB7E] flex-shrink-0 mt-1">
-    <CheckIcon className="w-3.5 h-3.5 text-white" />
-  </div>
-  <p className="flex-1 text-left text-gray-800 text-[14px] sm:text-base leading-snug">
-    {spec.description}
-  </p>
-</div>
-
+          <div className="flex flex-col gap-3 bg-white rounded-2xl p-4 sm:p-8 shadow-md w-full h-auto max-h-[300px] overflow-y-auto mt-4">
+            {product.specifications.map((spec, index) => (
+              <div key={index} className="flex items-start gap-2">
+                <div className="w-5 h-5 flex items-center justify-center rounded-full bg-[#30BB7E] flex-shrink-0">
+                  <CheckIcon className="w-3.5 h-3.5 text-white" />
+                </div>
+                <p className="flex-1 text-left text-gray-800 text-[14px] sm:text-base leading-snug">{spec.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ---------------- Desktop View ---------------- */}
