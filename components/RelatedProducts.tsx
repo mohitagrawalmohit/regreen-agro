@@ -76,8 +76,8 @@ export default function RelatedProducts({
                 <h3
                   className={`font-semibold mb-1 ${
                     mobileCols === 1
-                      ? 'text-xl md:text-2xl'
-                      : 'text-lg md:text-xl'
+                      ? 'text-lg md:text-xl'
+                      : 'text-sm md:text-lg'
                   }`}
                 >
                   {product.cc} | {product.title}
@@ -138,7 +138,7 @@ export default function RelatedProducts({
     <Image
       src={`${productImage}`}
       alt={product.title || "Product image"}
-      width={300}
+      width={300} 
       height={300}
       className="w-full h-full object-contain"
     />
