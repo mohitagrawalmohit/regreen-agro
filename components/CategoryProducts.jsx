@@ -65,7 +65,7 @@ const onSelect = (cat) => {
   setShowDropdown(false);
 
   if (cat === "All") {
-    router.push(`/category`);
+    router.push(`/category/All`);
   } else {
     router.push(`/category/${encodeURIComponent(cat)}`);
   }
