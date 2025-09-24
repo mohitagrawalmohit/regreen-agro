@@ -72,7 +72,7 @@ export default function RelatedProducts({
               className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[30%] lg:w-[25%] bg-white rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
             >
               {/* Product Info */}
-              <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start h-36 md:h-50">
+              <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start h-40 md:h-50">
                 <h3
                   className={`font-semibold mb-1 ${
                     mobileCols === 1
