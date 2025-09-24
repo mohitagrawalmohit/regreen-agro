@@ -30,6 +30,8 @@ const mbcategories = [
      { name: 'Post Harvesting', image: '/Category 2d Images/Post harvesting 2d.png', slug: 'Post Harvesting' }, 
       { name: 'Lawn Mower & Gardening Tools', image: '/Category 2d Images/lawn mower 2d image.png', slug: 'Lawn Mower & Gardening Tools' },
        { name: 'Miscellaneous', image: '/Category 2d Images/wood chipper 2d image.png', slug: 'Miscellaneous' },
+       { name: 'Power Reeper', image: '/Category 2d Images/wood chipper 2d image.png', slug: 'Power Reeper' },
+       { name: 'Accessories/Attachment', image: '/Category 2d Images/wood chipper 2d image.png', slug: 'Accessories/Attachment' },
      { name: 'Power & Engines', image: '/Category 2d Images/power weeder engine 2d image.png', slug: 'Power & Engines' },
   
   

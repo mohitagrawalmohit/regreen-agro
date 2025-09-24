@@ -13,6 +13,8 @@ const categories = [
   "Post Harvesting",
   "Lawn Mower & Gardening Tools",
   "Miscellaneous",
+  "Power Reeper",
+  "Accessories/Attachment",
   "Power & Engines"
 ];
 
