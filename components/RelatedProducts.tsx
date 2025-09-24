@@ -67,12 +67,10 @@ export default function RelatedProducts({
 
           return (
             <div
-
+              key={product.id}
+              onClick={() => router.push(`/product/${product.id}`)}
               className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[30%] lg:w-[25%] bg-white rounded-[20px] shadow-md hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer"
             >
-              <div
-              key={product.id}
-              onClick={() => router.push(`/product/${product.id}`)}>
               {/* Product Info */}
               <div className="bg-white p-3 md:p-4 flex flex-col justify-center items-start h-40 md:h-50">
                 <h3
@@ -147,7 +145,6 @@ export default function RelatedProducts({
   ) : (
     <div className="text-gray-400 text-sm">No Image</div>
   )}
-</div>
 </div>
 {/* ✅ Action Buttons */}
   <div className="flex flex-col sm:flex-row gap-2 p-3">
