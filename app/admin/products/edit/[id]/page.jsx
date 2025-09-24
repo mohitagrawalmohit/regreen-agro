@@ -167,7 +167,10 @@ export default function EditProductPage() {
           <option value="Sprayers & Crop Protection">Sprayers & Crop Protection</option>
           <option value="Pumps & Irrigation">Pumps & Irrigation</option>
           <option value="Earth Auger">Earth Auger</option>
+          <option value="Miscellaneous">Miscellaneous</option>
+          <option value="Power Reeper">Power Reeper</option>
           <option value="Power Weeder & Tiller">Power Weeder & Tiller</option>
+          <option value="Accessories/Attachment">Accessories/Attachment</option>
         </select>
 
         <textarea
