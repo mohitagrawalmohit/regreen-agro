@@ -21,7 +21,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 export default function CategoryProducts() {
   const router = useRouter();
   const params = useParams();
-  const category = decodeURIComponent(params.category || '');
+  const category = decodeURIComponent(params.category || 'All');
 
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [searchTerm, setSearchTerm] = useState('');
@@ -46,17 +46,31 @@ export default function CategoryProducts() {
     }
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+  if (category) {
+    setSelectedCategory(category);
+  } else {
+    setSelectedCategory("All");
+  }
+}, [category]);
+
   
   console.log("https://regreen-agro.onrender.com/${product.images}");
 
 
+const onSelect = (cat) => {
+  setSelectedCategory(cat);
+  setSearchTerm('');
+  setShowDropdown(false);
 
-  const onSelect = (cat) => {
-    setSelectedCategory(cat);
-    setSearchTerm('');
-    setShowDropdown(false);
-    
-  };
+  if (cat === "All") {
+    router.push(`/category`);
+  } else {
+    router.push(`/category/${encodeURIComponent(cat)}`);
+  }
+};
+
 
   
 
@@ -303,7 +317,7 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
  
        
 </section>
-{selectedCategory && categoryContent[selectedCategory]}
+{selectedCategory !== "All" && categoryContent[selectedCategory]}
 <div className="flex flex-col sm:flex-row gap-3 px-20 pt-2">
             {/* Send Us a Query → contact form */}
             <a
