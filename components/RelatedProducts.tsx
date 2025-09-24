@@ -76,8 +76,8 @@ export default function RelatedProducts({
                 <h3
                   className={`font-semibold mb-1 ${
                     mobileCols === 1
-                      ? 'text-lg md:text-xl'
-                      : 'text-sm md:text-lg'
+                      ? 'text-lg md:text-lg'
+                      : 'text-sm md:text-sm'
                   }`}
                 >
                   {product.cc} | {product.title}
