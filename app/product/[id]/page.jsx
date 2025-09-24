@@ -33,20 +33,28 @@ export default function ProductPage() {
 
         // fetch related products by category (using cc or category)
         const category = data?.category || data?.cc;
-        if (category) {
-          const relatedRes = await fetch(`${BASE_URL}api/products?category=${category}`);
-          const related = await relatedRes.json();
+      if (category) {
+        // 🔄 changed → fetch all products instead of ?category
+        const relatedRes = await fetch(`${BASE_URL}api/products`); 
+        const related = await relatedRes.json();
 
-          // exclude current product
-          setRelatedProducts(related.filter((p) => p.id !== data.id));
-        }
-      } catch (err) {
-        console.error("Error fetching product or related:", err);
+        // 🔄 changed → filter manually by category & exclude current product
+        const relatedFiltered = related.filter(
+          (p) =>
+            p.id !== data.id &&
+            (p.category?.toLowerCase() === category.toLowerCase() ||
+             p.cc?.toLowerCase() === category.toLowerCase())
+        );
+
+        setRelatedProducts(relatedFiltered); // 🔄 changed
       }
+    } catch (err) {
+      console.error("Error fetching product or related:", err);
     }
+  }
 
-    if (id) fetchProduct();
-  }, [id]);
+  if (id) fetchProduct();
+}, [id]);
 
   if (!product) return <p>Loading...</p>;
 
