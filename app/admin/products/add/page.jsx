@@ -157,7 +157,7 @@ export default function AddProductPage() {
           <option value="Power Weeder & Tiller">
             Power Weeder & Tiller
           </option>
-          <option value="Accessories/Attachment">Accessories/Attachment</option>
+          <option value="Accessories & Attachment">Accessories & Attachment</option>
         </select>
 
         {/* Hidden defaults */}

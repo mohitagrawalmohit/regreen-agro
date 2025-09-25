@@ -32,7 +32,7 @@ const categories = [
   "Power Reaper",
   "Miscellaneous",
   "Power & Engines",
-  "Accessories/Attachment"
+  "Accessories & Attachment"
 ];
 
 export default function AdminProducts() {

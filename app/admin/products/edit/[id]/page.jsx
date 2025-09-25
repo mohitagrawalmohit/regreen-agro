@@ -170,7 +170,7 @@ export default function EditProductPage() {
           <option value="Miscellaneous">Miscellaneous</option>
           <option value="Power Reaper">Power Reaper</option>
           <option value="Power Weeder & Tiller">Power Weeder & Tiller</option>
-          <option value="Accessories/Attachment">Accessories/Attachment</option>
+          <option value="Accessories & Attachment">Accessories & Attachment</option>
         </select>
 
         <textarea
