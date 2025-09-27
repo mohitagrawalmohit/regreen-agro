@@ -56,7 +56,7 @@ export default function HomePage() {
         {/* Background Layer */}
         <div className="absolute inset-0 z-0">
   {!showVideo ? (
-    <div className="h-full w-full bg-cover bg-center bg-no-repeat bg-[url('https://regreenagro.s3.ap-southeast-2.amazonaws.com/hero-video.webm')] md:bg-[url('https://regreenagro.s3.ap-southeast-2.amazonaws.com/hero-video.webm')]" />
+    <div className="h-full w-full bg-cover bg-center bg-no-repeat bg-[url('/hero-bg-mobile-min.png')] md:bg-[url('/hero-bg-min.png')]" />
   ) : (
     <div className="relative h-full w-full">
       <video
@@ -66,7 +66,7 @@ export default function HomePage() {
         loop
         playsInline
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
+        <source src="https://regreenagro.s3.ap-southeast-2.amazonaws.com/hero-video.webm" type="video/mp4" />
       </video>
       {/* Overlay only for video */}
       <div className="absolute inset-0 bg-black/40"></div>
