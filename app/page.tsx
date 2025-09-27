@@ -66,7 +66,7 @@ export default function HomePage() {
         loop
         playsInline
       >
-        <source src="https://regreenagro.s3.ap-southeast-2.amazonaws.com/hero-video.webm" type="video/mp4" />
+        <source src="/hero-video.mp4" type="video/mp4" />
       </video>
       {/* Overlay only for video */}
       <div className="absolute inset-0 bg-black/40"></div>
