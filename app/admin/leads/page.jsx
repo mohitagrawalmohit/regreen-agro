@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 dayjs.extend(isoWeek);
 
 export default function LeadsAdmin() {
+  const router = useRouter();
+
   const [leads, setLeads] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,21 +23,44 @@ export default function LeadsAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
   const [leadsPerPage, setLeadsPerPage] = useState(100);
 
-  // Fetch leads
+  // Secure fetch
   const fetchLeads = async () => {
     setLoading(true);
-    const res = await fetch("/api/leads");
-    const data = await res.json();
-    setLeads(data.leads || []);
-    setFilteredLeads(data.leads || []);
-    setLoading(false);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/admin/login");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/leads", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 401 || res.status === 403) {
+        localStorage.removeItem("token");
+        router.push("/admin/login");
+        return;
+      }
+
+      const data = await res.json();
+      setLeads(data.leads || []);
+      setFilteredLeads(data.leads || []);
+    } catch (err) {
+      console.error("Error fetching leads:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchLeads();
   }, []);
 
-  // Sorting
+  // Sorting logic
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") direction = "desc";
@@ -294,6 +320,16 @@ export default function LeadsAdmin() {
             <p className="text-gray-600 text-sm mt-1">Showing <span className="font-semibold">{totalLeads}</span> leads</p>
           </div>
           <div className="flex gap-3 items-center">
+            <button
+              onClick={() => {
+                localStorage.removeItem("token");
+                router.push("/admin/login");
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition"
+            >
+              Logout
+            </button>
+
             <label className="text-sm text-gray-600">
               Show:
               <select value={leadsPerPage} onChange={(e) => { setLeadsPerPage(Number(e.target.value)); setCurrentPage(1); }} className="ml-2 border rounded p-1 text-sm">
