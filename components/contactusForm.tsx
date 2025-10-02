@@ -4,6 +4,10 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
+
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL
+
 const indianStates = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
   "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
@@ -48,7 +52,7 @@ export default function ContactForm() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/leads", {
+      const response = await fetch(`${BASE_URL}api/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(leadData),
