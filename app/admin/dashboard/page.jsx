@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { X, Menu, Box, Mail, FileText } from 'lucide-react';
 import ProductsPage from '../products/page'; // Import your existing Products page
 import SpecificationsPage from '../specifications/page'; // ✅ relative import
+import LeadsPage from '../leads/page';
 
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="flex-1 p-6 overflow-auto">
         {currentModule === 'products' && <ProductsPage />}
-        {currentModule === 'leads' && <div>Leads module coming soon</div>}
+        {currentModule === 'leads' && <LeadsPage/>}
         {currentModule === 'specifications' && <SpecificationsPage/>}
       </div>
     </div>
