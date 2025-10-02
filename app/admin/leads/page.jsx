@@ -8,15 +8,12 @@ export default function LeadsAdmin() {
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: "created_at", direction: "desc" });
 
   const [filters, setFilters] = useState([{ field: "name", operator: "contains", value: "" }]);
-  const [dateFilter, setDateFilter] = useState({
-    operator: "thisMonth",
-    startDate: "",
-    endDate: "",
-  });
+  const [dateFilter, setDateFilter] = useState({ operator: "", startDate: "", endDate: "" });
 
-  // Fetch Leads (from backend)
+  // Fetch Leads
   const fetchLeads = async () => {
     setLoading(true);
     const res = await fetch("/api/leads");
@@ -29,6 +26,29 @@ export default function LeadsAdmin() {
   useEffect(() => {
     fetchLeads();
   }, []);
+
+  // Sorting Logic
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") direction = "desc";
+    else if (sortConfig.key === key && sortConfig.direction === "desc") direction = null;
+
+    setSortConfig({ key, direction });
+  };
+
+  const sortedLeads = [...filteredLeads].sort((a, b) => {
+    if (!sortConfig.direction) return 0;
+    const aValue = a[sortConfig.key] ? a[sortConfig.key].toString().toLowerCase() : "";
+    const bValue = b[sortConfig.key] ? b[sortConfig.key].toString().toLowerCase() : "";
+    if (sortConfig.key === "created_at") {
+      return sortConfig.direction === "asc"
+        ? dayjs(a.created_at).valueOf() - dayjs(b.created_at).valueOf()
+        : dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf();
+    }
+    if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
 
   // Filter Logic
   const applyFilters = () => {
@@ -58,7 +78,7 @@ export default function LeadsAdmin() {
       });
     });
 
-    // Date Filter
+    // Date Filters
     const now = dayjs();
     let start = null;
     let end = null;
@@ -91,23 +111,26 @@ export default function LeadsAdmin() {
         }
         break;
       case "on":
-        start = dayjs(dateFilter.startDate);
-        end = dayjs(dateFilter.startDate).endOf("day");
+        if (dateFilter.startDate) {
+          start = dayjs(dateFilter.startDate).startOf("day");
+          end = dayjs(dateFilter.startDate).endOf("day");
+        }
         break;
       case "before":
-        end = dayjs(dateFilter.startDate);
+        if (dateFilter.startDate) end = dayjs(dateFilter.startDate).endOf("day");
         break;
       case "after":
-        start = dayjs(dateFilter.startDate);
+        if (dateFilter.startDate) start = dayjs(dateFilter.startDate).startOf("day");
         break;
       default:
-        break;
+        start = null;
+        end = null;
     }
 
-    if (start || end) {
+    if (dateFilter.operator && (start || end)) {
       result = result.filter((lead) => {
         const created = dayjs(lead.created_at);
-        if (start && end) return created.isBetween(start, end, "day", "[]");
+        if (start && end) return created.isBetween(start, end, "minute", "[]");
         if (start && !end) return created.isAfter(start);
         if (!start && end) return created.isBefore(end);
         return true;
@@ -122,8 +145,56 @@ export default function LeadsAdmin() {
   const removeFilter = (index) => setFilters(filters.filter((_, i) => i !== index));
   const clearFilters = () => {
     setFilters([{ field: "name", operator: "contains", value: "" }]);
-    setDateFilter({ operator: "thisMonth", startDate: "", endDate: "" });
+    setDateFilter({ operator: "", startDate: "", endDate: "" });
     setFilteredLeads(leads);
+  };
+
+  // CSV Download Logic
+  const downloadCSV = () => {
+    const headers = [
+      "Name",
+      "Phone",
+      "Email",
+      "State",
+      "Machinery",
+      "Landing Page URL",
+      "Created At",
+    ];
+
+    const rows = sortedLeads.map((lead) => [
+      lead.name || "",
+      lead.phone || "",
+      lead.email || "",
+      lead.state || "",
+      lead.machinery || "",
+      lead.landing_page_url || "",
+      lead.created_at ? dayjs(lead.created_at).format("DD MMM YYYY, hh:mm A") : "",
+    ]);
+
+    const csvContent =
+      [headers.join(","), ...rows.map((r) => r.map((v) => `"${v}"`).join(","))].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Leads_${dayjs().format("YYYYMMDD_HHmmss")}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Helpers
+  const renderSortIcon = (key) => {
+    if (sortConfig.key !== key) return <span className="opacity-30 ml-1">⇅</span>;
+    if (sortConfig.direction === "asc") return <span className="ml-1">▲</span>;
+    if (sortConfig.direction === "desc") return <span className="ml-1">▼</span>;
+    return <span className="opacity-30 ml-1">⇅</span>;
+  };
+
+  const truncateUrl = (url, maxLength = 35) => {
+    if (!url) return "-";
+    return url.length > maxLength ? `${url.slice(0, maxLength)}...` : url;
   };
 
   return (
@@ -185,6 +256,7 @@ export default function LeadsAdmin() {
               <option value="state">State</option>
               <option value="machinery">Machinery</option>
               <option value="message">Message</option>
+              <option value="landing_page_url">Landing Page URL</option>
             </select>
 
             <select
@@ -235,11 +307,12 @@ export default function LeadsAdmin() {
             onChange={(e) => setDateFilter({ ...dateFilter, operator: e.target.value })}
             className="border rounded p-2 w-full mb-2 text-sm focus:ring-2 focus:ring-emerald-400"
           >
-            <option value="thisMonth">This Month</option>
-            <option value="lastMonth">Last Month</option>
+            <option value="">All</option>
+            <option value="today">Today</option>
             <option value="thisWeek">This Week</option>
             <option value="lastWeek">Last Week</option>
-            <option value="today">Today</option>
+            <option value="thisMonth">This Month</option>
+            <option value="lastMonth">Last Month</option>
             <option value="on">On</option>
             <option value="before">Before</option>
             <option value="after">After</option>
@@ -251,16 +324,12 @@ export default function LeadsAdmin() {
               <input
                 type="date"
                 className="border rounded p-2 flex-1 text-sm"
-                onChange={(e) =>
-                  setDateFilter({ ...dateFilter, startDate: e.target.value })
-                }
+                onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })}
               />
               <input
                 type="date"
                 className="border rounded p-2 flex-1 text-sm"
-                onChange={(e) =>
-                  setDateFilter({ ...dateFilter, endDate: e.target.value })
-                }
+                onChange={(e) => setDateFilter({ ...dateFilter, endDate: e.target.value })}
               />
             </div>
           )}
@@ -269,9 +338,7 @@ export default function LeadsAdmin() {
             <input
               type="date"
               className="border rounded p-2 w-full text-sm"
-              onChange={(e) =>
-                setDateFilter({ ...dateFilter, startDate: e.target.value })
-              }
+              onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })}
             />
           )}
         </div>
@@ -292,14 +359,23 @@ export default function LeadsAdmin() {
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10 overflow-auto">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Leads</h1>
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium transition"
-          >
-            ☰ Filters
-          </button>
+
+          <div className="flex gap-3">
+            <button
+              onClick={downloadCSV}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium transition"
+            >
+              ⬇️ Download CSV
+            </button>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium transition"
+            >
+              ☰ Filters
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -309,31 +385,58 @@ export default function LeadsAdmin() {
             <table className="w-full text-sm border-collapse">
               <thead className="bg-emerald-100 text-gray-700">
                 <tr>
-                  <th className="border p-2 text-left">Name</th>
-                  <th className="border p-2 text-left">Phone</th>
-                  <th className="border p-2 text-left">Email</th>
-                  <th className="border p-2 text-left">State</th>
-                  <th className="border p-2 text-left">Machinery</th>
-                  <th className="border p-2 text-left">Created At</th>
+                  {[
+                    { key: "name", label: "Name" },
+                    { key: "phone", label: "Phone" },
+                    { key: "email", label: "Email" },
+                    { key: "state", label: "State" },
+                    { key: "machinery", label: "Machinery" },
+                    { key: "landing_page_url", label: "Landing Page URL" },
+                    { key: "created_at", label: "Created At" },
+                  ].map((col) => (
+                    <th
+                      key={col.key}
+                      className="border p-2 text-left cursor-pointer select-none hover:bg-emerald-200 transition"
+                      onClick={() => handleSort(col.key)}
+                    >
+                      {col.label}
+                      {renderSortIcon(col.key)}
+                    </th>
+                  ))}
                 </tr>
               </thead>
+
               <tbody>
-                {filteredLeads.map((lead) => (
+                {sortedLeads.map((lead) => (
                   <tr key={lead.id} className="hover:bg-gray-50 transition">
                     <td className="border p-2">{lead.name}</td>
                     <td className="border p-2">{lead.phone}</td>
                     <td className="border p-2">{lead.email}</td>
                     <td className="border p-2">{lead.state}</td>
                     <td className="border p-2">{lead.machinery}</td>
+                    <td
+                      className="border p-2 text-blue-600 underline"
+                      title={lead.landing_page_url}
+                    >
+                      {lead.landing_page_url ? (
+                        <a href={lead.landing_page_url} target="_blank" rel="noreferrer">
+                          {truncateUrl(lead.landing_page_url)}
+                        </a>
+                      ) : (
+                        "-"
+                      )}
+                    </td>
                     <td className="border p-2">
-                      {dayjs(lead.created_at).format("DD MMM YYYY")}
+                      {lead.created_at
+                        ? dayjs(lead.created_at).format("DD MMM YYYY, hh:mm A")
+                        : "-"}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            {filteredLeads.length === 0 && (
+            {sortedLeads.length === 0 && (
               <p className="text-center py-8 text-gray-500">No leads found</p>
             )}
           </div>
