@@ -16,7 +16,11 @@ export default function LeadsAdmin() {
   const [dateFilter, setDateFilter] = useState({ operator: "", startDate: "", endDate: "" });
   const [filtersApplied, setFiltersApplied] = useState(false);
 
-  // Fetch Leads
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [leadsPerPage, setLeadsPerPage] = useState(100);
+
+  // Fetch leads
   const fetchLeads = async () => {
     setLoading(true);
     const res = await fetch("/api/leads");
@@ -30,12 +34,11 @@ export default function LeadsAdmin() {
     fetchLeads();
   }, []);
 
-  // Sorting Logic
+  // Sorting
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") direction = "desc";
     else if (sortConfig.key === key && sortConfig.direction === "desc") direction = null;
-
     setSortConfig({ key, direction });
   };
 
@@ -46,14 +49,14 @@ export default function LeadsAdmin() {
       const bv = b.created_at ? dayjs(b.created_at).valueOf() : 0;
       return sortConfig.direction === "asc" ? av - bv : bv - av;
     }
-    const aValue = a[sortConfig.key] ? a[sortConfig.key].toString().toLowerCase() : "";
-    const bValue = b[sortConfig.key] ? b[sortConfig.key].toString().toLowerCase() : "";
+    const aValue = a[sortConfig.key]?.toString().toLowerCase() || "";
+    const bValue = b[sortConfig.key]?.toString().toLowerCase() || "";
     if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
     if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
     return 0;
   });
 
-  // Date Range Helper
+  // Date range helper
   const getDateRange = ({ operator, startDate, endDate }) => {
     const now = dayjs();
     switch (operator) {
@@ -88,14 +91,14 @@ export default function LeadsAdmin() {
     }
   };
 
-  // Apply Filters (with automatic reset)
+  // Apply filters
   const applyFilters = () => {
-    setFilteredLeads([]); // reset previous filters
+    setFilteredLeads([]);
     let result = [...leads];
 
     filters.forEach(({ field, operator, value }) => {
       result = result.filter((lead) => {
-        const fieldValue = lead[field] ? lead[field].toString().toLowerCase() : "";
+        const fieldValue = lead[field]?.toString().toLowerCase() || "";
         const val = (value || "").toLowerCase();
         switch (operator) {
           case "equals":
@@ -131,42 +134,34 @@ export default function LeadsAdmin() {
 
     setFilteredLeads(result);
     setFiltersApplied(true);
+    setCurrentPage(1);
     setSidebarOpen(false);
   };
 
-  const addFilter = () =>
-    setFilters([...filters, { field: "name", operator: "contains", value: "" }]);
-  const removeFilter = (index) => setFilters(filters.filter((_, i) => i !== index));
+  const addFilter = () => setFilters([...filters, { field: "name", operator: "contains", value: "" }]);
+  const removeFilter = (i) => setFilters(filters.filter((_, idx) => idx !== i));
   const clearFilters = () => {
     setFilters([{ field: "name", operator: "contains", value: "" }]);
     setDateFilter({ operator: "", startDate: "", endDate: "" });
     setFilteredLeads(leads);
     setFiltersApplied(false);
+    setCurrentPage(1);
   };
 
-  // CSV Download
+  // CSV download
   const downloadCSV = () => {
-    const headers = [
-      "Name",
-      "Phone",
-      "Email",
-      "State",
-      "Machinery",
-      "Landing Page URL",
-      "Created At",
-    ];
-    const rows = sortedLeads.map((lead) => [
-      lead.name || "",
-      lead.phone || "",
-      lead.email || "",
-      lead.state || "",
-      lead.machinery || "",
-      lead.landing_page_url || "",
-      lead.created_at ? dayjs(lead.created_at).format("DD MMM YYYY, hh:mm A") : "",
+    const headers = ["Name", "Phone", "Email", "State", "Machinery", "Landing Page URL", "Created At"];
+    const rows = sortedLeads.map((l) => [
+      l.name || "",
+      l.phone || "",
+      l.email || "",
+      l.state || "",
+      l.machinery || "",
+      l.landing_page_url || "",
+      l.created_at ? dayjs(l.created_at).format("DD MMM YYYY, hh:mm A") : "",
     ]);
-    const csvContent =
-      [headers.join(","), ...rows.map((r) => r.map((v) => `"${v}"`).join(","))].join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const csv = [headers.join(","), ...rows.map((r) => r.map((v) => `"${v}"`).join(","))].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -174,28 +169,28 @@ export default function LeadsAdmin() {
     link.click();
   };
 
-  // Helpers
-  const renderSortIcon = (key) => {
-    if (sortConfig.key !== key) return <span className="opacity-30 ml-1">⇅</span>;
+  // Pagination logic
+  const totalLeads = sortedLeads.length;
+  const totalPages = Math.ceil(totalLeads / leadsPerPage);
+  const startIndex = (currentPage - 1) * leadsPerPage;
+  const displayedLeads = sortedLeads.slice(startIndex, startIndex + leadsPerPage);
+
+  const handlePageChange = (p) => {
+    if (p >= 1 && p <= totalPages) setCurrentPage(p);
+  };
+
+  const truncateUrl = (url, len = 35) => (url ? (url.length > len ? url.slice(0, len) + "..." : url) : "-");
+  const renderSortIcon = (k) => {
+    if (sortConfig.key !== k) return <span className="opacity-30 ml-1">⇅</span>;
     if (sortConfig.direction === "asc") return <span className="ml-1">▲</span>;
     if (sortConfig.direction === "desc") return <span className="ml-1">▼</span>;
     return <span className="opacity-30 ml-1">⇅</span>;
   };
 
-  const truncateUrl = (url, maxLength = 35) => {
-    if (!url) return "-";
-    return url.length > maxLength ? `${url.slice(0, maxLength)}...` : url;
-  };
-
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Overlay (Mobile) */}
-      {sidebarOpen && (
-        <div
-          onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 bg-black/40 z-40 transition-opacity md:hidden"
-        ></div>
-      )}
+      {/* Overlay (mobile) */}
+      {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/40 z-40 md:hidden" />}
 
       {/* Sidebar */}
       <aside
@@ -205,39 +200,18 @@ export default function LeadsAdmin() {
       >
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-xl font-semibold text-emerald-700">Filters</h2>
-          <button
-            className="text-gray-500 text-lg md:hidden hover:text-red-500"
-            onClick={() => setSidebarOpen(false)}
-          >
-            ✕
-          </button>
+          <button className="text-gray-500 md:hidden hover:text-red-500" onClick={() => setSidebarOpen(false)}>✕</button>
         </div>
 
-        {/* Filter Rows */}
-        {filters.map((filter, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 rounded-lg p-3 mb-4 bg-gray-50 shadow-sm transition hover:shadow-md"
-          >
+        {filters.map((f, i) => (
+          <div key={i} className="border border-gray-200 rounded-lg p-3 mb-4 bg-gray-50 shadow-sm hover:shadow-md">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-gray-700">Filter {index + 1}</span>
-              {filters.length > 1 && (
-                <button
-                  onClick={() => removeFilter(index)}
-                  className="text-red-500 text-xs font-medium"
-                >
-                  ✕
-                </button>
-              )}
+              <span className="text-sm font-medium text-gray-700">Filter {i + 1}</span>
+              {filters.length > 1 && <button onClick={() => removeFilter(i)} className="text-red-500 text-xs">✕</button>}
             </div>
-
             <select
-              value={filter.field}
-              onChange={(e) => {
-                const updated = [...filters];
-                updated[index].field = e.target.value;
-                setFilters(updated);
-              }}
+              value={f.field}
+              onChange={(e) => { const u = [...filters]; u[i].field = e.target.value; setFilters(u); }}
               className="border rounded p-2 w-full mb-2 text-sm focus:ring-2 focus:ring-emerald-400"
             >
               <option value="name">Name</option>
@@ -248,14 +222,9 @@ export default function LeadsAdmin() {
               <option value="message">Message</option>
               <option value="landing_page_url">Landing Page URL</option>
             </select>
-
             <select
-              value={filter.operator}
-              onChange={(e) => {
-                const updated = [...filters];
-                updated[index].operator = e.target.value;
-                setFilters(updated);
-              }}
+              value={f.operator}
+              onChange={(e) => { const u = [...filters]; u[i].operator = e.target.value; setFilters(u); }}
               className="border rounded p-2 w-full mb-2 text-sm focus:ring-2 focus:ring-emerald-400"
             >
               <option value="equals">Equals</option>
@@ -265,31 +234,20 @@ export default function LeadsAdmin() {
               <option value="isEmpty">Is Empty</option>
               <option value="isNotEmpty">Is Not Empty</option>
             </select>
-
-            {filter.operator !== "isEmpty" && filter.operator !== "isNotEmpty" && (
+            {f.operator !== "isEmpty" && f.operator !== "isNotEmpty" && (
               <input
                 type="text"
                 placeholder="Value"
-                value={filter.value}
-                onChange={(e) => {
-                  const updated = [...filters];
-                  updated[index].value = e.target.value;
-                  setFilters(updated);
-                }}
+                value={f.value}
+                onChange={(e) => { const u = [...filters]; u[i].value = e.target.value; setFilters(u); }}
                 className="border rounded p-2 w-full text-sm focus:ring-2 focus:ring-emerald-400"
               />
             )}
           </div>
         ))}
+        <button onClick={addFilter} className="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-sm py-2 rounded mb-5">+ Add Filter</button>
 
-        <button
-          onClick={addFilter}
-          className="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-sm py-2 rounded mb-5 transition"
-        >
-          + Add Filter
-        </button>
-
-        {/* Date Filter */}
+        {/* Date filter */}
         <div className="border border-gray-200 rounded-lg p-3 bg-gray-50 shadow-sm mb-5">
           <label className="block text-sm font-medium mb-1 text-gray-700">Created Date</label>
           <select
@@ -308,67 +266,42 @@ export default function LeadsAdmin() {
             <option value="after">After</option>
             <option value="between">Between</option>
           </select>
-
           {dateFilter.operator === "between" && (
             <div className="flex gap-2">
-              <input
-                type="date"
-                className="border rounded p-2 flex-1 text-sm"
-                onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })}
-              />
-              <input
-                type="date"
-                className="border rounded p-2 flex-1 text-sm"
-                onChange={(e) => setDateFilter({ ...dateFilter, endDate: e.target.value })}
-              />
+              <input type="date" className="border rounded p-2 flex-1 text-sm" onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })} />
+              <input type="date" className="border rounded p-2 flex-1 text-sm" onChange={(e) => setDateFilter({ ...dateFilter, endDate: e.target.value })} />
             </div>
           )}
-
           {["on", "before", "after"].includes(dateFilter.operator) && (
-            <input
-              type="date"
-              className="border rounded p-2 w-full text-sm"
-              onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })}
-            />
+            <input type="date" className="border rounded p-2 w-full text-sm" onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })} />
           )}
         </div>
 
         <button
           onClick={applyFilters}
-          className={`w-full ${
-            filtersApplied
-              ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-              : "bg-gray-300 hover:bg-gray-400 text-gray-700"
-          } font-medium py-2 rounded mb-2 transition`}
+          className={`w-full ${filtersApplied ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "bg-gray-300 hover:bg-gray-400 text-gray-700"} font-medium py-2 rounded mb-2`}
         >
           Apply Filters
         </button>
-        <button
-          onClick={clearFilters}
-          className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 rounded transition"
-        >
-          Clear Filters
-        </button>
+        <button onClick={clearFilters} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 rounded">Clear Filters</button>
       </aside>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="flex-1 p-6 md:p-10 overflow-auto">
         <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Leads</h1>
-
-          <div className="flex gap-3">
-            <button
-              onClick={downloadCSV}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium transition"
-            >
-              ⬇️ Download CSV
-            </button>
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium transition"
-            >
-              ☰ Filters
-            </button>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">Leads</h1>
+            <p className="text-gray-600 text-sm mt-1">Showing <span className="font-semibold">{totalLeads}</span> leads</p>
+          </div>
+          <div className="flex gap-3 items-center">
+            <label className="text-sm text-gray-600">
+              Show:
+              <select value={leadsPerPage} onChange={(e) => { setLeadsPerPage(Number(e.target.value)); setCurrentPage(1); }} className="ml-2 border rounded p-1 text-sm">
+                {[20, 50, 100, 200].map((n) => <option key={n} value={n}>{n}</option>)}
+              </select> per page
+            </label>
+            <button onClick={downloadCSV} className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium transition">⬇️ CSV</button>
+            <button onClick={() => setSidebarOpen(true)} className="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-lg shadow-sm font-medium">☰ Filters</button>
           </div>
         </div>
 
@@ -387,51 +320,40 @@ export default function LeadsAdmin() {
                     { key: "machinery", label: "Machinery" },
                     { key: "landing_page_url", label: "Landing Page URL" },
                     { key: "created_at", label: "Created At" },
-                  ].map((col) => (
-                    <th
-                      key={col.key}
-                      className="border p-2 text-left cursor-pointer select-none hover:bg-emerald-200 transition"
-                      onClick={() => handleSort(col.key)}
-                    >
-                      {col.label}
-                      {renderSortIcon(col.key)}
+                  ].map((c) => (
+                    <th key={c.key} onClick={() => handleSort(c.key)} className="border p-2 text-left cursor-pointer select-none hover:bg-emerald-200 transition">
+                      {c.label}
+                      {renderSortIcon(c.key)}
                     </th>
                   ))}
                 </tr>
               </thead>
-
               <tbody>
-                {sortedLeads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-gray-50 transition">
-                    <td className="border p-2">{lead.name}</td>
-                    <td className="border p-2">{lead.phone}</td>
-                    <td className="border p-2">{lead.email}</td>
-                    <td className="border p-2">{lead.state}</td>
-                    <td className="border p-2">{lead.machinery}</td>
-                    <td className="border p-2 text-blue-600 underline" title={lead.landing_page_url}>
-                      {lead.landing_page_url ? (
-                        <a href={lead.landing_page_url} target="_blank" rel="noreferrer">
-                          {truncateUrl(lead.landing_page_url)}
-                        </a>
-                      ) : (
-                        "-"
-                      )}
+                {displayedLeads.map((l) => (
+                  <tr key={l.id} className="hover:bg-gray-50">
+                    <td className="border p-2">{l.name}</td>
+                    <td className="border p-2">{l.phone}</td>
+                    <td className="border p-2">{l.email}</td>
+                    <td className="border p-2">{l.state}</td>
+                    <td className="border p-2">{l.machinery}</td>
+                    <td className="border p-2 text-blue-600 underline" title={l.landing_page_url}>
+                      {l.landing_page_url ? <a href={l.landing_page_url} target="_blank" rel="noreferrer">{truncateUrl(l.landing_page_url)}</a> : "-"}
                     </td>
-                    <td className="border p-2">
-                      {lead.created_at
-                        ? dayjs(lead.created_at).format("DD MMM YYYY, hh:mm A")
-                        : "-"}
-                    </td>
+                    <td className="border p-2">{l.created_at ? dayjs(l.created_at).format("DD MMM YYYY, hh:mm A") : "-"}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-
-            {sortedLeads.length === 0 && (
-              <p className="text-center py-8 text-gray-500">No leads found</p>
-            )}
+            {displayedLeads.length === 0 && <p className="text-center py-8 text-gray-500">No leads found</p>}
           </div>
         )}
+
+        {/* Pagination */}
+        <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 border rounded disabled:opacity-40">← Prev</button>
+          <p>Page <span className="font-semibold">{currentPage}</span> of <span className="font-semibold">{totalPages || 1}</span></p>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 border rounded disabled:opacity-40">Next →</button>
+        </div>
       </main>
     </div>
   );
