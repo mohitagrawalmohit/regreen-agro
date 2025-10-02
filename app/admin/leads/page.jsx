@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+dayjs.extend(isoWeek);
 
 export default function LeadsAdmin() {
   const [leads, setLeads] = useState([]);
@@ -12,6 +14,7 @@ export default function LeadsAdmin() {
 
   const [filters, setFilters] = useState([{ field: "name", operator: "contains", value: "" }]);
   const [dateFilter, setDateFilter] = useState({ operator: "", startDate: "", endDate: "" });
+  const [filtersApplied, setFiltersApplied] = useState(false);
 
   // Fetch Leads
   const fetchLeads = async () => {
@@ -38,27 +41,62 @@ export default function LeadsAdmin() {
 
   const sortedLeads = [...filteredLeads].sort((a, b) => {
     if (!sortConfig.direction) return 0;
+    if (sortConfig.key === "created_at") {
+      const av = a.created_at ? dayjs(a.created_at).valueOf() : 0;
+      const bv = b.created_at ? dayjs(b.created_at).valueOf() : 0;
+      return sortConfig.direction === "asc" ? av - bv : bv - av;
+    }
     const aValue = a[sortConfig.key] ? a[sortConfig.key].toString().toLowerCase() : "";
     const bValue = b[sortConfig.key] ? b[sortConfig.key].toString().toLowerCase() : "";
-    if (sortConfig.key === "created_at") {
-      return sortConfig.direction === "asc"
-        ? dayjs(a.created_at).valueOf() - dayjs(b.created_at).valueOf()
-        : dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf();
-    }
     if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
     if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
     return 0;
   });
 
-  // Filter Logic
+  // Date Range Helper
+  const getDateRange = ({ operator, startDate, endDate }) => {
+    const now = dayjs();
+    switch (operator) {
+      case "today":
+        return [now.startOf("day"), now.endOf("day")];
+      case "thisWeek":
+        return [now.startOf("isoWeek"), now.endOf("isoWeek")];
+      case "lastWeek": {
+        const prev = now.subtract(1, "week");
+        return [prev.startOf("isoWeek"), prev.endOf("isoWeek")];
+      }
+      case "thisMonth":
+        return [now.startOf("month"), now.endOf("month")];
+      case "lastMonth": {
+        const prev = now.subtract(1, "month");
+        return [prev.startOf("month"), prev.endOf("month")];
+      }
+      case "on":
+        if (!startDate) return [null, null];
+        return [dayjs(startDate).startOf("day"), dayjs(startDate).endOf("day")];
+      case "before":
+        if (!startDate) return [null, null];
+        return [null, dayjs(startDate).endOf("day")];
+      case "after":
+        if (!startDate) return [null, null];
+        return [dayjs(startDate).startOf("day"), null];
+      case "between":
+        if (!startDate || !endDate) return [null, null];
+        return [dayjs(startDate).startOf("day"), dayjs(endDate).endOf("day")];
+      default:
+        return [null, null];
+    }
+  };
+
+  // Apply Filters (with automatic reset)
   const applyFilters = () => {
+    setFilteredLeads([]); // reset previous filters
     let result = [...leads];
 
-    filters.forEach((filter) => {
-      const { field, operator, value } = filter;
+    filters.forEach(({ field, operator, value }) => {
       result = result.filter((lead) => {
         const fieldValue = lead[field] ? lead[field].toString().toLowerCase() : "";
-        const val = value.toLowerCase();
+        const val = (value || "").toLowerCase();
         switch (operator) {
           case "equals":
             return fieldValue === val;
@@ -78,78 +116,35 @@ export default function LeadsAdmin() {
       });
     });
 
-    // Date Filters
-    const now = dayjs();
-    let start = null;
-    let end = null;
-
-    switch (dateFilter.operator) {
-      case "thisMonth":
-        start = now.startOf("month");
-        end = now.endOf("month");
-        break;
-      case "lastMonth":
-        start = now.subtract(1, "month").startOf("month");
-        end = now.subtract(1, "month").endOf("month");
-        break;
-      case "thisWeek":
-        start = now.startOf("week");
-        end = now.endOf("week");
-        break;
-      case "lastWeek":
-        start = now.subtract(1, "week").startOf("week");
-        end = now.subtract(1, "week").endOf("week");
-        break;
-      case "today":
-        start = now.startOf("day");
-        end = now.endOf("day");
-        break;
-      case "between":
-        if (dateFilter.startDate && dateFilter.endDate) {
-          start = dayjs(dateFilter.startDate);
-          end = dayjs(dateFilter.endDate);
-        }
-        break;
-      case "on":
-        if (dateFilter.startDate) {
-          start = dayjs(dateFilter.startDate).startOf("day");
-          end = dayjs(dateFilter.startDate).endOf("day");
-        }
-        break;
-      case "before":
-        if (dateFilter.startDate) end = dayjs(dateFilter.startDate).endOf("day");
-        break;
-      case "after":
-        if (dateFilter.startDate) start = dayjs(dateFilter.startDate).startOf("day");
-        break;
-      default:
-        start = null;
-        end = null;
-    }
-
+    const [start, end] = getDateRange(dateFilter);
     if (dateFilter.operator && (start || end)) {
       result = result.filter((lead) => {
-        const created = dayjs(lead.created_at);
-        if (start && end) return created.isBetween(start, end, "minute", "[]");
-        if (start && !end) return created.isAfter(start);
-        if (!start && end) return created.isBefore(end);
+        const t = lead.created_at ? dayjs(lead.created_at).valueOf() : -Infinity;
+        const s = start ? start.valueOf() : null;
+        const e = end ? end.valueOf() : null;
+        if (s !== null && e !== null) return t >= s && t <= e;
+        if (s !== null && e === null) return t >= s;
+        if (s === null && e !== null) return t <= e;
         return true;
       });
     }
 
     setFilteredLeads(result);
+    setFiltersApplied(true);
     setSidebarOpen(false);
   };
 
-  const addFilter = () => setFilters([...filters, { field: "name", operator: "contains", value: "" }]);
+  const addFilter = () =>
+    setFilters([...filters, { field: "name", operator: "contains", value: "" }]);
   const removeFilter = (index) => setFilters(filters.filter((_, i) => i !== index));
   const clearFilters = () => {
     setFilters([{ field: "name", operator: "contains", value: "" }]);
     setDateFilter({ operator: "", startDate: "", endDate: "" });
     setFilteredLeads(leads);
+    setFiltersApplied(false);
   };
 
-  // CSV Download Logic
+  // CSV Download
   const downloadCSV = () => {
     const headers = [
       "Name",
@@ -160,7 +155,6 @@ export default function LeadsAdmin() {
       "Landing Page URL",
       "Created At",
     ];
-
     const rows = sortedLeads.map((lead) => [
       lead.name || "",
       lead.phone || "",
@@ -170,18 +164,14 @@ export default function LeadsAdmin() {
       lead.landing_page_url || "",
       lead.created_at ? dayjs(lead.created_at).format("DD MMM YYYY, hh:mm A") : "",
     ]);
-
     const csvContent =
       [headers.join(","), ...rows.map((r) => r.map((v) => `"${v}"`).join(","))].join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `Leads_${dayjs().format("YYYYMMDD_HHmmss")}.csv`);
-    document.body.appendChild(link);
+    link.href = url;
+    link.download = `Leads_${dayjs().format("YYYYMMDD_HHmmss")}.csv`;
     link.click();
-    document.body.removeChild(link);
   };
 
   // Helpers
@@ -345,7 +335,11 @@ export default function LeadsAdmin() {
 
         <button
           onClick={applyFilters}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded mb-2 transition"
+          className={`w-full ${
+            filtersApplied
+              ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+              : "bg-gray-300 hover:bg-gray-400 text-gray-700"
+          } font-medium py-2 rounded mb-2 transition`}
         >
           Apply Filters
         </button>
@@ -414,10 +408,7 @@ export default function LeadsAdmin() {
                     <td className="border p-2">{lead.email}</td>
                     <td className="border p-2">{lead.state}</td>
                     <td className="border p-2">{lead.machinery}</td>
-                    <td
-                      className="border p-2 text-blue-600 underline"
-                      title={lead.landing_page_url}
-                    >
+                    <td className="border p-2 text-blue-600 underline" title={lead.landing_page_url}>
                       {lead.landing_page_url ? (
                         <a href={lead.landing_page_url} target="_blank" rel="noreferrer">
                           {truncateUrl(lead.landing_page_url)}
