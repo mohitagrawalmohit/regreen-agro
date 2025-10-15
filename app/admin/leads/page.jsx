@@ -21,39 +21,42 @@ export default function LeadsAdmin() {
   const [leadsPerPage, setLeadsPerPage] = useState(100);
 
   // ✅ Fetch leads securely with JWT
-  const fetchLeads = async () => {
-    setLoading(true);
-    const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
+const fetchLeads = async () => {
+  setLoading(true);
+  const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
 
-    if (!token) {
-      alert("Session expired or unauthorized. Please log in again.");
-      window.location.href = "/admin/login";
-      return;
-    }
+  if (!token) {
+    alert("Session expired or unauthorized. Please log in again.");
+    window.location.href = "/admin/login";
+    return;
+  }
 
-    try {
-      const res = await fetch("/api/leads", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/leads`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
+    if (!res.ok) {
       if (res.status === 401 || res.status === 403) {
         alert("Unauthorized or session expired. Please log in again.");
         localStorage.removeItem("admin_token");
         window.location.href = "/admin/login";
         return;
       }
-
-      const data = await res.json();
-      setLeads(data.leads || []);
-      setFilteredLeads(data.leads || []);
-    } catch (err) {
-      console.error("Error fetching leads:", err);
+      throw new Error(`Failed to fetch leads: ${res.statusText}`);
     }
 
+    const data = await res.json();
+    setLeads(data.leads || []);
+    setFilteredLeads(data.leads || []);
+  } catch (err) {
+    console.error("Error fetching leads:", err);
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   useEffect(() => {
     fetchLeads();
