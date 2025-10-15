@@ -196,10 +196,11 @@ export default function LeadsAdmin() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static z-50 bg-white border-r shadow-lg transform transition-all duration-300 ease-in-out
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-        md:w-80 w-72 h-full p-5 overflow-y-auto rounded-r-2xl md:rounded-none`}
-      >
+  className={`sticky top-0 md:static bg-white border-r shadow-lg transform transition-all duration-300 ease-in-out
+  ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+  md:w-80 w-72 h-[calc(100vh-4rem)] p-5 overflow-y-auto rounded-r-2xl md:rounded-none`}
+>
+
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-xl font-semibold text-emerald-700">Filters</h2>
           <button className="text-gray-500 md:hidden hover:text-red-500" onClick={() => setSidebarOpen(false)}>✕</button>
