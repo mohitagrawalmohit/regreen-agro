@@ -5,6 +5,10 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
+router.get("/verify", verifyToken, (req, res) => {
+  res.json({ success: true, user: req.user });
+});
+
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
