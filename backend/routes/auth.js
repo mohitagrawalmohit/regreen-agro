@@ -2,13 +2,8 @@ import express from "express";
 import pool from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
-
-router.get("/verify", verifyToken, (req, res) => {
-  res.json({ success: true, user: req.user });
-});
 
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
