@@ -4,6 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
+import { domainProtection } from "./middleware/domainProtection.js";
 
 import productRoutes from './routes/products.js';
 import categoryRoutes from './routes/categories.js';
@@ -18,6 +19,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(domainProtection); // ✅ apply before routes
 
 // CORS: allow origins from env (comma separated) or allow all for quick testing
 // Example env: ALLOWED_ORIGINS="https://my-vercel-app.vercel.app,http://localhost:3000"
