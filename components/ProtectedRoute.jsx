@@ -11,26 +11,26 @@ export default function ProtectedRoute({ children }) {
     const checkAuth = async () => {
       const token = localStorage.getItem("admin_token");
 
-      // 🚫 No token? redirect to login
+      // 🚫 No token? redirect immediately
       if (!token) {
         router.push("/admin/login");
         return;
       }
 
       try {
-        // ✅ OPTIONAL BACKEND VERIFICATION:
-        // Uncomment if you want to verify token via backend
-        /*
-        const res = await fetch("/api/auth/verify", {
+        // ✅ Verify token with backend
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error("Invalid token");
-        */
 
-        // ✅ If token exists (and optionally valid)
+        if (!res.ok) {
+          throw new Error("Invalid token");
+        }
+
+        // ✅ Token is valid — allow access
         setIsAuthorized(true);
       } catch (error) {
-        console.error("Auth check failed:", error);
+        console.error("Auth verification failed:", error);
         localStorage.removeItem("admin_token");
         router.push("/admin/login");
       }
@@ -39,7 +39,7 @@ export default function ProtectedRoute({ children }) {
     checkAuth();
   }, [router]);
 
-  // While checking authentication, avoid flashing protected content
+  // 🕒 Show loading UI while verifying
   if (!isAuthorized) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
@@ -48,5 +48,6 @@ export default function ProtectedRoute({ children }) {
     );
   }
 
+  // ✅ Render protected content
   return <>{children}</>;
 }

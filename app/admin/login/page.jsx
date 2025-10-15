@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -25,10 +25,14 @@ export default function AdminLoginPage() {
 
       const data = await res.json();
 
-      if (data.success && data.token) {
+      if (res.ok && data.success && data.token) {
         // ✅ Save JWT securely in localStorage
         localStorage.setItem('admin_token', data.token);
-        alert('Login successful!');
+
+        // Optional: show confirmation
+        alert('✅ Login successful! Redirecting...');
+
+        // Redirect to leads or dashboard
         router.push('/admin/leads');
       } else {
         alert(data.error || 'Invalid username or password');
@@ -36,9 +40,9 @@ export default function AdminLoginPage() {
     } catch (error) {
       console.error('Login error:', error);
       alert('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
