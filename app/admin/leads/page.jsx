@@ -195,8 +195,6 @@ export default function LeadsAdmin() {
       {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/40 z-40 md:hidden" />}
 
       {/* Sidebar */}
-      {/* Main */}
-      <main className="flex-1 p-6 md:p-10 overflow-auto">
       <aside
         className={`fixed md:static z-50 bg-white border-r shadow-lg transform transition-all duration-300 ease-in-out
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
@@ -290,7 +288,8 @@ export default function LeadsAdmin() {
         <button onClick={clearFilters} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 rounded">Clear Filters</button>
       </aside>
 
-      
+      {/* Main */}
+      <main className="flex-1 p-6 md:p-10 overflow-auto">
         <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">Leads</h1>
