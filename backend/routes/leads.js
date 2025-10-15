@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import pool from "../db.js";
-import { verifyToken } from "../middleware/authMiddleware.js";
+
 
 
 // ========================
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 // ========================
 // GET /api/leads  →  Get all leads
 // ========================
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT id, name, email, phone, state, machinery, message, landing_page_url, created_at
