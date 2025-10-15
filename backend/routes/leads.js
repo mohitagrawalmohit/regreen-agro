@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
 // ========================
 // Optional: GET /api/leads/:id  →  Get a specific lead by ID
 // ========================
-router.get('/:id',verifyToken,  async (req, res) => {
+router.get('/:id',  async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
