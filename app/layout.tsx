@@ -4,7 +4,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
-
 import Footer from "@/components/Footer";
 import PageLoaderWrapper from "@/components/PageLoaderWrapper";
 import { Toaster } from "sonner";
