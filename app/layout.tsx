@@ -4,6 +4,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import useMetaPixel from "@/lib/useMetaPixel";
 import Footer from "@/components/Footer";
 import PageLoaderWrapper from "@/components/PageLoaderWrapper";
 import { Toaster } from "sonner";
@@ -16,11 +17,14 @@ export const metadata: Metadata = {
   description: "Buy the best agricultural machinery online",
 };
 
+
+  
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useMetaPixel();
   return (
     <html lang="en">
       <head>
