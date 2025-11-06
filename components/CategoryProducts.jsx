@@ -12,6 +12,56 @@ import categoryContent from '@/components/categorySeoContent';
 
 
 const categories = ["All","Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Power Reaper","Miscellaneous", "Power & Engines","Accessories & Attachment"];
+const bannerImages = {
+  "All": {
+    mobile: "/categorybanners-mobile/ALL.png",
+    desktop: "/categorybanners-desk/ALL.png",
+  },
+  "Earth Auger": {
+    mobile: "/categorybanners-mobile/EARTH AUGERS.png",
+    desktop: "/categorybanners-desk/EARTH AUGERS.png",
+  },
+  "Power Weeder & Tiller": {
+    mobile: "/categorybanners-mobile/POWER WEEDER & TILLER.png",
+    desktop: "/categorybanners-desk/POWER WEEDER & TILLER.png",
+  },
+  "Pumps & Irrigation": {
+    mobile: "/categorybanners-mobile/Pumps & Irrigation.png",
+    desktop: "/categorybanners-desk/Pumps & Irrigation.png",
+  },
+  "Sprayers & Crop Protection": {
+    mobile: "/categorybanners-mobile/Sprayers & Crop Protection.png",
+    desktop: "/categorybanners-desk/Sprayers & Crop Protection.png",
+  },
+  "Harvesting Machinery": {
+    mobile: "/categorybanners-mobile/Harvesting Machinery.png",
+    desktop: "/categorybanners-desk/Harvesting Machinery.png",
+  },
+  "Post Harvesting": {
+    mobile: "/categorybanners-mobile/Post Harvesting.png",
+    desktop: "/categorybanners-desk/Post Harvesting.png",
+  },
+  "Lawn Mower & Gardening Tools": {
+    mobile: "/categorybanners-mobile/Lawn Mower & Gardening Tools.png",
+    desktop: "/categorybanners-desk/Lawn Mower & Gardening Tools.png",
+  },
+  "Power Reaper": {
+    mobile: "/categorybanners-mobile/Power Reaper.png",
+    desktop: "/categorybanners-desk/Power Reaper.png",
+  },
+   "Miscellaneous": {
+    mobile: "/categorybanners-mobile/Miscellaneous.png",
+    desktop: "/categorybanners-desk/Miscellaneous.png",
+  },
+   "Power & Engines": {
+    mobile: "/categorybanners-mobile/Power & Engines.png",
+    desktop: "/categorybanners-desk/Power & Engines.png",
+  },
+   "Accessories & Attachment": {
+    mobile: "/categorybanners-mobile/Accessories & Attachment.png",
+    desktop: "/categorybanners-desk/Accessories & Attachment.png",
+  },
+};
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
@@ -99,6 +149,7 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
     document.removeEventListener('mousedown', handleClickOutside);
   };
 }, []);
+const currentBanner = bannerImages[selectedCategory] || bannerImages["All"];
 
   return (
     <main className="min-h-screen">
@@ -172,42 +223,48 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
 </h2>
 
 
-        {/* Banner */}
-        <section className="relative w-full h-auto md:h-[300px] bg-[url('/hardworkingman.png')] bg-cover bg-center bg-no-repeat overflow-hidden mb-4 md:mb-6">
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/70 z-10" />
+        {/* Dynamic Category Banner */}
+<section className="relative w-full overflow-hidden mb-4 md:mb-6">
 
-  {/* Content Grid */}
-  <div className="relative z-10 grid grid-cols-1 md:grid-cols-[1fr_1fr] h-full px-4 md:px-30 items-center md:items-start gap-6 md:gap-0 py-3 md:py-10">
-    
-    {/* Left Column: Text and Logo */}
-    <div className="flex flex-col items-center md:items-start gap-2">
-      <img
-        src="/aiva2.png"
-        alt="Hero Graphic"
-        className="w-16 h-16 md:w-20 md:h-20 object-contain"
-      />
-      <h1 className="text-sm md:text-[30px] font-bold leading-tight text-center md:text-left">
-        <span className="text-[#2cd882]">AIVA ITALY:</span>{" "}
-        <span className="text-white">
-          High-Performance Weeders & Rotavators
-        </span>
-      </h1>
-    </div>
+  {/* Desktop Banner */}
+  <div className="hidden md:block relative">
+    <img
+      src={currentBanner.desktop}
+      alt={`${selectedCategory} Banner`}
+      className="w-full h-[300px] object-cover"
+    />
 
-    {/* Right Column: Hindi Title + Button */}
-    <div className="flex flex-col items-center md:items-start gap-4 md:pl-50">
-      <h1 className="text-sm md:text-[30px] font-bold leading-tight text-center md:text-left text-white">
-        <span className="text-[#2cd882]">भारत का सर्वश्रेष्ठ 3 इन 1 वीडर</span>
-      </h1>
-<a href="#contact" className=" md:px-15 px-12 md:py-2 py-2 w-full max-w-[200px] md:max-w-[280px] md:h-[40px] h-[30px] text-[12px] md:text-[18px] font-semibold bg-[#F29728] hover:bg-[#30BB7E] text-white rounded-[7px] shadow transition">
-      
+    {/* Desktop Button - Right Side */}
+    <div className="absolute inset-0 flex justify-end items-center pr-12">
+      <a
+        href="#contact"
+        className="px-6 py-3 bg-[#F29728] hover:bg-[#30BB7E] text-white font-semibold rounded-md shadow-md transition"
+      >
         Send Us A Query
-      
+      </a>
+    </div>
+  </div>
+
+  {/* Mobile Banner */}
+  <div className="block md:hidden relative">
+    <img
+      src={currentBanner.mobile}
+      alt={`${selectedCategory} Banner`}
+      className="w-full h-[200px] object-cover"
+    />
+
+    {/* Mobile Button - Center */}
+    <div className="absolute inset-0 flex justify-center items-end pb-5">
+      <a
+        href="#contact"
+        className="px-4 py-2 bg-[#F29728] hover:bg-[#30BB7E] text-white text-sm font-semibold rounded-md shadow-md transition"
+      >
+        Send Us A Query
       </a>
     </div>
   </div>
 </section>
+
 
 
         
