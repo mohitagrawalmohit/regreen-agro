@@ -64,6 +64,58 @@ const bannerImages = {
 };
 
 
+const categoryText = {
+  "All": {
+    headline: "Explore Our Full Range",
+    tagline: "Top-quality equipment for every farming need.",
+  },
+  "Earth Auger": {
+    headline: "Plant and Grow Crops Faster With Farm-Grade Earth Augers",
+    tagline: "अब पौधे लगाना आसान — फार्मर ग्रेड अर्थ ऑगर के साथ खेती में रफ़्तार लाइए",
+  },
+  "Power Weeder & Tiller": {
+    headline: "AIVA ITALY: High-Performance Weeders & Rotavators",
+    tagline: "भारत का सर्वश्रेष्ठ 3 इन 1 वीडर",
+  },
+  "Sprayers & Crop Protection": {
+    headline: "Sprayers & Crop Protection Equipment for Indian Farmers",
+    tagline: "फसल बचाइए, मेहनत का फल पाइए – सही स्प्रेयर चुनिए",
+  },
+  "Pumps & Irrigation": {
+    headline: "Farm Water Pumps & Irrigation Solutions for Indian Farmers",
+    tagline: "मजबूती और भरोसे का पंप – हर खेत में पानी, हर किसान को राहत!",
+  },
+  "Power Reaper": {
+    headline: "Utility & Farm Equipment Designed for India",
+    tagline: "खेत से घर तक – हर काम के लिए एक समाधान",
+  },
+  "Post Harvesting": {
+    headline: "Flour Mills, Rice Mills, Threshers & Chaff Cutters – Built for Indian Farmers",
+    tagline: "चावल मिल, आटा मिल, थ्रेशर और चारा कटर – आपकी खेती का अगला मजबूत कदम",
+  },
+  "Harvesting Machinery": {
+    headline: "Harvesting Machinery for Indian Farmers",
+    tagline: "भारतीय किसानों के लिए आधुनिक हार्वेस्टिंग मशीनें – AIVA Italy से",
+  },
+  "Power & Engines": {
+    headline: "Petrol & Diesel Engines, Power You Can Trust, Built by AIVA Italy",
+    tagline: "हर खेत की ताकत – पेट्रोल और डीज़ल इंजन",
+  },
+  "Lawn Mower & Gardening Tools": {
+    headline: "Lawn Mowers & Gardening Tools for Every Indian Farmer",
+    tagline: "हर राज्य, हर किसान, हर ज़रूरत के लिए – भरोसेमंद कृषि उपकरण",
+  },
+  "Miscellaneous": {
+    headline: "All-Season, All-Purpose Power Machines – by AIVA Italy.",
+    tagline: "(Wool Clippers | Wood Chipper | Snow Thrower | Car Washer)",
+  },
+  "Accessories & Attachment": {
+    headline: "Explore Our Full Range",
+    tagline: "Top-quality equipment for every farming need.",
+  },
+  // ✅ Add similar text for other categories...
+};
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 
@@ -161,6 +213,8 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
   };
 }, []);
 const currentBanner = bannerImages[selectedCategory] || bannerImages["All"];
+const currentText = categoryText[selectedCategory] || categoryText["All"];
+
 // Auto-scroll selected pill into view after page reload
 useEffect(() => {
   setTimeout(() => {
@@ -251,42 +305,84 @@ useEffect(() => {
 <section className="relative w-full overflow-hidden mb-4 md:mb-6">
 
   {/* Desktop Banner */}
-  <div className="hidden md:block relative">
-    <img
-      src={currentBanner.desktop}
-      alt={`${selectedCategory} Banner`}
-      className="w-full h-[300px] object-cover"
-    />
+<div className="hidden md:block relative h-[300px] w-full overflow-hidden">
+  <img
+    src={currentBanner.desktop}
+    alt={`${selectedCategory} Banner`}
+    className="w-full h-full object-cover"
+  />
 
-    {/* Desktop Button - Right Side */}
-    <div className="absolute inset-0 flex justify-end items-center pr-60 pt-40">
-      <a
-        href="#contact"
-        className="px-16 py-3 bg-[#F29728] hover:bg-[#30BB7E] text-white font-semibold rounded-md shadow-md transition"
-      >
-        Send Us A Query
-      </a>
-    </div>
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/50 z-10" />
+
+  {/* Headline & Tagline Left */}
+  <div className="absolute top-1/2 left-30 -translate-y-1/2 z-20 text-left">
+    <h1 className="text-white font-bold text-3xl mb-2">
+      {currentText.headline}
+    </h1>
+    <br/>
+    <p className="text-[#30BB7E] text-xl max-w-lg font-semibold">
+      {currentText.tagline}
+    </p>
   </div>
 
-  {/* Mobile Banner */}
-  <div className="block md:hidden relative">
-    <img
-      src={currentBanner.mobile}
-      alt={`${selectedCategory} Banner`}
-      className="w-full h-[200px] object-cover"
-    />
+  {/* Image + Button Right */}
+<div className="absolute top-1/2 right-30 -translate-y-1/2 z-20 flex flex-col items-center gap-4">
 
-    {/* Mobile Button - Center */}
-    <div className="absolute inset-0 flex justify-center items-end pb-5">
-      <a
-        href="#contact"
-        className="px-6 py-1 bg-[#F29728] hover:bg-[#30BB7E] text-white text-sm font-semibold rounded-md shadow-md transition"
-      >
-        Send Us A Query
-      </a>
-    </div>
+  {/* ✅ Image Above Button */}
+  <img
+    src="/aiva2.png"   // <-- replace with your image path
+    alt="Category Graphic"
+    className="w-20 h-20 object-contain"
+  />
+
+  {/* ✅ Button */}
+  <a
+    href="#contact"
+    className="px-16 py-3 bg-[#F29728] hover:bg-[#30BB7E] text-white font-semibold rounded-md shadow-md transition"
+  >
+    Send Us A Query
+  </a>
+</div>
+</div>
+
+ {/* Mobile Banner */}
+{/* Mobile Banner */}
+<div className="block md:hidden relative ">
+  <img
+    src={currentBanner.mobile}
+    alt={`${selectedCategory} Banner`}
+    className="w-full h-[220px] object-cover"
+  />
+
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/60 z-10" />
+
+  {/* Text + Button */}
+
+  <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4 mb-2 ">
+    <img
+    src="/aiva2.png"   // <-- replace with your image path
+    alt="Category Graphic"
+    className="w-15 h-15 object-contain"
+  />
+    <h1 className="text-white font-bold text-md mb-1">
+      {currentText.headline}
+    </h1>
+    <br/>
+    <p className="text-[#30BB7E] text-sm mb-2">
+      {currentText.tagline}
+    </p>
+
+    <a
+      href="#contact"
+      className="px-6 py-1 bg-[#F29728] hover:bg-[#30BB7E] text-white text-sm font-semibold rounded-md shadow-md transition"
+    >
+      Send Us A Query
+    </a>
   </div>
+</div>
+
 </section>
 
 
