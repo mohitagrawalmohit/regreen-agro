@@ -14,52 +14,52 @@ import categoryContent from '@/components/categorySeoContent';
 const categories = ["All","Power Weeder & Tiller","Earth Auger", "Pumps & Irrigation", "Sprayers & Crop Protection","Harvesting Machinery","Post Harvesting", "Lawn Mower & Gardening Tools","Power Reaper","Miscellaneous", "Power & Engines","Accessories & Attachment"];
 const bannerImages = {
   "All": {
-    mobile: "/categorybanners-mobile/ALL.png",
-    desktop: "/categorybanners-desk/ALL.png",
+    mobile: "/categorybanners-mobile/ALL.webp",
+    desktop: "/categorybanners-desk/ALL.webp",
   },
   "Earth Auger": {
-    mobile: "/categorybanners-mobile/EARTH AUGERS.png",
-    desktop: "/categorybanners-desk/EARTH AUGERS.png",
+    mobile: "/categorybanners-mobile/EARTH AUGERS.webp",
+    desktop: "/categorybanners-desk/EARTH AUGERS.webp",
   },
   "Power Weeder & Tiller": {
-    mobile: "/categorybanners-mobile/POWER WEEDER & TILLER.png",
-    desktop: "/categorybanners-desk/POWER WEEDER & TILLER.png",
+    mobile: "/categorybanners-mobile/POWER WEEDER & TILLER.webp",
+    desktop: "/categorybanners-desk/POWER WEEDER & TILLER.webp",
   },
   "Pumps & Irrigation": {
-    mobile: "/categorybanners-mobile/Pumps & Irrigation.png",
-    desktop: "/categorybanners-desk/Pumps & Irrigation.png",
+    mobile: "/categorybanners-mobile/Pumps & Irrigation.webp",
+    desktop: "/categorybanners-desk/Pumps & Irrigation.webp",
   },
   "Sprayers & Crop Protection": {
-    mobile: "/categorybanners-mobile/Sprayers & Crop Protection.png",
-    desktop: "/categorybanners-desk/Sprayers & Crop Protection.png",
+    mobile: "/categorybanners-mobile/Sprayers & Crop Protection.webp",
+    desktop: "/categorybanners-desk/Sprayers & Crop Protection.webp",
   },
   "Harvesting Machinery": {
-    mobile: "/categorybanners-mobile/Harvesting Machinery.png",
-    desktop: "/categorybanners-desk/Harvesting Machinery.png",
+    mobile: "/categorybanners-mobile/Harvesting Machinery.webp",
+    desktop: "/categorybanners-desk/Harvesting Machinery.webp",
   },
   "Post Harvesting": {
-    mobile: "/categorybanners-mobile/Post Harvesting.png",
-    desktop: "/categorybanners-desk/Post Harvesting.png",
+    mobile: "/categorybanners-mobile/Post Harvesting.webp",
+    desktop: "/categorybanners-desk/Post Harvesting.webp",
   },
   "Lawn Mower & Gardening Tools": {
-    mobile: "/categorybanners-mobile/Lawn Mower & Gardening Tools.png",
-    desktop: "/categorybanners-desk/Lawn Mower & Gardening Tools.png",
+    mobile: "/categorybanners-mobile/Lawn Mower & Gardening Tools.webp",
+    desktop: "/categorybanners-desk/Lawn Mower & Gardening Tools.webp",
   },
   "Power Reaper": {
-    mobile: "/categorybanners-mobile/Power Reaper.png",
-    desktop: "/categorybanners-desk/Power Reaper.png",
+    mobile: "/categorybanners-mobile/Power Reaper.webp",
+    desktop: "/categorybanners-desk/Power Reaper.webp",
   },
    "Miscellaneous": {
-    mobile: "/categorybanners-mobile/Miscellaneous.png",
-    desktop: "/categorybanners-desk/Miscellaneous.png",
+    mobile: "/categorybanners-mobile/Miscellaneous.webp",
+    desktop: "/categorybanners-desk/Miscellaneous.webp",
   },
    "Power & Engines": {
-    mobile: "/categorybanners-mobile/Power & Engines.png",
-    desktop: "/categorybanners-desk/Power & Engines.png",
+    mobile: "/categorybanners-mobile/Power & Engines.webp",
+    desktop: "/categorybanners-desk/Power & Engines.webp",
   },
    "Accessories & Attachment": {
-    mobile: "/categorybanners-mobile/Accessories & Attachment.png",
-    desktop: "/categorybanners-desk/Accessories & Attachment.png",
+    mobile: "/categorybanners-mobile/Accessories & Attachment.webp",
+    desktop: "/categorybanners-desk/Accessories & Attachment.webp",
   },
 };
 
@@ -72,6 +72,8 @@ export default function CategoryProducts() {
   const router = useRouter();
   const params = useParams();
   const category = decodeURIComponent(params.category || 'All');
+  const categoryRefs = useRef({});
+
 
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [searchTerm, setSearchTerm] = useState('');
@@ -114,14 +116,23 @@ const onSelect = (cat) => {
   setSearchTerm('');
   setShowDropdown(false);
 
-  if (cat === "All") {
+ if (cat === "All") {
     router.push(`/category/All`);
   } else {
     router.push(`/category/${encodeURIComponent(cat)}`);
   }
+
+
+setTimeout(() => {
+    if (categoryRefs.current[cat]) {
+      categoryRefs.current[cat].scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, 100);
 };
-
-
   
 
   const filteredProducts =
@@ -150,6 +161,18 @@ console.log("CategoryContent Keys:", Object.keys(categoryContent));
   };
 }, []);
 const currentBanner = bannerImages[selectedCategory] || bannerImages["All"];
+// Auto-scroll selected pill into view after page reload
+useEffect(() => {
+  setTimeout(() => {
+    if (categoryRefs.current[selectedCategory]) {
+      categoryRefs.current[selectedCategory].scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, 200);
+}, [selectedCategory]);
 
   return (
     <main className="min-h-screen">
@@ -181,25 +204,26 @@ const currentBanner = bannerImages[selectedCategory] || bannerImages["All"];
   </button>
 
   {/* Scrollable Pills */}
-  <div
-    id="cat-scroll"
-    className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide px-10 scroll-smooth flex-nowrap"
-  >
-    {categories.map((cat) => (
-      <button
-        key={cat}
-        onClick={() => onSelect(cat)}
-        className={`whitespace-nowrap px-2 py-1 md:px-4 md:py-2 rounded-full border text-[12px] md:text-base transition-all duration-200
-          ${
-            selectedCategory === cat
-              ? "bg-[#F29728] text-green-900 border-[#F29728]"
-              : "border-[#F29728] text-white hover:bg-[#F29728]"
-          }`}
-      >
-        {cat}
-      </button>
-    ))}
-  </div>
+ <div
+  id="cat-scroll"
+  className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide px-10 scroll-smooth flex-nowrap"
+>
+  {categories.map((cat) => (
+    <button
+      key={cat}
+      ref={(el) => (categoryRefs.current[cat] = el)}
+      onClick={() => onSelect(cat)}
+      className={`whitespace-nowrap px-2 py-1 md:px-4 md:py-2 rounded-full border text-[12px] md:text-base transition-all duration-200
+        ${
+          selectedCategory === cat
+            ? "bg-[#F29728] text-green-900 border-[#F29728]"
+            : "border-[#F29728] text-white hover:bg-[#F29728]"
+        }`}
+    >
+      {cat}
+    </button>
+  ))}
+</div>
 
   {/* Right Arrow */}
   <button
@@ -235,10 +259,10 @@ const currentBanner = bannerImages[selectedCategory] || bannerImages["All"];
     />
 
     {/* Desktop Button - Right Side */}
-    <div className="absolute inset-0 flex justify-end items-center pr-12">
+    <div className="absolute inset-0 flex justify-end items-center pr-60 pt-40">
       <a
         href="#contact"
-        className="px-6 py-3 bg-[#F29728] hover:bg-[#30BB7E] text-white font-semibold rounded-md shadow-md transition"
+        className="px-16 py-3 bg-[#F29728] hover:bg-[#30BB7E] text-white font-semibold rounded-md shadow-md transition"
       >
         Send Us A Query
       </a>
@@ -257,7 +281,7 @@ const currentBanner = bannerImages[selectedCategory] || bannerImages["All"];
     <div className="absolute inset-0 flex justify-center items-end pb-5">
       <a
         href="#contact"
-        className="px-4 py-2 bg-[#F29728] hover:bg-[#30BB7E] text-white text-sm font-semibold rounded-md shadow-md transition"
+        className="px-6 py-1 bg-[#F29728] hover:bg-[#30BB7E] text-white text-sm font-semibold rounded-md shadow-md transition"
       >
         Send Us A Query
       </a>
