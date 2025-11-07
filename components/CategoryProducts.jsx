@@ -67,7 +67,7 @@ const bannerImages = {
 const categoryText = {
   "All": {
     headline: "Explore Our Full Range",
-    tagline: "Top-quality equipment for every farming need.",
+    tagline: "Top-quality equipment for every farmer's need.",
   },
   "Earth Auger": {
     headline: "Plant and Grow Crops Faster With Farm-Grade Earth Augers",
@@ -111,7 +111,7 @@ const categoryText = {
   },
   "Accessories & Attachment": {
     headline: "Explore Our Full Range",
-    tagline: "Top-quality equipment for every farming need.",
+    tagline: "Top-quality equipment for every farmer's need.",
   },
   // ✅ Add similar text for other categories...
 };
@@ -360,7 +360,7 @@ useEffect(() => {
 
   {/* Text + Button */}
 
-  <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4 mb-2 ">
+  <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4 mb-1 ">
     <img
     src="/aiva2.png"   // <-- replace with your image path
     alt="Category Graphic"
@@ -369,8 +369,8 @@ useEffect(() => {
     <h1 className="text-white font-bold text-md mb-1">
       {currentText.headline}
     </h1>
-    <br/>
-    <p className="text-[#30BB7E] text-sm mb-2">
+    
+    <p className="text-[#30BB7E] text-sm mb-5">
       {currentText.tagline}
     </p>
 
