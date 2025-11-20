@@ -95,25 +95,25 @@ export default function ProductPage() {
 
   {/* Free Express Delivery */}
   <div className="flex flex-col items-center justify-center text-center gap-1">
-    <Image src="/free-delivery.png" alt="delivery" width={40} height={40} />
+    <Image src="/free-delivery.png" alt="delivery" width={32} height={32} />
     <span>Free Express Delivery</span>
   </div>
 
   {/* Longer Machine Life */}
   <div className="flex flex-col items-center justify-center text-center gap-1">
-    <Image src="/longer-life.png" alt="machine life" width={40} height={40} />
+    <Image src="/longer-life.png" alt="machine life" width={32} height={32} />
     <span>2× Longer Machine Life</span>
   </div>
 
   {/* After Sales Support */}
   <div className="flex flex-col items-center justify-center text-center gap-1">
-    <Image src="/after-sales.png" alt="after sales" width={40} height={40} />
+    <Image src="/after-sales.png" alt="after sales" width={32} height={32} />
     <span>After-Sales Support</span>
   </div>
 
   {/* 100% Quality Assurance */}
   <div className="flex flex-col items-center justify-center text-center gap-1">
-    <Image src="/quality.png" alt="quality" width={40} height={40} />
+    <Image src="/quality.png" alt="quality" width={32} height={32} />
     <span>100% Quality Assurance</span>
   </div>
 
