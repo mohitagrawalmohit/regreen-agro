@@ -92,27 +92,33 @@ export default function ProductPage() {
           <ProductImageGallery product={product} />
 
           <div className="flex justify-center gap-6 text-white text-[14px] sm:text-[16px] mt-2 flex-wrap">
-            <div className="flex items-center gap-1">
-              <Image // CHANGED HERE ✅
-                src="/warrenty.png"
-                alt="warranty"
-                width={32}
-                height={32}
-                className="w-6 h-6 sm:w-8 sm:h-8"
-              />
-              <span>6 Months Warranty</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Image // CHANGED HERE ✅
-                src="/return.png"
-                alt="return"
-                width={32}
-                height={32}
-                className="w-6 h-6 sm:w-8 sm:h-8"
-              />
-              <span>Technical Support</span>
-            </div>
-          </div>
+  
+  {/* Free Express Delivery */}
+  <div className="flex items-center gap-1">
+    <Image src="/free-delivery.webp" alt="delivery" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <span>Free Express Delivery</span>
+  </div>
+
+  {/* Longer Machine Life */}
+  <div className="flex items-center gap-1">
+    <Image src="/longer-life.webp" alt="machine life" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <span>2× Longer Machine Life</span>
+  </div>
+
+  {/* After Sales Support */}
+  <div className="flex items-center gap-1">
+    <Image src="/after-sales.webp" alt="after sales" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <span>After-Sales Support</span>
+  </div>
+
+  {/* 100% Quality Assurance */}
+  <div className="flex items-center gap-1">
+    <Image src="/quality.webp" alt="quality" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <span>100% Quality Assurance</span>
+  </div>
+
+</div>
+
 
           <div className="flex justify-center gap-2 items-baseline text-[16px] sm:text-[18px] mt-2 flex-wrap">
             <span className="text-white font-bold">₹{product.price}</span>
