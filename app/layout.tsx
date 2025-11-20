@@ -8,6 +8,8 @@
   import PageLoaderWrapper from "@/components/PageLoaderWrapper";
   import { Toaster } from "sonner";
   import Script from "next/script"; // ✅ Import Script
+  import FlashTopBar from "@/components/FlashTopBar";
+
 
   const inter = Inter({ subsets: ["latin"] });
 
@@ -94,6 +96,8 @@
           </noscript>
 
           <PageLoaderWrapper>
+             <FlashTopBar/>
+
             <Navbar />
             
             <a
