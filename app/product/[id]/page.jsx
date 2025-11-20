@@ -95,25 +95,25 @@ export default function ProductPage() {
   
   {/* Free Express Delivery */}
   <div className="flex items-center gap-1">
-    <Image src="/free-delivery.webp" alt="delivery" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <Image src="/free-delivery.png" alt="delivery" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
     <span>Free Express Delivery</span>
   </div>
 
   {/* Longer Machine Life */}
   <div className="flex items-center gap-1">
-    <Image src="/longer-life.webp" alt="machine life" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <Image src="/longer-life.png" alt="machine life" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
     <span>2× Longer Machine Life</span>
   </div>
 
   {/* After Sales Support */}
   <div className="flex items-center gap-1">
-    <Image src="/after-sales.webp" alt="after sales" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <Image src="/after-sales.png" alt="after sales" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
     <span>After-Sales Support</span>
   </div>
 
   {/* 100% Quality Assurance */}
   <div className="flex items-center gap-1">
-    <Image src="/quality.webp" alt="quality" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+    <Image src="/quality.png" alt="quality" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
     <span>100% Quality Assurance</span>
   </div>
 
@@ -204,7 +204,7 @@ export default function ProductPage() {
                 </div>
                 {/* Free Express Delivery */}
 <div className="flex items-center pl-0 sm:pl-16 text-white mb-1">
-  <Image src="/free-delivery.webp" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <Image src="/free-delivery.png" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
 </div>
 <div className="flex items-left pl-0 sm:pl-8 text-white mb-1">
   <span>Free Express Delivery</span>
@@ -212,7 +212,7 @@ export default function ProductPage() {
 
 {/* Longer Machine Life */}
 <div className="flex items-center pl-0 sm:pl-16 text-white mb-1">
-  <Image src="/longer-life.webp" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <Image src="/longer-life.png" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
 </div>
 <div className="flex items-left pl-0 sm:pl-8 text-white mb-1">
   <span>2× Longer Machine Life</span>
@@ -220,7 +220,7 @@ export default function ProductPage() {
 
 {/* After-Sales Support */}
 <div className="flex items-center pl-0 sm:pl-16 text-white mb-1">
-  <Image src="/after-sales.webp" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <Image src="/after-sales.png" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
 </div>
 <div className="flex items-left pl-0 sm:pl-8 text-white mb-1">
   <span>After-Sales Support</span>
@@ -228,7 +228,7 @@ export default function ProductPage() {
 
 {/* 100% Quality Assurance */}
 <div className="flex items-center pl-0 sm:pl-16 text-white mb-1">
-  <Image src="/quality.webp" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <Image src="/quality.png" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
 </div>
 <div className="flex items-left pl-0 sm:pl-8 text-white mb-1">
   <span>100% Quality Assurance</span>
