@@ -6,20 +6,26 @@ export default function About() {
     <main className="min-h-screen ">
     <div className="w-full">
       {/* Hero Section */}
-        <div
-  className="relative  w-full  bg-cover bg-center bg-no-repeat text-white mx-auto
-             bg-[url('/aboutusHero.png')] ">
-  
-      <div className="text-center  pt-60 pb-30">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl  text-green-700 mb-4">
-          About Us
-        </h1>
-        <p className="text-base sm:text-lg md:text-xl text-gray-600">
-          Welcome to <span className="font-semibold text-green-400">AIVA ITALY</span> {"–"} Powered by{" "}
-          <span className="font-semibold">Regreen Agro</span>
-        </p>
-      </div>
-      </div>
+       <div
+  className="relative w-full bg-cover bg-center bg-no-repeat text-white"
+  style={{ backgroundImage: "url('/aboutusHero.png')" }}
+>
+  {/* Dark overlay for readability */}
+  <div className="absolute inset-0 bg-black/40"></div>
+
+  {/* Content */}
+  <div className="relative z-10 flex flex-col items-center text-center py-40 sm:py-48 md:py-52">
+    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
+      About Us
+    </h1>
+
+    <p className="mt-4 max-w-2xl text-lg sm:text-xl md:text-2xl text-gray-100">
+      Welcome to <span className="font-semibold text-green-400">AIVA ITALY</span>{" "}
+      – Powered by <span className="font-semibold text-white">Regreen Agro</span>
+    </p>
+  </div>
+</div>
+
 
       
 
@@ -101,52 +107,60 @@ export default function About() {
       </div>
 
       {/* Why Farmers Choose Us */}
-<div className="bg-gray-50 py-0">
-  <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-1 items-center">
-    {/* Text Section */}
+<div className="relative bg-gray-50 py-14 md:py-20 overflow-hidden">
+  
+  {/* Farmer Image Absolute (touching bottom) */}
+  <div className="hidden md:block absolute bottom--5 right-10 z-0">
+    <Image
+      src="/farmer.png"
+      alt="Farmer"
+      width={500}
+      height={500}
+      className="object-contain"
+    />
+  </div>
+
+  {/* Content Grid (on top) */}
+  <div className="relative z-10 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-start">
+
+    {/* LEFT — TEXT SECTION */}
     <div>
-      <h3 className="text-3xl font-bold mb-10">
-        Why Farmers <span className="text-green-500">Choose Us</span>
+      <h3 className="text-2xl md:text-4xl font-bold mb-10 leading-snug">
+        Why Farmers <span className="text-green-600">Choose Us</span>
       </h3>
+
       <div className="space-y-6">
-        {/* Box 1 */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex items-start gap-4 w-[90%]">
-          <span className="text-green-500 text-2xl">✔</span>
-          <p>
+
+        <div className="bg-white p-6 rounded-xl shadow-md flex items-start gap-4">
+          <span className="text-green-600 text-2xl">✔</span>
+          <p className="text-gray-700">
             <strong>Designed for India</strong> – from rugged ploughs to gentle seed planters.
           </p>
         </div>
 
-        {/* Box 2 (shifted right) */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex items-start gap-4 w-[90%] ml-10">
-          <span className="text-green-500 text-2xl">✔</span>
-          <p>
+        <div className="bg-white p-6 rounded-xl shadow-md flex items-start gap-4">
+          <span className="text-green-600 text-2xl">✔</span>
+          <p className="text-gray-700">
             <strong>Convenience without compromise</strong> – quality machines delivered to your doorstep.
           </p>
         </div>
 
-        {/* Box 3 */}
-        <div className="bg-white p-6 rounded-lg shadow-md flex items-start gap-4 w-[90%]">
-          <span className="text-green-500 text-2xl">✔</span>
-          <p>
+        <div className="bg-white p-6 rounded-xl shadow-md flex items-start gap-4">
+          <span className="text-green-600 text-2xl">✔</span>
+          <p className="text-gray-700">
             <strong>Farmer-first service</strong> – before, during, and after every purchase.
           </p>
         </div>
+
       </div>
     </div>
 
-    {/* Farmer Image */}
-    <div className="flex justify-center md:justify-end -mb-32 -mt-10">
-      <Image
-        src="/farmer.png"
-        alt="Farmer"
-        width={1000}
-        height={1000}
-        className="object-contain w-auto h-auto"
-      />
-    </div>
+    {/* RIGHT — EMPTY ON PURPOSE (IMAGE IS ABSOLUTE) */}
+    <div className="md:h-[400px]"></div>
+
   </div>
 </div>
+
 
     </div>
     <section id="contact">

@@ -32,7 +32,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="bg-white text-black shadow-md sticky top-0 z-50">
+    <header className="bg-white text-black shadow-md sticky top-[25px] z-40">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 relative">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-3">

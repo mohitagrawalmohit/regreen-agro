@@ -20,7 +20,7 @@ export default function FlashTopBar() {
   }, []);
 
   return (
-    <div className="w-full bg-black text-white text-[11px]  md:text-sm py-1 md:py-2 text-center font-medium overflow-hidden">
+    <div className="w-full bg-black text-white text-[11px]  md:text-sm py-1 md:py-2 text-center font-medium overflow-hidden sticky top-0 z-50">
       <div key={index} className="animate-fadeIn transition-all duration-500">
         {messages[index]}
       </div>

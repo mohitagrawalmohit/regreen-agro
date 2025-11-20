@@ -94,9 +94,9 @@
               style={{ display: "none", visibility: "hidden" }}
             ></iframe>
           </noscript>
-
+ 
           <PageLoaderWrapper>
-             <FlashTopBar/>
+            <FlashTopBar/>
 
             <Navbar />
             
