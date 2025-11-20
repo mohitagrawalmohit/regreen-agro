@@ -91,33 +91,34 @@ export default function ProductPage() {
 
           <ProductImageGallery product={product} />
 
-          <div className="flex justify-center gap-6 text-white text-[14px] sm:text-[16px] mt-2 flex-wrap">
-  
+         <div className="grid grid-cols-2 gap-4 text-white text-[14px] sm:text-[16px] mt-2">
+
   {/* Free Express Delivery */}
-  <div className="flex items-center gap-1">
-    <Image src="/free-delivery.png" alt="delivery" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <div className="flex flex-col items-center justify-center text-center gap-1">
+    <Image src="/free-delivery.png" alt="delivery" width={40} height={40} />
     <span>Free Express Delivery</span>
   </div>
 
   {/* Longer Machine Life */}
-  <div className="flex items-center gap-1">
-    <Image src="/longer-life.png" alt="machine life" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <div className="flex flex-col items-center justify-center text-center gap-1">
+    <Image src="/longer-life.png" alt="machine life" width={40} height={40} />
     <span>2× Longer Machine Life</span>
   </div>
 
   {/* After Sales Support */}
-  <div className="flex items-center gap-1">
-    <Image src="/after-sales.png" alt="after sales" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <div className="flex flex-col items-center justify-center text-center gap-1">
+    <Image src="/after-sales.png" alt="after sales" width={40} height={40} />
     <span>After-Sales Support</span>
   </div>
 
   {/* 100% Quality Assurance */}
-  <div className="flex items-center gap-1">
-    <Image src="/quality.png" alt="quality" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8" />
+  <div className="flex flex-col items-center justify-center text-center gap-1">
+    <Image src="/quality.png" alt="quality" width={40} height={40} />
     <span>100% Quality Assurance</span>
   </div>
 
 </div>
+
 
 
           <div className="flex justify-center gap-2 items-baseline text-[16px] sm:text-[18px] mt-2 flex-wrap">
