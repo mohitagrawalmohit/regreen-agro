@@ -107,7 +107,7 @@ export default function About() {
       </div>
 
       {/* Why Farmers Choose Us */}
-<div className="relative bg-gray-50 py-14 md:py-20 overflow-hidden">
+<div className="relative bg-gray-50 py-14 md:py-5 overflow-hidden">
   
   {/* Farmer Image Absolute (touching bottom) */}
   <div className="hidden md:block absolute bottom--5 right-10 z-0">
