@@ -100,7 +100,7 @@ export default function ProductPage() {
           <PriceSection product={product} />
 
           {/* === Mobile CTA Buttons (RESTORED) === */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
             <a
               href="https://wa.me/917830060444?text=Hello%20I%20am%20interested%20in%20your%20products"
               target="_blank"
@@ -117,6 +117,12 @@ export default function ProductPage() {
               Call Us To Order
             </a>
           </div>
+          <div className="text-white text-[8px] md:text-[10px] italic">
+  <p>
+    Get Additional Discounts at Checkout*
+  </p>
+</div>
+
 
           {/* Specifications */}
           <div className="flex flex-col gap-3 bg-white rounded-2xl p-4 sm:p-8 shadow-md w-full h-auto max-h-[300px] overflow-y-auto mt-4">
