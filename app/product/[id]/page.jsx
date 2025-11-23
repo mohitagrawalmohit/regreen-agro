@@ -91,7 +91,7 @@ export default function ProductPage() {
             <Feature icon="/longer-life.png" text="2× Longer Life" />
             <Feature icon="/after-sales.png" text="After-Sales" />
             <Feature icon="/quality.png" text="Quality Assured" />
-            <Feature icon="/return-exchange.png"text="Return & Exchange"superscript="ᵀᴺᶜ"/>
+            <Feature icon="/return-exchange.png"text="Return & Exchangeᵀᴺᶜ"/>
             <Feature icon="/buyer-protection.png" text="Buyer Protection" />
 
           </div>
@@ -141,7 +141,7 @@ export default function ProductPage() {
                 <FeatureDesktop icon="/longer-life.png" text="2× Longer Life" />
                 <FeatureDesktop icon="/after-sales.png" text="After-Sales Support" />
                 <FeatureDesktop icon="/quality.png" text="Quality Assurance" />
-                <FeatureDesktop icon="/return-exchange.png"text="Return & Exchange"superscript="ᵀᴺᶜ"/>
+                <FeatureDesktop icon="/return-exchange.png"text="Return & Exchangeᵀᴺᶜ"/>
                 <FeatureDesktop icon="/buyer-protection.png" text="Buyer Protection" />
 
               </div>
