@@ -26,27 +26,34 @@ export default function CategorySearchBar({ className }) {
   const [products, setProducts] = useState([]);
   const dropdownRef = useRef(null);
 
-  /* ---------- Fetch products once ---------- */
+  /* -------- FIXED: Correct API URL -------- */
+  const API_URL = "https://regreen-agro.onrender.com/api";
+
+  /* -------- Fetch products -------- */
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+        const res = await fetch(`${API_URL}/products`);
         const data = await res.json();
+
+        console.log("Products loaded:", data); // Debug
+
         setProducts(data);
       } catch (err) {
-        console.error("Error loading products:", err);
+        console.error("Error fetching products:", err);
       }
     }
+
     fetchProducts();
   }, []);
 
-  /* ---------- Filter ---------- */
+  /* -------- Search filters -------- */
   const filteredCategories = categories.filter(cat =>
     cat.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const filteredProducts = products.filter(p =>
-    p.title.toLowerCase().includes(searchTerm.toLowerCase())
+    p.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const onSelectCategory = (cat) => {
@@ -61,7 +68,7 @@ export default function CategorySearchBar({ className }) {
     setShowDropdown(false);
   };
 
-  /* ---------- Close dropdown if clicked outside ---------- */
+  /* -------- Close dropdown if clicked outside -------- */
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -111,7 +118,7 @@ export default function CategorySearchBar({ className }) {
               {filteredProducts.map(product => (
                 <li
                   key={product.id}
-                  className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
                   onClick={() => onSelectProduct(product)}
                 >
                   {product.title}
@@ -120,8 +127,8 @@ export default function CategorySearchBar({ className }) {
             </>
           )}
 
-          {/* No Results */}
-          {filteredCategories.length === 0 && filteredProducts.length === 0 && (
+          {/* No results */}
+          {filteredProducts.length + filteredCategories.length === 0 && (
             <li className="px-4 py-2 text-gray-500">No results found</li>
           )}
         </ul>
