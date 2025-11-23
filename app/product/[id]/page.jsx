@@ -117,7 +117,7 @@ export default function ProductPage() {
               Call Us To Order
             </a>
           </div>
-          <div className="text-white text-[8px] md:text-[10px] italic">
+          <div className="text-white text-[10px]  italic">
   <p>
     Get Additional Discounts at Checkout*
   </p>
@@ -173,7 +173,11 @@ export default function ProductPage() {
               </div>
 
             </div>
-
+<div className="text-white text-[12px]  italic">
+  <p>
+    Get Additional Discounts at Checkout*
+  </p>
+</div>
             {/* Specifications (Desktop) */}
             <div className="bg-white rounded-2xl p-8 shadow-md w-full md:w-[580px] max-h-[300px] overflow-y-auto mt-4">
               {product.specifications.map((spec, index) => (
