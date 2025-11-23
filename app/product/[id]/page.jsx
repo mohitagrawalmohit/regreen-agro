@@ -91,31 +91,32 @@ export default function ProductPage() {
             <Feature icon="/longer-life.png" text="2× Longer Life" />
             <Feature icon="/after-sales.png" text="After-Sales" />
             <Feature icon="/quality.png" text="Quality Assured" />
-            <Feature icon="/return-exchange.png"text="Return & Exchangeᵀᴺᶜ"/>
+            <Feature icon="/return-exchange.png" text="Return & Exchangeᵀᴺᶜ" />
             <Feature icon="/buyer-protection.png" text="Buyer Protection" />
 
           </div>
 
+          {/* === FIXED MOBILE PRICE SECTION === */}
           <PriceSection product={product} />
+
           {/* === Mobile CTA Buttons (RESTORED) === */}
-<div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-  <a
-    href="https://wa.me/917830060444?text=Hello%20I%20am%20interested%20in%20your%20products"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946] text-center flex items-center justify-center"
-  >
-    Order On Whatsapp
-  </a>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+            <a
+              href="https://wa.me/917830060444?text=Hello%20I%20am%20interested%20in%20your%20products"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946] text-center flex items-center justify-center"
+            >
+              Order On Whatsapp
+            </a>
 
-  <a
-    href="tel:+919027799171"
-    className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-transparent border border-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946] text-center flex items-center justify-center"
-  >
-    Call Us To Order
-  </a>
-</div>
-
+            <a
+              href="tel:+919027799171"
+              className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-transparent border border-[#F29728] text-white font-bold rounded-md hover:bg-[#1DA946] text-center flex items-center justify-center"
+            >
+              Call Us To Order
+            </a>
+          </div>
 
           {/* Specifications */}
           <div className="flex flex-col gap-3 bg-white rounded-2xl p-4 sm:p-8 shadow-md w-full h-auto max-h-[300px] overflow-y-auto mt-4">
@@ -160,7 +161,7 @@ export default function ProductPage() {
                 <FeatureDesktop icon="/longer-life.png" text="2× Longer Life" />
                 <FeatureDesktop icon="/after-sales.png" text="After-Sales Support" />
                 <FeatureDesktop icon="/quality.png" text="Quality Assurance" />
-                <FeatureDesktop icon="/return-exchange.png"text="Return & Exchangeᵀᴺᶜ"/>
+                <FeatureDesktop icon="/return-exchange.png" text="Return & Exchangeᵀᴺᶜ" />
                 <FeatureDesktop icon="/buyer-protection.png" text="Buyer Protection" />
 
               </div>
@@ -222,12 +223,21 @@ const SpecRow = ({ text }) => (
   </div>
 );
 
+/* ⭐ FIXED PRICE SECTION ⭐ */
 const PriceSection = ({ product }) => (
-  <div className="flex justify-center gap-2 items-baseline text-[16px] sm:text-[18px] mt-2 flex-wrap">
-    <span className="text-white font-bold">₹{product.price}</span>
-    <span className="line-through text-gray-400">₹{product.mrp}</span>
-    <span className="text-[#30BB7E]">{product.discountpercent}% OFF</span>
-    <span className="text-[#30BB7E]">You Save ₹{product.amountsaved}</span>
+  <div className="flex flex-col items-center justify-center text-center mt-2">
+
+    {/* Line 1 */}
+    <div className="flex justify-center gap-2 items-baseline text-[16px] sm:text-[18px] flex-wrap">
+      <span className="text-white font-bold">₹{product.price}</span>
+      <span className="line-through text-gray-400">₹{product.mrp}</span>
+      <span className="text-[#30BB7E]">{product.discountpercent}% OFF</span>
+    </div>
+
+    {/* Line 2 */}
+    <div className="text-[#30BB7E] text-[15px] sm:text-[17px] font-semibold mt-1">
+      You Save ₹{product.amountsaved}
+    </div>
   </div>
 );
 
