@@ -62,6 +62,59 @@ export default function AdminProducts() {
       console.error('Failed to delete product:', err);
     }
   };
+  // ---------------------------------------------------------
+  // ✅ ADDED: Export CSV function
+  // ---------------------------------------------------------
+  const handleExport = () => {
+    if (!products.length) return;
+
+    const headers = [
+      "ID",
+      "Title",
+      "Category",
+      "Price",
+      "MRP",
+      "CC",
+      "Media1",
+      "Media2",
+      "Media3",
+      "Media4",
+      "Media5"
+    ];
+
+    const rows = products.map(p => [
+      p.id,
+      p.title,
+      p.category,
+      p.price,
+      p.mrp,
+      p.cc,
+      p.media1 || "",
+      p.media2 || "",
+      p.media3 || "",
+      p.media4 || "",
+      p.media5 || ""
+    ]);
+
+    const csvContent =
+      [headers, ...rows]
+        .map(row =>
+          row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")
+        )
+        .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "products_export.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  // ---------------------------------------------------------
+
 
   // 🔄 changed: filter by both search and category
   const filteredProducts = products.filter((product) => {
@@ -130,6 +183,17 @@ export default function AdminProducts() {
             >
               <Plus size={16} /> New Product
             </Button>
+             {/* --------------------------------------------------------- */}
+            {/* ✅ ADDED: Export CSV Button */}
+            {/* --------------------------------------------------------- */}
+            <Button
+              variant="outline"
+              onClick={handleExport}
+              className="flex items-center gap-2"
+            >
+              Export CSV
+            </Button>
+            {/* --------------------------------------------------------- */}
           </div>
         </div>
 
