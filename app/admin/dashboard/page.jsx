@@ -29,7 +29,7 @@ export default function AdminDashboard() {
         } bg-white shadow-md transition-all duration-300 flex flex-col`}
       >
         <div className="flex items-center justify-between p-4 border-b">
-          {sidebarOpen && <h1 className="text-lg font-bold text-green-700">Admin Panel</h1>}
+          {sidebarOpen && <h1 className="text-lg font-bold text-green-700">Admin Panel2</h1>}
           <button
             className="p-1"
             onClick={() => setSidebarOpen(!sidebarOpen)}
