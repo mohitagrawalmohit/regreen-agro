@@ -9,13 +9,65 @@ import RelatedProducts from '@/components/RelatedProducts';
 import { CheckIcon } from "@heroicons/react/24/solid";
 import CategorySearchBar from '@/components/CategorySearchBar';
 import ContactForm from "@/components/contactusForm";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
+import CartDrawer from "@/components/CartDrawer";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/';
+
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ;
 
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const router = useRouter();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+const { user } = useAuth();
+
+const [cartLoading, setCartLoading] = useState(false);
+const [cartAdded, setCartAdded] = useState(false);
+ useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("added")) {
+      setDrawerOpen(true);
+    }
+  }, []);
+const handleAddToCart = async () => {
+  if (!user) {
+     router.push(`/login?redirect=/product/${product.id}&addToCart=${product.id}`);
+  return;
+  }
+
+  setCartLoading(true);
+
+  try {
+    const res = await fetch(
+      `${BASE_URL}api/cart/add`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ productId: product.id }),
+      }
+    );
+
+    if (!res.ok) throw new Error("Failed");
+
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    // 🔥 Open Drawer
+    setDrawerOpen(true);
+
+  } catch (error) {
+    console.error(error);
+  }
+
+  setCartLoading(false);
+};
+
+
 
   useEffect(() => {
     async function fetchProduct() {
@@ -101,6 +153,18 @@ export default function ProductPage() {
 
           {/* === Mobile CTA Buttons (RESTORED) === */}
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+            <button
+    onClick={handleAddToCart}
+    disabled={cartLoading}
+    className="w-full sm:w-[280px] h-[40px] px-4 py-1 bg-[#30BB7E] text-white font-bold rounded-md hover:bg-[#1DA946] transition-all duration-300 flex items-center justify-center"
+  >
+    {cartLoading
+      ? "Adding..."
+      : cartAdded
+      ? "Added ✓"
+      : "Add To Cart"}
+  </button>
+
             <a
               href="https://wa.me/917830060444?text=Hello%20I%20am%20interested%20in%20your%20products"
               target="_blank"
@@ -156,7 +220,17 @@ export default function ProductPage() {
                 <p className="text-[#30BB7E] text-xl">
                   {product.discountpercent}% OFF — You Save ₹{product.amountsaved}
                 </p>
-
+<button
+    onClick={handleAddToCart}
+    disabled={cartLoading}
+    className="w-[280px] h-[40px] bg-[#30BB7E] text-white font-bold rounded-md hover:bg-[#1DA946] transition-all duration-300 flex items-center justify-center"
+  >
+    {cartLoading
+      ? "Adding..."
+      : cartAdded
+      ? "Added ✓"
+      : "Add To Cart"}
+  </button>
                 <OrderButtons />
               </div>
 
@@ -204,6 +278,10 @@ export default function ProductPage() {
       <section id="contact">
         <ContactForm />
       </section>
+      <CartDrawer
+  isOpen={drawerOpen}
+  onClose={() => setDrawerOpen(false)}
+/>
     </section>
   );
 }
@@ -299,5 +377,7 @@ const HelpSection = () => (
         📞 Call Us Now
       </a>
     </div>
+    
+
   </div>
 );

@@ -1,14 +1,15 @@
-import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  // ✅ Static export for GoDaddy/CPANEL
- 
 
-  // ✅ Disable Next.js server image optimization (required for static export)
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    unoptimized: true,
-    domains: ["localhost", "regreenagro-backend.onrender.com"], // your backend API/domain
+    domains: [
+      "regreenagro.s3.ap-southeast-2.amazonaws.com"
+    ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+
+
+module.exports = nextConfig;

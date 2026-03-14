@@ -56,3 +56,13 @@ dist/
 .DS_Store
 *.log
 public/*.mp4
+
+/generated/prisma
+
+/generated/prisma
+
+/generated/prisma
+
+/generated/prisma
+
+/generated/prisma

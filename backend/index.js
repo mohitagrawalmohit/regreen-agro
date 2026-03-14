@@ -4,12 +4,17 @@ import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
+import cookieParser from "cookie-parser";
+
 
 import productRoutes from './routes/products.js';
 import categoryRoutes from './routes/categories.js';
 import leadRoutes from './routes/leads.js';
 import specificationsRoute from "./routes/specifications.js";
 import authRouter from "./routes/auth.js";
+import cartRoutes from "./routes/cart.js";
+import orderRoutes from "./routes/orders.js";
+import adminOrdersRoutes from "./routes/adminOrders.js";
 
 dotenv.config();
 
@@ -18,26 +23,32 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // CORS: allow origins from env (comma separated) or allow all for quick testing
 // Example env: ALLOWED_ORIGINS="https://my-vercel-app.vercel.app,http://localhost:3000"
-const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || '';
-const allowedOrigins = allowedOriginsEnv.split(',').map(s => s.trim()).filter(Boolean);
 
-// Temporary development fallback: if no origins provided, allow all (you can tighten later)
-const corsOptions = allowedOrigins.length
-  ? {
-      origin: function (origin, callback) {
-        // allow non-browser clients (curl, Postman) where origin is undefined
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
-        return callback(new Error('Not allowed by CORS'));
-      },
-      credentials: true,
-    }
-  : { origin: true, credentials: true };
 
-app.use(cors(corsOptions));
+// ===== CORS CONFIG FOR httpOnly COOKIES =====
+const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || "http://localhost:3000";
+const allowedOrigins = allowedOriginsEnv.split(",").map(o => o.trim());
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (Postman, curl)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true, // REQUIRED for cookies
+  })
+);
+
 
 // Serve static files (image uploads) — note: on Render this is ephemeral; use cloud storage for production
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -48,7 +59,10 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/specifications', specificationsRoute);
 app.use("/api/auth", authRouter);
+app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
 
+app.use("/api/admin", adminOrdersRoutes);
 // Health and debug endpoints
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, db: !!process.env.DATABASE_URL, env: process.env.NODE_ENV || 'development' });
@@ -79,7 +93,7 @@ app.get("/api/testdb", async (req, res) => {
   }
 });
 // Start
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
   console.log(`✅ Backend started. PORT=${PORT} NODE_ENV=${process.env.NODE_ENV || 'development'}`);
   console.log(`✅ ALLOWED_ORIGINS=${allowedOriginsEnv || '*'}`);

@@ -5,6 +5,8 @@ import { X, Menu, Box, Mail, FileText } from 'lucide-react';
 import ProductsPage from '../products/page'; // Import your existing Products page
 import SpecificationsPage from '../specifications/page'; // ✅ relative import
 import LeadsPage from '../leads/page';
+import OrdersPage from '../orders/page';
+
 
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -17,6 +19,7 @@ export default function AdminDashboard() {
     
     { name: 'Specifications', module: 'specifications', icon: <FileText size={20} /> },
     { name: 'Leads', module: 'leads', icon: <Mail size={20} /> },
+     { name: 'Orders', module: 'orders', icon: <Box size={20} /> },
   ];
 
   return (
@@ -29,7 +32,7 @@ export default function AdminDashboard() {
         } bg-white shadow-md transition-all duration-300 flex flex-col`}
       >
         <div className="flex items-center justify-between p-4 border-b">
-          {sidebarOpen && <h1 className="text-lg font-bold text-green-700">Admin Panel2</h1>}
+          {sidebarOpen && <h1 className="text-lg font-bold text-green-700">Admin Panel</h1>}
           <button
             className="p-1"
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -59,6 +62,7 @@ export default function AdminDashboard() {
         {currentModule === 'products' && <ProductsPage />}
         {currentModule === 'leads' && <LeadsPage/>}
         {currentModule === 'specifications' && <SpecificationsPage/>}
+        {currentModule === 'orders' && <OrdersPage/>}
       </div>
     </div>
     </ProtectedRoute>

@@ -1,131 +1,52 @@
-'use client';
+import express from "express";
+import { PrismaClient } from "@prisma/client";
 
-import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+const router = express.Router();
+const prisma = new PrismaClient();
 
-const categories = [
-  "Power Weeder & Tiller",
-  "Earth Auger",
-  "Pumps & Irrigation",
-  "Sprayers & Crop Protection",
-  "Harvesting Machinery",
-  "Post Harvesting",
-  "Lawn Mower & Gardening Tools",
-  "Miscellaneous",
-  "Power Reaper",
-  "Accessories & Attachment",
-  "Power & Engines"
-];
+/* ==================================================
+   🔹 GET ALL PRODUCTS
+================================================== */
+router.get("/", async (req, res) => {
+  try {
+    const products = await prisma.products.findMany({
+      orderBy: {
+        id: "desc",
+      },
+    });
 
-export default function CategorySearchBar({ className }) {
-  const router = useRouter();
+    res.json(products);
+  } catch (error) {
+    console.error("Fetch products error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [products, setProducts] = useState([]);
-  const dropdownRef = useRef(null);
+/* ==================================================
+   🔹 GET SINGLE PRODUCT BY ID
+================================================== */
+router.get("/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
 
-  /* ---------- Fetch products once ---------- */
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        console.error("Error loading products:", err);
-      }
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid product ID" });
     }
-    fetchProducts();
-  }, []);
 
-  /* ---------- Filter ---------- */
-  const filteredCategories = categories.filter(cat =>
-    cat.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    const product = await prisma.products.findUnique({
+      where: { id },
+    });
 
-  const filteredProducts = products.filter(p =>
-    p.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
-  const onSelectCategory = (cat) => {
-    router.push(`/category/${encodeURIComponent(cat)}`);
-    setSearchTerm('');
-    setShowDropdown(false);
-  };
+    res.json(product);
 
-  const onSelectProduct = (product) => {
-    router.push(`/product/${product.id}`);
-    setSearchTerm('');
-    setShowDropdown(false);
-  };
+  } catch (error) {
+    console.error("Fetch single product error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
-  /* ---------- Close dropdown if clicked outside ---------- */
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
-      <MagnifyingGlassIcon className="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-white pointer-events-none" />
-
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => { setSearchTerm(e.target.value); setShowDropdown(true); }}
-        onFocus={() => setShowDropdown(true)}
-        placeholder="Search Category or Product"
-        className="w-full md:w-[1260px] h-[45px] md:h-[50px] pl-12 px-3 py-2 text-white rounded-[10px] border border-white focus:outline-none focus:ring-2 focus:ring-[#F29728]"
-      />
-
-      {showDropdown && (
-        <ul className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto z-50">
-
-          {/* Categories Section */}
-          {filteredCategories.length > 0 && (
-            <>
-              <li className="px-4 py-2 text-gray-500 text-sm font-semibold bg-gray-100">Categories</li>
-              {filteredCategories.map(cat => (
-                <li
-                  key={cat}
-                  className="px-4 py-2 hover:bg-green-200 cursor-pointer"
-                  onClick={() => onSelectCategory(cat)}
-                >
-                  {cat}
-                </li>
-              ))}
-            </>
-          )}
-
-          {/* Products Section */}
-          {filteredProducts.length > 0 && (
-            <>
-              <li className="px-4 py-2 text-gray-500 text-sm font-semibold bg-gray-100">Products</li>
-              {filteredProducts.map(product => (
-                <li
-                  key={product.id}
-                  className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                  onClick={() => onSelectProduct(product)}
-                >
-                  {product.title}
-                </li>
-              ))}
-            </>
-          )}
-
-          {/* No Results */}
-          {filteredCategories.length === 0 && filteredProducts.length === 0 && (
-            <li className="px-4 py-2 text-gray-500">No results found</li>
-          )}
-        </ul>
-      )}
-    </div>
-  );
-}
+export default router;
