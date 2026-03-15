@@ -48,7 +48,12 @@ app.use(
     credentials: true, // REQUIRED for cookies
   })
 );
-
+app.use(
+  cors({
+    origin: process.env.ALLOWED_ORIGINS.split(","),
+    credentials: true,
+  })
+);
 
 // Serve static files (image uploads) — note: on Render this is ephemeral; use cloud storage for production
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
