@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { verifyUser } from "../middleware/authMiddleware.js";
 import { PrismaClient } from "@prisma/client";
-import axios from "axios";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -160,38 +159,27 @@ router.get("/me", verifyUser, async (req, res) => {
   res.json(user);
 });
 router.post("/send-otp", async (req, res) => {
-
   const { phone } = req.body;
 
   if (!phone) {
     return res.status(400).json({ message: "Phone number required" });
   }
 
-  try {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const response = await axios.post(
-      "https://control.msg91.com/api/v5/otp",
-      {
-        template_id: "69b56f95325459512203b073",
-        mobile: `91${phone}`,
-        authkey: "492906A6RvTKYNzVr6986f01dP1",
-      }
-    );
+  const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
-    res.json({
-      message: "OTP sent successfully",
-    });
+  await prisma.otp.create({
+    data: {
+      phone,
+      code: otp,
+      expiresAt,
+    },
+  });
 
-  } catch (error) {
+  console.log("OTP for", phone, "is", otp); // TEMP: for testing
 
-    console.error(error.response?.data || error.message);
-
-    res.status(500).json({
-      message: "Failed to send OTP",
-    });
-
-  }
-
+  res.json({ message: "OTP sent successfully" });
 });
 router.post("/verify-otp", async (req, res) => {
   const { phone, otp } = req.body;
