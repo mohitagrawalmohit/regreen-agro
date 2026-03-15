@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "postinstall": "prisma generate",
   "start": "node index.js",
     "lint": "next lint"
      
