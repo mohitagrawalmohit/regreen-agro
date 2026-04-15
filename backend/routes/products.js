@@ -48,5 +48,38 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+/* ==================================================
+   🔹 DELETE PRODUCT BY ID
+================================================== */
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid product ID" });
+    }
+
+    const deletedProduct = await prisma.products.delete({
+      where: { id },
+    });
+
+    res.json({
+      message: "Product deleted successfully",
+      deletedProduct,
+    });
+
+  } catch (error) {
+    console.error("Delete product error:", error);
+
+    // Handle case when product doesn't exist
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 export default router;
+
+
