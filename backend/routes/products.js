@@ -51,20 +51,31 @@ router.get("/:id", async (req, res) => {
 /* ==================================================
    🔹 update PRODUCT BY ID
 ================================================== */
-router.put("/:id", async (req, res) => {
-  const { title, description, price, mrp, categoryId, image } = req.body;
-
-  await prisma.products.update({
-    where: { id },
-    data: {
-      title,
-      description,
-      price,
-      mrp,
-      categoryId,
-      image
+rrouter.put("/:id", async (req, res) => {
+  try {
+    if (!req.body) {
+      return res.status(400).json({ message: "Request body is missing" });
     }
-  });
+
+    const id = parseInt(req.params.id);
+
+    const { title, description, price } = req.body;
+
+    const updatedProduct = await prisma.products.update({
+      where: { id },
+      data: {
+        title,
+        description,
+        price,
+      },
+    });
+
+    res.json(updatedProduct);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 /* ==================================================
    🔹 DELETE PRODUCT BY ID
