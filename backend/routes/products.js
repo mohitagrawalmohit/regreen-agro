@@ -49,6 +49,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 /* ==================================================
+   🔹 update PRODUCT BY ID
+================================================== */
+router.put("/:id", async (req, res) => {
+  const { title, description, price, mrp, categoryId, image } = req.body;
+
+  await prisma.products.update({
+    where: { id },
+    data: {
+      title,
+      description,
+      price,
+      mrp,
+      categoryId,
+      image
+    }
+  });
+});
+/* ==================================================
    🔹 DELETE PRODUCT BY ID
 ================================================== */
 router.delete("/:id", async (req, res) => {
